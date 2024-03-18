@@ -6,6 +6,7 @@
 - Hepeng Fan - [GitHub](https://github.com/HepengFan)
 - Qingcheng Wan - [GitHub](https://github.com/QingchengWan)
 - Yuying Zhong - [GitHub](https://github.com/YuyingZhong)
+- Yi Zhang - [GitHub](https://github.com/imyizhang)
 
 ## Project Description
 This group project from Group 27 in the Software Engineering Lab FS24 at UZH aims to develop "LyricLies," a multiplayer online game that combines music and emojis. Players use their knowledge of music and non-literal expression skills to identify the "lyric spy" among them. This entertaining social platform promotes the exploration of musical perception and non-verbal communication, thereby enriching the social gaming landscape with educational and fun elements.

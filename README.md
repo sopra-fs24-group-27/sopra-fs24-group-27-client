@@ -3,7 +3,7 @@
 ## Authors
 - Yating Pan - [GitHub](https://github.com/YatingPan)
 - Hepeng Fan - [GitHub](https://github.com/HepengFan)
-- Qingcheng Wan - [GitHub](https://github.com/QingchengWan)
+- Qingcheng Wang - [GitHub](https://github.com/QingchengWan)
 - Yuying Zhong - [GitHub](https://github.com/YuyingZhong)
 - Yi Zhang - [GitHub](https://github.com/imyizhang)
 

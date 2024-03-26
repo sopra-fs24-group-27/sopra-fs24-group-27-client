@@ -5,10 +5,14 @@
     },
     "extends": ["plugin:react/recommended"],
     "overrides": [],
+    "parser": "@babel/eslint-parser",
     "parserOptions": {
         "ecmaVersion": "latest",
         "ecmaFeatures": { "jsx": true },
-        "sourceType": "module"
+        "sourceType": "module",
+        "babelOptions": {
+            "presets": ["@babel/preset-react"]
+        }
     },
     "parser": "@babel/eslint-parser",
     "plugins": ["react"],

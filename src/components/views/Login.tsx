@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { api, handleError } from "helpers/api";
 import User from "models/User";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { Button } from "components/ui/Button";
 import "styles/views/Login.scss";
 import BaseContainer from "components/ui/BaseContainer";
@@ -35,13 +35,17 @@ FormField.propTypes = {
 
 const Login = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState<string>(null);
+  const [password, setPassword] = useState<string>(null);
   const [username, setUsername] = useState<string>(null);
+
+  const doRegister = () => {
+    navigate("/register"); 
+  };
 
   const doLogin = async () => {
     try {
       const requestBody = JSON.stringify({ username, name });
-      const response = await api.post("/users", requestBody);
+      const response = await api.post("/login", requestBody);
 
       // Get the returned user and update a new object.
       const user = new User(response.data);
@@ -68,13 +72,13 @@ const Login = () => {
             onChange={(un: string) => setUsername(un)}
           />
           <FormField
-            label="Name"
-            value={name}
-            onChange={(n) => setName(n)}
+            label="Password"
+            value={password}
+            onChange={(n) => setPassword(n)}
           />
           <div className="login button-container">
             <Button
-              disabled={!username || !name}
+              disabled={!username || !password}
               width="100%"
               onClick={() => doLogin()}
             >
@@ -82,7 +86,11 @@ const Login = () => {
             </Button>
           </div>
         </div>
+        <Link to={`/register`} className="player username">
+              New to LyricLies? Register here!
+        </Link>
       </div>
+
     </BaseContainer>
   );
 };

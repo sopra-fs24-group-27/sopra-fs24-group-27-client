@@ -41,7 +41,7 @@ const Register = () => {
   const handleRegister = async () => {
     try {
       const requestBody = JSON.stringify({ username, password });
-      const response = await api.post("/register", requestBody);///将“/users”改成“/register”
+      const response = await api.post("/register", requestBody);
 
       const userData = response.data;
 

@@ -6,15 +6,27 @@ import {useNavigate} from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
-import { User } from "types";
+import User from "models/User";
 
-const Player = ({ user }: { user: User }) => (
-  <div className="player container">
-    <div className="player username">{user.username}</div>
-    <div className="player name">{user.name}</div>
-    <div className="player id">id: {user.id}</div>
-  </div>
-);
+const Player = ({ user }: { user: User }) => {
+  // Convert user's birthday string to date object
+  const birthdayDate = new Date(user.birthday);
+
+  const formattedBirthday = birthdayDate.toLocaleDateString();
+
+  const navigate = useNavigate(); 
+
+  return (
+    <div className="player container" style={{ width: '300px', height: '200px' }}>
+      <p>
+        ID: {user.id}<br />
+        Username: {user.username}<br />
+        Scores: {user.scores}<br />
+        Birthday: {formattedBirthday} <br />
+      </p>
+    </div>
+  );
+};
 
 Player.propTypes = {
   user: PropTypes.object,

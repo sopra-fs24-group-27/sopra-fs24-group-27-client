@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { api, handleError } from "helpers/api";
 import { Spinner } from "components/ui/Spinner";
-import { Button } from "components/ui/Button";
 import {useNavigate} from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
 import User from "models/User";
+import Button from '@mui/material/Button';
 
 const Player = ({ user }: { user: User }) => {
   // Convert user's birthday string to date object
@@ -102,13 +102,24 @@ const Game = () => {
               <Player user={user} />
             </li>
           ))}
-        </ul>
-        <Button width="100%" onClick={() => logout()}>
+        <Button
+          style={{ width: '100%' }}
+          onClick={() => logout()}
+        >
           Logout
         </Button>
+        </ul>
       </div>
     );
   }
+  /*
+          <Button
+          style={{ width: '100%' }}
+          onClick={() => logout()}
+        >
+          Logout
+        </Button>
+  */
 
   return (
     <BaseContainer className="game container">

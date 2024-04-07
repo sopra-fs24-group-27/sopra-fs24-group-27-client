@@ -78,7 +78,7 @@ export default function Register() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(/images/LyricLies2.png)',
+            backgroundImage: 'url(/images/LyricLies6.png)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -127,7 +127,7 @@ export default function Register() {
                 onChange={(event) => setPassword(event.target.value)}
               />
               <Button
-                type="submit"
+                type="button"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}

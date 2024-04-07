@@ -14,7 +14,6 @@ import "../../styles/views/Header.scss";
 const Header = props => (
   <div className="header container" style={{height: props.height}}>
     <h1 className="header title">Listen, Emoji, Vote</h1>
-    <ReactLogo width="60px" height="60px"/>
   </div>
 );
 

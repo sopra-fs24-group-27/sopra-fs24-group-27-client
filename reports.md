@@ -17,12 +17,9 @@
 - Prepare the presentation for M2.
 
 
-**Group Member 3**
+**Qingcheng Wang**
 
-- The first thing you did.
-- The second thing you did.
-- The third thing you did. [Link to task](https://www.example.com)
-- ...
+- UML Design. Includes class diagram, component diagram, activity diagram.
 
 # M3
 
@@ -39,6 +36,9 @@
 
 - Completed #17 and #19 on the client side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/9781848a0b6e6b96a0c9585363b348d409a85b22)
 
+**Qingcheng Wang**
+
+- Completed #3, #22 and #25 on the client side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4acc4e68db0362fbd5b057066a7775090e676c19)
 
 ## 30.3 - 14.4 (Including Easter holidays)
 

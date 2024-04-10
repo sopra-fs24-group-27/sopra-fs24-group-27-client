@@ -15,17 +15,29 @@ const Player = ({ user }: { user: User }) => {
   const formattedBirthday = birthdayDate.toLocaleDateString();
 
   const navigate = useNavigate(); 
+  const navigateToProfile = () => {
+
+    navigate(`/profile/${user.id}`);
+  };
 
   return (
-    <div className="player container" style={{ width: '300px', height: '200px' }}>
+    <div className="player container" style={{ width: '300px', height: '250px' }}>
       <p>
         ID: {user.id}<br />
         Username: {user.username}<br />
         Scores: {user.scores}<br />
         Birthday: {formattedBirthday} <br />
       </p>
+      <Button
+        variant="contained"
+        style={{ marginTop: '20px' }} 
+        onClick={navigateToProfile}
+      >
+        View Profile
+      </Button>
     </div>
   );
+
 };
 
 Player.propTypes = {

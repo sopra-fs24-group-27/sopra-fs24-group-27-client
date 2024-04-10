@@ -39,3 +39,20 @@
 
 - Completed #17 and #19 on the client side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/9781848a0b6e6b96a0c9585363b348d409a85b22)
 
+
+## 30.3 - 14.4 (Including Easter holidays)
+
+**Yuying Zhong**
+
+- Changed the whole style of the login page and register page.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/a0dede92d746978343eb03eaa996114031efeffa)
+- Completed #1 and #2.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6a8389f4197cb8749fb0f58ba041496d7dfbafe5)&[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/6b125f9619cbd78e501277268f72d52a8ad54335)
+
+
+**Group Member 3**
+
+- The first thing you did.
+- The second thing you did.
+- The third thing you did. [Link to task](https://www.example.com)
+- ...
+
+

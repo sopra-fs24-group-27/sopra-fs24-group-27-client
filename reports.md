@@ -27,8 +27,8 @@
 
 **Yating Pan**
 
-- Initialized basic framework and entities on the server side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/80ae5c8bbeb11d1a4843d25b4de672d7ed408d9f)
-- Completed #69, #70, and the backend part for user story #1: new user registration on the server side and wrote related tests. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/80ae5c8bbeb11d1a4843d25b4de672d7ed408d9f)
+- Initialized basic framework and entities on the server side. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/80ae5c8bbeb11d1a4843d25b4de672d7ed408d9f)
+- Completed #69[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/69), #70[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/70), and the backend part for user story #1[Link to user story](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/1): new user registration on the server side and wrote related tests. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/80ae5c8bbeb11d1a4843d25b4de672d7ed408d9f)
 
 
 **Yuying Zhong**
@@ -43,8 +43,8 @@
 
 **Yating Pan**
 
-- Explored Spotify API and initialized basic search function. Tested successfully with Postman. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4494faccaa8983f6d5db4df16faa0ece96523909)
-- Completed #73 and #74 and the songs retrieval part of user story #6: Completed SpotifyService and SpotifyController in the backend to retrieve 2 songs according to the artist, language, and genre and return JSON objects.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/391d70d5da111cdc2b6d79f6369c6ffc122b0ac3).
+- Explored Spotify API and initialized basic search function. Tested successfully with Postman. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4494faccaa8983f6d5db4df16faa0ece96523909)
+- Completed #73[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/74) and #74[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/74) and the songs retrieval part of user story #6[Link to user story](https://github.com/orgs/sopra-fs24-group-27/projects/3/views/1): Completed SpotifyService and SpotifyController in the backend to retrieve 2 songs according to the artist, language, and genre and return JSON objects.[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/391d70d5da111cdc2b6d79f6369c6ffc122b0ac3).
 - 
 **Yuying Zhong**
 

@@ -30,7 +30,7 @@ const Player = ({ user }: { user: User }) => {
       </p>
       <Button
         variant="contained"
-        style={{ marginTop: '20px' }} 
+        style={{ marginTop: '20px' , backgroundColor: '#9370DB'}} 
         onClick={navigateToProfile}
       >
         View Profile
@@ -115,7 +115,7 @@ const Game = () => {
             </li>
           ))}
         <Button
-          style={{ width: '100%' }}
+          style={{ width: '100%' , color: 'white'}}
           onClick={() => logout()}
         >
           Logout
@@ -124,20 +124,12 @@ const Game = () => {
       </div>
     );
   }
-  /*
-          <Button
-          style={{ width: '100%' }}
-          onClick={() => logout()}
-        >
-          Logout
-        </Button>
-  */
 
   return (
     <BaseContainer className="game container">
-      <h2>Happy Coding!</h2>
+      <h2>Welcome to LyricLies!</h2>
       <p className="game paragraph">
-        Get all users from secure endpoint:
+        All Players:
       </p>
       {content}
     </BaseContainer>

@@ -23,7 +23,7 @@ const Player = ({ user }: { user: User }) => {
   };
 
   return (
-    <div className="player container" style={{ width: '300px', height: '250px' }}>
+    <div className="player container" style={{ width: '350px', height: '250px' }}>
       <p>
         ID: {user.id}<br />
         Username: {user.username}<br />
@@ -31,11 +31,11 @@ const Player = ({ user }: { user: User }) => {
         Birthday: {formattedBirthday} <br />
       </p>
       <Button
-        variant="contained"
-        style={{ marginTop: '20px' , backgroundColor: '#9370DB'}} 
+        variant="text"
+        style={{ marginTop: '20px', left: '5%'  , color: '#DB70DB'}} 
         onClick={navigateToProfile}
       >
-        View Profile
+      → View Profile ←
       </Button>
     </div>
   );
@@ -140,11 +140,11 @@ const Game = () => {
     <BaseContainer className="game container">
     <Button
       aria-describedby={anchorEl ? 'game-rules-popover' : undefined}
-      variant="contained"
+      variant="text"
       onClick={handleOpenRules}
-      style={{ position: 'absolute', top: '100px', right: '10%' , backgroundColor: '#9370DB'}}
+      style={{ position: 'absolute', top: '100px', right: '10%' , color: '#AFEEEE'}}
     >
-      Game Rules
+      → Game Rules ←
     </Button>
     <div className="popover-container" style={{ maxHeight: '50vh', overflowY: 'auto', scrollbarWidth: 'thin' }}>
       <Popover 
@@ -205,6 +205,18 @@ const Game = () => {
     </div>
 
       <h2>Welcome to LyricLies!</h2>
+      <Button
+        variant="contained"
+        style={{ marginTop: '20px' , backgroundColor: '#DB70DB', color: '#00008B'}} 
+      >
+        Create a new Room
+      </Button>
+      <Button
+        variant="contained"
+        style={{ marginTop: '20px' , backgroundColor: '#AFEEEE', color: '#00008B'}} 
+      >
+        Join a Room
+      </Button>
       <p className="game paragraph">
         All Players:
       </p>

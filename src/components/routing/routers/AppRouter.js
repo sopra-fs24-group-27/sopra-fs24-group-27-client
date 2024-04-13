@@ -6,6 +6,7 @@ import {LoginGuard} from "../routeProtectors/LoginGuard";
 import Login from "../../views/Login";
 import Register from "../../views/Register";
 import Profile from "../../views/Profile";
+import Room from "../../views/Room";
 
 /**
  * Main router of your application.
@@ -30,6 +31,8 @@ const AppRouter = () => {
         <Route path="/login" element={<LoginGuard />}>
           <Route path="/login" element={<Login/>} />
         </Route>
+
+        <Route path="/room" element={<Room/>} />
 
         <Route path="/" element={
           <Navigate to="/login" replace />

@@ -8,6 +8,11 @@ import "styles/views/Game.scss";
 import User from "models/User";
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+
 
 
 const Player = ({ user }: { user: User }) => {
@@ -32,7 +37,7 @@ const Player = ({ user }: { user: User }) => {
       </p>
       <Button
         variant="text"
-        style={{ marginTop: '20px', left: '5%'  , color: '#DB70DB'}} 
+        style={{ marginTop: '20px', left: '5%', color: '#DB70DB'}} 
         onClick={navigateToProfile}
       >
       → View Profile ←
@@ -57,6 +62,10 @@ const Game = () => {
   // more information can be found under https://react.dev/learn/state-a-components-memory and https://react.dev/reference/react/useState 
   const [users, setUsers] = useState<User[]>(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [roomAnchorEl, setRoomAnchorEl] = useState(null);
+  const [selectedGenre, setSelectedGenre] = useState('');
+  const [selectedLanguage, setSelectedLanguage] = useState('');
+  const [selectedArtist, setSelectedArtist] = useState('');
 
   const logout = (): void => {
     localStorage.removeItem("token");
@@ -68,6 +77,9 @@ const Game = () => {
   };
 
   const handleCloseRules = () => {
+    setSelectedGenre('');
+    setSelectedLanguage('');
+    setSelectedArtist('');
     setAnchorEl(null);
   };
 
@@ -135,6 +147,41 @@ const Game = () => {
       </div>
     );
   }
+
+    const handleClickCreateRoom = (event) => {
+      setRoomAnchorEl(event.currentTarget);
+    };
+
+    const handleCloseRoom = () => {
+      setRoomAnchorEl(null);
+    };
+    
+    // Function to handle room creation
+    const handleConfirmRoom = async () => {
+      try {
+        // Call backend API to create a new room
+        const currentUserId = localStorage.getItem("userId");
+        const roomData = {
+          userId: currentUserId,
+          artist: selectedArtist,
+          musicStyle: selectedGenre,
+          language: selectedLanguage
+        };
+        console.log("Room Data:", roomData);
+        const response = await api.post("/games", roomData);
+        setRoomAnchorEl(null); 
+      } catch (error) {
+        console.error(
+          `Something went wrong while creating the room: \n${handleError(
+            error
+          )}`
+        );
+        console.error("Details:", error);
+        alert(
+          "Something went wrong while creating the room! See the console for details."
+        );
+      }
+    };
 
   return (
     <BaseContainer className="game container">
@@ -208,6 +255,7 @@ const Game = () => {
       <Button
         variant="contained"
         style={{ marginTop: '20px' , backgroundColor: '#DB70DB', color: '#00008B'}} 
+        onClick={handleClickCreateRoom} // Call handleClickCreateRoom when button is clicked
       >
         Create a new Room
       </Button>
@@ -217,12 +265,98 @@ const Game = () => {
       >
         Join a Room
       </Button>
+
+      <div className="room-setting container">
+      {/* Room creation dialog */}
+      <Popover
+        open={Boolean(roomAnchorEl)}
+        anchorEl={roomAnchorEl}
+        onClose={handleConfirmRoom}
+        anchorOrigin={{
+          vertical: 'center',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'center',
+          horizontal: 'center',
+        }}
+      >
+        <div style={{ padding: '50px', width: '500px' }}>
+          <h2 style={{ textAlign: 'center' }}>Customize your game</h2>
+
+          {/* Dropdowns for song genre, language, and artist */}
+          <FormControl fullWidth sx={{ marginTop: '10px' }}>
+            <InputLabel id="genre-label">Genre</InputLabel>
+            <Select
+              labelId="genre-label"
+              id="genre-select"
+              value={selectedGenre}
+              label="Genre"
+              onChange={(e) => setSelectedGenre(e.target.value)}
+            >
+              <MenuItem value="genre1">Genre 1</MenuItem>
+              <MenuItem value="genre2">Genre 2</MenuItem>
+              <MenuItem value="genre3">Genre 3</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth sx={{ marginTop: '10px' }}>
+            <InputLabel id="language-label">Language</InputLabel>
+            <Select
+              labelId="language-label"
+              id="language-select"
+              value={selectedLanguage}
+              label="Language"
+              onChange={(e) => setSelectedLanguage(e.target.value)}
+            >
+              <MenuItem value="language1">Language 1</MenuItem>
+              <MenuItem value="language2">Language 2</MenuItem>
+              <MenuItem value="language3">Language 3</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth sx={{ marginTop: '10px' }}>
+            <InputLabel id="artist-label">Artist</InputLabel>
+            <Select
+              labelId="artist-label"
+              id="artist-select"
+              value={selectedArtist}
+              label="Artist"
+              onChange={(e) => setSelectedArtist(e.target.value)}
+            >
+              <MenuItem value="artist1">Artist 1</MenuItem>
+              <MenuItem value="artist2">Artist 2</MenuItem>
+              <MenuItem value="artist3">Artist 3</MenuItem>
+            </Select>
+          </FormControl>
+
+          {/* Buttons for confirmation and cancel */}
+          <Button
+            variant="contained"
+            style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#DB70DB'}}
+            onClick={handleConfirmRoom}
+          >
+            Confirm
+          </Button>
+          <Button
+            variant="outlined"
+            style={{ marginTop: '20px', color: '#DB70DB' }}
+            onClick={handleCloseRoom} //close dialog
+          >
+            Cancel
+          </Button>
+        </div>
+      </Popover>
+    </div>
+
       <p className="game paragraph">
         All Players:
       </p>
       {content}
     </BaseContainer>
   );
+
+  
 };
 
 export default Game;

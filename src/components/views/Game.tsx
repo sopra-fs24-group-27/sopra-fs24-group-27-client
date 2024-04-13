@@ -12,6 +12,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -161,15 +162,21 @@ const Game = () => {
       try {
         // Call backend API to create a new room
         const currentUserId = localStorage.getItem("userId");
-        const roomData = {
-          userId: currentUserId,
+        const gameId = uuidv4();
+        const settings = {
+          language: selectedLanguage,
           artist: selectedArtist,
-          musicStyle: selectedGenre,
-          language: selectedLanguage
+          style: selectedGenre
+        };
+        const roomData = {
+          hostId: currentUserId,
+          gameId: gameId,
+          settings: settings
         };
         console.log("Room Data:", roomData);
         const response = await api.post("/games", roomData);
         setRoomAnchorEl(null); 
+        navigate('/room');
       } catch (error) {
         console.error(
           `Something went wrong while creating the room: \n${handleError(

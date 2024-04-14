@@ -248,7 +248,6 @@ const Game = () => {
         <p>If the spy receives the most votes, the non-spy players win; if the spy does not receive the most votes, the spy wins.</p>
         <p>After the game ends, the system updates players&apos scores based on the results.</p>
         <p>For the spy player, he/she must take on hidden identities, they must ensure nobody else finds out. If you are a spy, are you able to fake it until you make it?</p>
-        <h4><strong>Identity Assignment</strong></h4>
         <h3><strong>Special Regulations</strong></h3>
         <p>Using Spotify API: Ensure all players can access the Spotify API to retrieve songs.</p>
         <p>Emoji Limitation: Encourage players to creatively use emojis for descriptions, but limit to a maximum of 5 emojis.</p>

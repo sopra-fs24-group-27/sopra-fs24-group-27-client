@@ -39,7 +39,7 @@
 
 - Completed #3, #22 and #25 on the client side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4acc4e68db0362fbd5b057066a7775090e676c19)
 
-## 30.3 - 14.4 (Including Easter holidays)
+## 30.3 - 11.4 (Including Easter holidays)
 
 **Yating Pan**
 
@@ -59,4 +59,18 @@
 - The third thing you did. [Link to task](https://www.example.com)
 - ...
 
+## 12.4 - 18.4 
 
+**Yuying Zhong**
+
+- Changed the whole style of the home game page.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/4a3169e65e9556cb897345c5b086b213d85da381)
+- Completed #36 on the client side.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/84887c47b52ddc7f06d72a34bb1805ed6bfce866)
+- Completed #38 on the client side.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/3f61c5f8febb716e7f89a6b9209b36b9ca6eb113)
+
+
+**Group Member**
+
+- The first thing you did.
+- The second thing you did.
+- The third thing you did. [Link to task](https://www.example.com)
+- ...

@@ -68,9 +68,7 @@
 - Completed #38 on the client side.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/3f61c5f8febb716e7f89a6b9209b36b9ca6eb113)
 
 
-**Group Member**
+**Qingcheng Wang**
 
-- The first thing you did.
-- The second thing you did.
-- The third thing you did. [Link to task](https://www.example.com)
-- ...
+- Completed #55 & #57. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/55) &[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/57) 
+- Completed functions in GameServce: sortTurnOrder, startRound, sendEmojis, vote, endVoting, declareWinner, endRound.

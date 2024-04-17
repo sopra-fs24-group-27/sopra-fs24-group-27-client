@@ -4,6 +4,7 @@ import { api, handleError } from 'helpers/api';
 import { Avatar, Button, CssBaseline, TextField, Box, Typography, Grid, Paper } from '@mui/material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import 'styles/views/Profile.scss';
 
 const defaultTheme = createTheme();
 
@@ -11,6 +12,7 @@ export default function Profile() {
   const { userId } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [currentUserId, setCurrentUserId] = useState(localStorage.getItem('currentUserId'));
   const [editableUser, setEditableUser] = useState({
     username: '',
     name: '',
@@ -18,6 +20,11 @@ export default function Profile() {
     overallPoints: '',
   });
   const [isEditing, setIsEditing] = useState(false);
+  const [isAllowedToEdit, setIsAllowedToEdit] = useState(false);
+
+  useEffect(() => {
+    setCurrentUserId(localStorage.getItem('currentUserId'));  
+  }, []);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -25,6 +32,7 @@ export default function Profile() {
         const response = await api.get(`/users/${userId}`);
         setUser(response.data);
         setEditableUser(response.data);
+        setIsAllowedToEdit(currentUserId === userId);
       } catch (error) {
         console.error('Fetching user data failed', error);
       }
@@ -34,7 +42,9 @@ export default function Profile() {
       fetchUserData();
     }
   }, [userId]);
-
+  const handleBack = () => {
+    navigate('/game'); 
+  };
   const handleChange = (event) => {
     const { name, value } = event.target;
     setEditableUser((prevState) => ({ ...prevState, [name]: value }));
@@ -54,7 +64,13 @@ export default function Profile() {
   const logout = async () => {
     try {
       console.log('Logging out...');
-      const response = await api.post('/logout');
+      const token = localStorage.getItem('token'); 
+      if (!token) {
+        console.error('No token found');
+        alert('No token found. You might not be logged in.');
+        return;
+      }
+      const response = await api.post('/logout', { token }); 
       console.log('Logout response', response);
       localStorage.removeItem('token');
       navigate('/login');
@@ -64,6 +80,7 @@ export default function Profile() {
     }
   };
   
+  
 
   if (!user) {
     return <div>Loading user profile...</div>;
@@ -71,7 +88,7 @@ export default function Profile() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid container component="main" sx={{ height: '100vh', justifyContent: 'center' }}>
         <CssBaseline />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
@@ -168,11 +185,23 @@ export default function Profile() {
                   fullWidth
                   variant="contained"
                   onClick={() => setIsEditing(true)}
+                  disabled={!isAllowedToEdit}
                   sx={{ mt: 3, mb: 2 }}
                 >
                   Edit Profile
                 </Button>
+                
               )}
+
+              <Button
+                fullWidth
+                variant="contained"
+                color="error"
+                onClick={handleBack}
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Back
+              </Button>
               <Button
                 fullWidth
                 variant="contained"

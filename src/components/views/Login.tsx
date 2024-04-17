@@ -37,6 +37,7 @@ export default function SignInSide() {
       const response = await api.post("/login", requestBody);
       const user = new User(response.data);
       localStorage.setItem("token", user.token);
+      localStorage.setItem("currentUserId", user.id);
       navigate("/game");
     } catch (error) {
       alert(`Something went wrong during the login: \n${handleError(error)}`);

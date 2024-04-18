@@ -10,6 +10,9 @@
 - Scrum setup on Github Project. [Link to task](https://github.com/orgs/sopra-fs24-group-27/projects/3)
 - Assigned first-week tasks for each member.
 
+**Hepeng Fan**
+
+- Finish the design of Rest Documentation
 
 **Yuying Zhong**
 
@@ -31,6 +34,10 @@
 - Completed #69[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/69), #70[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/70), and the backend part for user story #1[Link to user story](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/1): new user registration on the server side and wrote related tests. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/80ae5c8bbeb11d1a4843d25b4de672d7ed408d9f)
 
 
+**Hepeng Fan**
+
+- Completed #8 and #18 on the client side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/cf83c9211ba3f89a2c33fdf58c93b60357ce680f)
+
 **Yuying Zhong**
 
 - Completed #17 and #19 on the client side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/9781848a0b6e6b96a0c9585363b348d409a85b22)
@@ -46,6 +53,18 @@
 - Explored Spotify API and initialized basic search function. Tested successfully with Postman. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4494faccaa8983f6d5db4df16faa0ece96523909)
 - Completed #73[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/74) and #74[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/74) and the songs retrieval part of user story #6[Link to user story](https://github.com/orgs/sopra-fs24-group-27/projects/3/views/1): Completed SpotifyService and SpotifyController in the backend to retrieve 2 songs according to the artist, language, and genre and return JSON objects.[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/391d70d5da111cdc2b6d79f6369c6ffc122b0ac3).
 - 
+
+**Hepeng Fan**
+
+- Changed backend api on server side.
+
+- Changed ui on client side.
+
+- Completed #3 and #16.
+
+[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/d2b02a3c487eeda93d0415445836f7881dc4e4da)
+
+
 **Yuying Zhong**
 
 - Changed the whole style of the login page and register page.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/a0dede92d746978343eb03eaa996114031efeffa)
@@ -66,6 +85,15 @@
 - Changed the whole style of the home game page.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/4a3169e65e9556cb897345c5b086b213d85da381)
 - Completed #36 on the client side.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/84887c47b52ddc7f06d72a34bb1805ed6bfce866)
 - Completed #38 on the client side.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/3f61c5f8febb716e7f89a6b9209b36b9ca6eb113)
+
+
+**Hepeng Fan**
+
+- Changed the whole style of the Profile page.
+
+- Complete #15 and #22
+
+[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/d2b02a3c487eeda93d0415445836f7881dc4e4da)
 
 
 **Qingcheng Wang**

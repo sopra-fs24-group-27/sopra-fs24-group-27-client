@@ -24,6 +24,14 @@
 
 - UML Design. Includes class diagram, component diagram, activity diagram.
 
+**Yi Zhang**
+
+* Contributed to mock-ups and designed the flows on Figma.
+* Prepared the presentation slides, and report for M2.
+* Finished the design of WebSocket API Documentation.
+
+
+
 # M3
 
 ## 22.3 - 29.3
@@ -45,6 +53,12 @@
 **Qingcheng Wang**
 
 - Completed #3, #22 and #25 on the client side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4acc4e68db0362fbd5b057066a7775090e676c19)
+
+**Yi Zhang**
+
+* Completed #29, #31 on the server side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/97203f17a8a64920a90b42c47e654f7daa0450b7)
+
+
 
 ## 30.3 - 11.4 (Including Easter holidays)
 
@@ -70,13 +84,11 @@
 - Changed the whole style of the login page and register page.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/a0dede92d746978343eb03eaa996114031efeffa)
 - Completed #1 and #2.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6a8389f4197cb8749fb0f58ba041496d7dfbafe5)&[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/6b125f9619cbd78e501277268f72d52a8ad54335)
 
+**Yi Zhang**
 
-**Group Member 3**
+- Completed #6, #43 on server side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/97203f17a8a64920a90b42c47e654f7daa0450b7)
 
-- The first thing you did.
-- The second thing you did.
-- The third thing you did. [Link to task](https://www.example.com)
-- ...
+
 
 ## 12.4 - 18.4 
 
@@ -91,18 +103,20 @@
 
 - Changed the whole style of the Profile page.
 
-- Complete #15 and #22
-
-[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/d2b02a3c487eeda93d0415445836f7881dc4e4da)
+- Complete #15 and #22 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/d2b02a3c487eeda93d0415445836f7881dc4e4da)
 
 
 **Qingcheng Wang**
 
 - Completed #55 & #57. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/55) &[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/57) 
 - Completed functions in GameServce: sortTurnOrder, startRound, sendEmojis, vote, endVoting, declareWinner, endRound.
-- 
+
 **Yating Pan**
 
 - Solved bugs related to entities and repository in server side. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2cdd9f914da21ab8684dbd6f296a06fa22206d1b)
 - Completed #66[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/66) and #67[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/67) and the server part of user story #65[Link to user story](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/65): Completed assign 2 songs to the spy player and 3 normal players in server side, tested successfully [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/b1f35bd1f09dc578c41a31885628a4d8ff020f7e).
-- Included development branch into Sonar cloud analysis[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/ca9406ef9cc70d1151f4058cd1078410adb68723)
+- Included development branch into Sonar cloud analysis [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/ca9406ef9cc70d1151f4058cd1078410adb68723)
+
+**Yi Zhang**
+
+* Fixed bugs related to player entities and playerRepository on server side. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c5be0d81a85ea415225a23785a2013819109080c)

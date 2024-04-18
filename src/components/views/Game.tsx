@@ -13,6 +13,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import { v4 as uuidv4 } from 'uuid';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 
 
@@ -67,6 +71,8 @@ const Game = () => {
   const [selectedGenre, setSelectedGenre] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [selectedArtist, setSelectedArtist] = useState('');
+  const [joinRoomAnchorEl, setJoinRoomAnchorEl] = useState(null);
+  const [roomIdInput, setRoomIdInput] = useState('');
 
   const logout = (): void => {
     localStorage.removeItem("token");
@@ -153,8 +159,31 @@ const Game = () => {
       setRoomAnchorEl(event.currentTarget);
     };
 
+    const handleClickJoinRoom = (event) => {
+      setJoinRoomAnchorEl(event.currentTarget);
+    };
+
+    
+    
     const handleCloseRoom = () => {
       setRoomAnchorEl(null);
+    };
+    
+    const handleJoinRoom = async () => {
+      try {
+        // Assume you have an endpoint to join a room by ID
+        const response = await api.post("/games/join", { roomId: roomIdInput });
+        
+        // After joining the room, navigate to the room page
+        navigate(`/room/${roomIdInput}`);
+      } catch (error) {
+        console.error(
+          `Something went wrong while joining the room: \n${handleError(error)}`
+        );
+        alert(
+          "Something went wrong while joining the room! See the console for details."
+        );
+      }
     };
     
     // Function to handle room creation
@@ -189,7 +218,55 @@ const Game = () => {
         );
       }
     };
-
+    const JoinRoomPopover = () => {
+      const handleCloseJoinRoom = () => {
+        setJoinRoomAnchorEl(null);
+        setRoomIdInput('');  
+      };
+      return (
+        <Popover
+          open={Boolean(joinRoomAnchorEl)}
+          anchorEl={joinRoomAnchorEl}
+          onClose={handleCloseJoinRoom}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+        >
+          <div style={{ padding: '20px' }}>
+            <h2>Join a Room</h2>
+            <FormControl fullWidth margin="normal">
+              <InputLabel htmlFor="room-id-input">Room ID</InputLabel>
+              <Input
+                id="room-id-input"
+                value={roomIdInput}
+                onChange={(e) => setRoomIdInput(e.target.value)}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleJoinRoom} edge="end">
+                      <ArrowForwardIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+        <Button
+          variant="outlined"
+          color="primary"
+          style={{ marginTop: '10px' }}
+          fullWidth
+          onClick={handleCloseJoinRoom} 
+        >
+          Cancel
+        </Button>
+          </div>
+        </Popover>
+      );
+    };
   return (
     <BaseContainer className="game container">
     <Button
@@ -226,6 +303,7 @@ const Game = () => {
           },
         }}
       >
+      
         <div style={{ padding: '20px' }}>
         <h2><strong>Game Rules</strong></h2>
         <h3><strong>Overview of LyricLies</strong></h3>
@@ -268,10 +346,11 @@ const Game = () => {
       <Button
         variant="contained"
         style={{ marginTop: '20px' , backgroundColor: '#AFEEEE', color: '#00008B'}} 
+        onClick={handleClickJoinRoom}
       >
         Join a Room
       </Button>
-
+      <JoinRoomPopover />
       <div className="room-setting container">
       {/* Room creation dialog */}
       <Popover

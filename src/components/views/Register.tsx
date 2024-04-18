@@ -57,9 +57,10 @@ export default function Register() {
         // Store the token into the local storage.
         localStorage.setItem("token", user.token);
         localStorage.setItem('userId', user.id);
+        localStorage.setItem('username', user.username);
 
         // Navigate to user overview page with necessary information
-        navigate("/game", { state: { user } });
+        navigate("/lobby", { state: { user } });
       } else {
         throw new Error("Registration failed");
       }

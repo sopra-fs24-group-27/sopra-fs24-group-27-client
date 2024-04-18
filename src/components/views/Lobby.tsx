@@ -200,12 +200,12 @@ const Game = () => {
         const roomData = {
           hostId: currentUserId,
           gameId: gameId,
-          settings: settings
+          settings: settings,
         };
         console.log("Room Data:", roomData);
         const response = await api.post("/games", roomData);
         setRoomAnchorEl(null); 
-        navigate('/room');
+        navigate(`/games/${gameId}`);
       } catch (error) {
         console.error(
           `Something went wrong while creating the room: \n${handleError(

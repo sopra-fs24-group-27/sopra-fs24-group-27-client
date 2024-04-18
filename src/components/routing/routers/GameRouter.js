@@ -1,6 +1,6 @@
 import React from "react";
 import {Navigate, Route, Routes} from "react-router-dom";
-import Game from "../../views/Game";
+import Lobby from "../../views/Lobby";
 import PropTypes from "prop-types";
 
 const GameRouter = () => {
@@ -8,9 +8,9 @@ const GameRouter = () => {
     <div style={{display: "flex", flexDirection: "column"}}>
       <Routes>
 
-        <Route path="" element={<Game />} />
+        <Route path="" element={<Lobby />} />
 
-        <Route path="dashboard" element={<Game />} />
+        <Route path="dashboard" element={<Lobby />} />
 
         <Route path="*" element={<Navigate to="dashboard" replace />} />
 

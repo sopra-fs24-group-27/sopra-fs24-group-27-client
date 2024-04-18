@@ -43,7 +43,7 @@ export default function Profile() {
     }
   }, [userId]);
   const handleBack = () => {
-    navigate('/game'); 
+    navigate('/lobby'); 
   };
   const handleChange = (event) => {
     const { name, value } = event.target;

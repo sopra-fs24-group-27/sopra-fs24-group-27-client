@@ -106,4 +106,3 @@
 - Solved bugs related to entities and repository in server side. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2cdd9f914da21ab8684dbd6f296a06fa22206d1b)
 - Completed #66[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/66) and #67[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/67) and the server part of user story #65[Link to user story](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/65): Completed assign 2 songs to the spy player and 3 normal players in server side, tested successfully [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/b1f35bd1f09dc578c41a31885628a4d8ff020f7e).
 - Included development branch into Sonar cloud analysis[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/ca9406ef9cc70d1151f4058cd1078410adb68723)
-- 

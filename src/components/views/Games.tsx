@@ -7,37 +7,24 @@ import User from "models/User";
 
 
 const Player = ({ user }: { user: User }) => {
-    const birthdayDate = new Date(user.birthday);
-  
-    const formattedBirthday = birthdayDate.toLocaleDateString();
-  
-  
     return (
       <div className="player container" style={{ width: '350px', height: '250px' }}>
         <p>
           ID: {user.id}<br />
           Username: {user.username}<br />
           Scores: {user.scores}<br />
-          Birthday: {formattedBirthday} <br />
         </p>
       </div>
     );
-  
   };
 
 const Room = () => {
   const { gameId } = useParams(); 
   const [roomInfo, setRoomInfo] = useState({ players: [] });
-  const [currentUser, setCurrentUser] = useState({ id: null, username: null });
+  const [currentUser, setCurrentUser] = useState({ id: null, username: null, hostId: null });
 
 
   useEffect(() => {
-    
-    const currentUserId = localStorage.getItem('userId');
-    const currentUserName = localStorage.getItem('username');
-    setCurrentUser({ id: currentUserId, username: currentUserName });
-
-
     const fetchRoomInfo = async () => {
       try {
         const response = await api.get(`/games/${gameId}`);
@@ -46,9 +33,14 @@ const Room = () => {
         console.error('Error fetching room info:', error);
       }
     };
+    
+    const currentUserId = localStorage.getItem('userId');
+    const currentUserName = localStorage.getItem('username');
+    const currentHostId = localStorage.getItem('hostId');
+    setCurrentUser({ id: currentUserId, username: currentUserName, hostId: currentHostId});
 
     // Fetch room info every 2 seconds
-    const intervalId = setInterval(fetchRoomInfo, 2000);
+    const intervalId = setInterval(fetchRoomInfo, 1000);
 
     return () => clearInterval(intervalId);
   }, [gameId]);
@@ -59,7 +51,6 @@ const Room = () => {
     return roomInfo.players.map((player, index) => (
       <div key={index} className="player-wrapper">
         <Player user={player} />
-        {index === 0 && <p className="host-label">Host</p>}
       </div>
     ));
   };
@@ -76,15 +67,15 @@ const Room = () => {
           </div>
         ))}
       </div>
+      
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Button
           variant="contained" 
           color="primary"
           disabled={roomInfo?.players?.length !== 4}
-          >Start Game
+           >Start Game
         </Button>
       </div>
-
 
     </BaseContainer>
   );

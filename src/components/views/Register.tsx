@@ -58,6 +58,7 @@ export default function Register() {
         localStorage.setItem("token", user.token);
         localStorage.setItem('userId', user.id);
         localStorage.setItem('username', user.username);
+        localStorage.setItem('currentUserId', user.id);
 
         // Navigate to user overview page with necessary information
         navigate("/lobby", { state: { user } });

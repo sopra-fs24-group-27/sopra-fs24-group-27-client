@@ -22,11 +22,11 @@ export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [isAllowedToEdit, setIsAllowedToEdit] = useState(false);
 
-  useEffect(() => {
-    setCurrentUserId(localStorage.getItem('currentUserId'));  
-  }, []);
 
   useEffect(() => {
+    const currentUserId = localStorage.getItem('currentUserId');
+    setCurrentUserId(currentUserId);
+    
     const fetchUserData = async () => {
       try {
         const response = await api.get(`/users/${userId}`);

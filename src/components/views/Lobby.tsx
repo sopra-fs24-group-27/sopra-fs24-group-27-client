@@ -73,6 +73,7 @@ const Game = () => {
   const [selectedArtist, setSelectedArtist] = useState('');
   const [joinRoomAnchorEl, setJoinRoomAnchorEl] = useState(null);
   const [roomIdInput, setRoomIdInput] = useState('');
+  const [tempRoomId, setTempRoomId] = useState(''); 
 
   const logout = (): void => {
     localStorage.removeItem("token");
@@ -163,28 +164,13 @@ const Game = () => {
       setJoinRoomAnchorEl(event.currentTarget);
     };
 
-    
+
     
     const handleCloseRoom = () => {
       setRoomAnchorEl(null);
     };
     
-    const handleJoinRoom = async () => {
-      try {
-        // Assume you have an endpoint to join a room by ID
-        const response = await api.post("/games/join", { roomId: roomIdInput });
-        
-        // After joining the room, navigate to the room page
-        navigate(`/room/${roomIdInput}`);
-      } catch (error) {
-        console.error(
-          `Something went wrong while joining the room: \n${handleError(error)}`
-        );
-        alert(
-          "Something went wrong while joining the room! See the console for details."
-        );
-      }
-    };
+
     
     // Function to handle room creation
     const handleConfirmRoom = async () => {
@@ -219,6 +205,26 @@ const Game = () => {
       }
     };
     const JoinRoomPopover = () => {
+      const handleJoinRoom = async () => {
+        try {
+          setRoomIdInput(tempRoomId);
+          // Assume you have an endpoint to join a room by ID
+          const response = await api.post("/games/join", { roomId: roomIdInput });
+          
+          // After joining the room, navigate to the room page
+          navigate(`/room/${roomIdInput}`);
+        } catch (error) {
+          console.error(
+            `Something went wrong while joining the room: \n${handleError(error)}`
+          );
+          alert(
+            "Something went wrong while joining the room! See the console for details."
+          );
+        }
+      };
+      const handleRoomIdChange = (event) => {
+        setTempRoomId(event.target.value); 
+      };
       const handleCloseJoinRoom = () => {
         setJoinRoomAnchorEl(null);
         setRoomIdInput('');  
@@ -243,8 +249,8 @@ const Game = () => {
               <InputLabel htmlFor="room-id-input">Room ID</InputLabel>
               <Input
                 id="room-id-input"
-                value={roomIdInput}
-                onChange={(e) => setRoomIdInput(e.target.value)}
+                value={tempRoomId}
+                onChange={handleRoomIdChange}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton onClick={handleJoinRoom} edge="end">
@@ -267,6 +273,9 @@ const Game = () => {
         </Popover>
       );
     };
+
+
+
   return (
     <BaseContainer className="game container">
     <Button

@@ -12,3 +12,7 @@ export const getDomain = () => {
 
   return isProduction() ? prodUrl : devUrl
 }
+
+export const getWS = () => {
+  return getDomain() + "/ws";
+}

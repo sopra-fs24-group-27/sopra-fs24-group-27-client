@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { api, handleError } from "helpers/api";
+import Stomper from "helpers/Stomper";
 import { Spinner } from "components/ui/Spinner";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
@@ -26,7 +27,7 @@ const Player = ({ user }: { user: User }) => {
 
   const formattedBirthday = birthdayDate.toLocaleDateString();
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const navigateToProfile = () => {
 
     navigate(`/profile/${user.id}`);
@@ -42,10 +43,10 @@ const Player = ({ user }: { user: User }) => {
       </p>
       <Button
         variant="text"
-        style={{ marginTop: '20px', left: '5%', color: '#DB70DB'}} 
+        style={{ marginTop: '20px', left: '5%', color: '#DB70DB' }}
         onClick={navigateToProfile}
       >
-      → View Profile ←
+        → View Profile ←
       </Button>
     </div>
   );
@@ -73,7 +74,7 @@ const Game = () => {
   const [selectedArtist, setSelectedArtist] = useState('');
   const [joinRoomAnchorEl, setJoinRoomAnchorEl] = useState(null);
   const [roomIdInput, setRoomIdInput] = useState('');
-  const [tempRoomId, setTempRoomId] = useState(''); 
+  const [tempRoomId, setTempRoomId] = useState('');
 
   const logout = (): void => {
     localStorage.removeItem("token");
@@ -145,303 +146,313 @@ const Game = () => {
               <Player user={user} />
             </li>
           ))}
-        <Button
-          style={{ width: '100%' , color: 'white'}}
-          onClick={() => logout()}
-        >
-          Logout
-        </Button>
+          <Button
+            style={{ width: '100%', color: 'white' }}
+            onClick={() => logout()}
+          >
+            Logout
+          </Button>
         </ul>
       </div>
     );
   }
 
-    const handleClickCreateRoom = (event) => {
-      setRoomAnchorEl(event.currentTarget);
-    };
+  const handleClickCreateRoom = (event) => {
+    setRoomAnchorEl(event.currentTarget);
+  };
 
-    const handleClickJoinRoom = (event) => {
-      setJoinRoomAnchorEl(event.currentTarget);
-    };
+  const handleClickJoinRoom = (event) => {
+    setJoinRoomAnchorEl(event.currentTarget);
+  };
 
 
-    
-    const handleCloseRoom = () => {
+
+  const handleCloseRoom = () => {
+    setRoomAnchorEl(null);
+  };
+
+
+
+  // Function to handle room creation
+  const handleConfirmRoom = async () => {
+    try {
+      // Call backend API to create a new room
+      const currentUserId = localStorage.getItem("userId");
+      const gameId = uuidv4();
+      const settings = {
+        language: selectedLanguage,
+        artist: selectedArtist,
+        style: selectedGenre
+      };
+      const roomData = {
+        hostId: currentUserId,
+        gameId: gameId,
+        settings: settings,
+      };
+      console.log("Room Data:", roomData);
+      const response = await api.post("/games", roomData);
       setRoomAnchorEl(null);
-    };
-    
+      navigate(`/games/${gameId}`);
+    } catch (error) {
+      console.error(
+        `Something went wrong while creating the room: \n${handleError(
+          error
+        )}`
+      );
+      console.error("Details:", error);
+      alert(
+        "Something went wrong while creating the room! See the console for details."
+      );
+    }
+  };
 
-    
-    // Function to handle room creation
-    const handleConfirmRoom = async () => {
+  let webSocket = Stomper.getInstance();
+
+  const JoinRoomPopover = () => {
+    const handleJoinRoom = async () => {
       try {
-        // Call backend API to create a new room
-        const currentUserId = localStorage.getItem("userId");
-        const gameId = uuidv4();
-        const settings = {
-          language: selectedLanguage,
-          artist: selectedArtist,
-          style: selectedGenre
-        };
-        const roomData = {
-          hostId: currentUserId,
-          gameId: gameId,
-          settings: settings,
-        };
-        console.log("Room Data:", roomData);
-        const response = await api.post("/games", roomData);
-        setRoomAnchorEl(null); 
-        navigate(`/games/${gameId}`);
+        setRoomIdInput(tempRoomId);
+        // Assume you have an endpoint to join a room by ID
+        // const response = await api.post("/games/join", { roomId: roomIdInput });
+
+        // After joining the room, navigate to the room page
+        // navigate(`/room/${roomIdInput}`);
+
+        console.log("Room ID:", tempRoomId);
+
+        webSocket.send("/app/games/" + tempRoomId + "/join", {
+          userId: localStorage.getItem("userId")
+        });
+
       } catch (error) {
         console.error(
-          `Something went wrong while creating the room: \n${handleError(
-            error
-          )}`
+          `Something went wrong while joining the room: \n${handleError(error)}`
         );
-        console.error("Details:", error);
         alert(
-          "Something went wrong while creating the room! See the console for details."
+          "Something went wrong while joining the room! See the console for details."
         );
       }
     };
-    const JoinRoomPopover = () => {
-      const handleJoinRoom = async () => {
-        try {
-          setRoomIdInput(tempRoomId);
-          // Assume you have an endpoint to join a room by ID
-          const response = await api.post("/games/join", { roomId: roomIdInput });
-          
-          // After joining the room, navigate to the room page
-          navigate(`/room/${roomIdInput}`);
-        } catch (error) {
-          console.error(
-            `Something went wrong while joining the room: \n${handleError(error)}`
-          );
-          alert(
-            "Something went wrong while joining the room! See the console for details."
-          );
-        }
-      };
-      const handleRoomIdChange = (event) => {
-        setTempRoomId(event.target.value); 
-      };
-      const handleCloseJoinRoom = () => {
-        setJoinRoomAnchorEl(null);
-        setRoomIdInput('');  
-      };
-      return (
-        <Popover
-          open={Boolean(joinRoomAnchorEl)}
-          anchorEl={joinRoomAnchorEl}
-          onClose={handleCloseJoinRoom}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-        >
-          <div style={{ padding: '20px' }}>
-            <h2>Join a Room</h2>
-            <FormControl fullWidth margin="normal">
-              <InputLabel htmlFor="room-id-input">Room ID</InputLabel>
-              <Input
-                id="room-id-input"
-                value={tempRoomId}
-                onChange={handleRoomIdChange}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleJoinRoom} edge="end">
-                      <ArrowForwardIcon />
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-        <Button
-          variant="outlined"
-          color="primary"
-          style={{ marginTop: '10px' }}
-          fullWidth
-          onClick={handleCloseJoinRoom} 
-        >
-          Cancel
-        </Button>
-          </div>
-        </Popover>
-      );
+    const handleRoomIdChange = (event) => {
+      setTempRoomId(event.target.value);
     };
-
-
-
-  return (
-    <BaseContainer className="game container">
-    <Button
-      aria-describedby={anchorEl ? 'game-rules-popover' : undefined}
-      variant="text"
-      onClick={handleOpenRules}
-      style={{ position: 'absolute', top: '100px', right: '10%' , color: '#AFEEEE'}}
-    >
-      → Game Rules ←
-    </Button>
-    <div className="popover-container" style={{ maxHeight: '50vh', overflowY: 'auto', scrollbarWidth: 'thin' }}>
-      <Popover 
-        id="game-rules-popover"
-        open={Boolean(anchorEl)}
-        anchorEl={anchorEl}
-        onClose={handleCloseRules}
-        sx={{
-          width: '80%', 
-          height: '80%', 
-        }}
+    const handleCloseJoinRoom = () => {
+      setJoinRoomAnchorEl(null);
+      setRoomIdInput('');
+    };
+    return (
+      <Popover
+        open={Boolean(joinRoomAnchorEl)}
+        anchorEl={joinRoomAnchorEl}
+        onClose={handleCloseJoinRoom}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'left',
+          horizontal: 'center',
         }}
         transformOrigin={{
           vertical: 'top',
           horizontal: 'center',
         }}
-        slotProps={{
-          paper: {
-            style: {
-              backgroundColor: '#D8BFD8', 
-            },
-          },
-        }}
       >
-      
         <div style={{ padding: '20px' }}>
-        <h2><strong>Game Rules</strong></h2>
-        <h3><strong>Overview of LyricLies</strong></h3>
-        <p>Objective of LyricLies: The objective of LyricLies is to find out the spy who is listening to a different song by using emojis to describe the song they are listening to.</p>
-        <p>Number of players: 4 Players</p>
-        <p>Material: Songs(by Spotify API) to assign identity for each players</p>
-        <p>Audience: Ages 10+</p>
-        <p>At the beginning of the game, each player will be assigned a song and only one player’s song is different from others. As the game progresses, each player must describe the song they are listening to with limited emojis. After two rounds of describing, every player must vote on a spy they guessed. If the spy receives the most votes, then non-spies players win! On the other hand, if they fail to find the spy, then the spy player wins!</p>
-        <h3><strong>How to play LyricLies</strong></h3>
-        <h4><strong>Game Set Up</strong></h4>
-        <p>After registering and logging in, players can create or join a game room. Once the room has four players, the room owner can start the game. Players should ensure that nobody else can see their screen or hear the voices of each other devices.</p>
-        <h4><strong>Identity Assignment</strong></h4>
-        <p>To begin gameplay, the system randomly selects a song through the Spotify API and plays the same song for three players while playing a different song for the fourth player (the spy). Then all players listen to the song simultaneously with a playback duration limited to 30 seconds.</p>
-        <h4><strong>Emoji Description</strong></h4>
-        <p>After listening, each player has 60 seconds to choose up to 5 emojis to describe the song they heard in turns. Descriptions can be based on the song&aposs emotions, style, lyrics, or overall vibe. You cannot know whether you are the spy, so vague description or not, it is your choice. Each player&aposs emoji descriptions are displayed to all players. The description takes two rounds.</p>
-        <h4><strong>Guessing and Voting</strong></h4>
-        <p>Players discuss and guess who the spy is based on everyone&aposs emoji descriptions. Discussion is limited to 2 minutes, and then each player must vote on who they suspect is the spy in 10s.</p>
-        <h4><strong>End of Game</strong></h4>
-        <p>The game comes to an end when the true identity is revealed! (reveal the correct song to all players and show the different songs the undercover listened to.)</p>
-        <p>If the spy receives the most votes, the non-spy players win; if the spy does not receive the most votes, the spy wins.</p>
-        <p>After the game ends, the system updates players&apos scores based on the results.</p>
-        <p>For the spy player, he/she must take on hidden identities, they must ensure nobody else finds out. If you are a spy, are you able to fake it until you make it?</p>
-        <h3><strong>Special Regulations</strong></h3>
-        <p>Using Spotify API: Ensure all players can access the Spotify API to retrieve songs.</p>
-        <p>Emoji Limitation: Encourage players to creatively use emojis for descriptions, but limit to a maximum of 5 emojis.</p>
-        <p>Game Interface: Design a user-friendly interface showcasing the song player, emoji selector, and voting system.</p>
-        <p>Game Feedback: Provide interactive feedback and score updates among players.</p>
+          <h2>Join a Room</h2>
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="room-id-input">Room ID</InputLabel>
+            <Input
+              id="room-id-input"
+              value={tempRoomId}
+              onChange={handleRoomIdChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton onClick={handleJoinRoom} edge="end">
+                    <ArrowForwardIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+          <Button
+            variant="outlined"
+            color="primary"
+            style={{ marginTop: '10px' }}
+            fullWidth
+            onClick={handleCloseJoinRoom}
+          >
+            Cancel
+          </Button>
         </div>
       </Popover>
-    </div>
+    );
+  };
+
+
+
+  return (
+    <BaseContainer className="game container">
+      <Button
+        aria-describedby={anchorEl ? 'game-rules-popover' : undefined}
+        variant="text"
+        onClick={handleOpenRules}
+        style={{ position: 'absolute', top: '100px', right: '10%', color: '#AFEEEE' }}
+      >
+        → Game Rules ←
+      </Button>
+      <div className="popover-container" style={{ maxHeight: '50vh', overflowY: 'auto', scrollbarWidth: 'thin' }}>
+        <Popover
+          id="game-rules-popover"
+          open={Boolean(anchorEl)}
+          anchorEl={anchorEl}
+          onClose={handleCloseRules}
+          sx={{
+            width: '80%',
+            height: '80%',
+          }}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          slotProps={{
+            paper: {
+              style: {
+                backgroundColor: '#D8BFD8',
+              },
+            },
+          }}
+        >
+
+          <div style={{ padding: '20px' }}>
+            <h2><strong>Game Rules</strong></h2>
+            <h3><strong>Overview of LyricLies</strong></h3>
+            <p>Objective of LyricLies: The objective of LyricLies is to find out the spy who is listening to a different song by using emojis to describe the song they are listening to.</p>
+            <p>Number of players: 4 Players</p>
+            <p>Material: Songs(by Spotify API) to assign identity for each players</p>
+            <p>Audience: Ages 10+</p>
+            <p>At the beginning of the game, each player will be assigned a song and only one player’s song is different from others. As the game progresses, each player must describe the song they are listening to with limited emojis. After two rounds of describing, every player must vote on a spy they guessed. If the spy receives the most votes, then non-spies players win! On the other hand, if they fail to find the spy, then the spy player wins!</p>
+            <h3><strong>How to play LyricLies</strong></h3>
+            <h4><strong>Game Set Up</strong></h4>
+            <p>After registering and logging in, players can create or join a game room. Once the room has four players, the room owner can start the game. Players should ensure that nobody else can see their screen or hear the voices of each other devices.</p>
+            <h4><strong>Identity Assignment</strong></h4>
+            <p>To begin gameplay, the system randomly selects a song through the Spotify API and plays the same song for three players while playing a different song for the fourth player (the spy). Then all players listen to the song simultaneously with a playback duration limited to 30 seconds.</p>
+            <h4><strong>Emoji Description</strong></h4>
+            <p>After listening, each player has 60 seconds to choose up to 5 emojis to describe the song they heard in turns. Descriptions can be based on the song&aposs emotions, style, lyrics, or overall vibe. You cannot know whether you are the spy, so vague description or not, it is your choice. Each player&aposs emoji descriptions are displayed to all players. The description takes two rounds.</p>
+            <h4><strong>Guessing and Voting</strong></h4>
+            <p>Players discuss and guess who the spy is based on everyone&aposs emoji descriptions. Discussion is limited to 2 minutes, and then each player must vote on who they suspect is the spy in 10s.</p>
+            <h4><strong>End of Game</strong></h4>
+            <p>The game comes to an end when the true identity is revealed! (reveal the correct song to all players and show the different songs the undercover listened to.)</p>
+            <p>If the spy receives the most votes, the non-spy players win; if the spy does not receive the most votes, the spy wins.</p>
+            <p>After the game ends, the system updates players&apos scores based on the results.</p>
+            <p>For the spy player, he/she must take on hidden identities, they must ensure nobody else finds out. If you are a spy, are you able to fake it until you make it?</p>
+            <h3><strong>Special Regulations</strong></h3>
+            <p>Using Spotify API: Ensure all players can access the Spotify API to retrieve songs.</p>
+            <p>Emoji Limitation: Encourage players to creatively use emojis for descriptions, but limit to a maximum of 5 emojis.</p>
+            <p>Game Interface: Design a user-friendly interface showcasing the song player, emoji selector, and voting system.</p>
+            <p>Game Feedback: Provide interactive feedback and score updates among players.</p>
+          </div>
+        </Popover>
+      </div>
 
       <h2>Welcome to LyricLies!</h2>
       <Button
         variant="contained"
-        style={{ marginTop: '20px' , backgroundColor: '#DB70DB', color: '#00008B'}} 
+        style={{ marginTop: '20px', backgroundColor: '#DB70DB', color: '#00008B' }}
         onClick={handleClickCreateRoom} // Call handleClickCreateRoom when button is clicked
       >
         Create a new Room
       </Button>
       <Button
         variant="contained"
-        style={{ marginTop: '20px' , backgroundColor: '#AFEEEE', color: '#00008B'}} 
+        style={{ marginTop: '20px', backgroundColor: '#AFEEEE', color: '#00008B' }}
         onClick={handleClickJoinRoom}
       >
         Join a Room
       </Button>
       <JoinRoomPopover />
       <div className="room-setting container">
-      {/* Room creation dialog */}
-      <Popover
-        open={Boolean(roomAnchorEl)}
-        anchorEl={roomAnchorEl}
-        onClose={handleConfirmRoom}
-        anchorOrigin={{
-          vertical: 'center',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'center',
-          horizontal: 'center',
-        }}
-      >
-        <div style={{ padding: '50px', width: '500px' }}>
-          <h2 style={{ textAlign: 'center' }}>Customize your game</h2>
+        {/* Room creation dialog */}
+        <Popover
+          open={Boolean(roomAnchorEl)}
+          anchorEl={roomAnchorEl}
+          onClose={handleConfirmRoom}
+          anchorOrigin={{
+            vertical: 'center',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'center',
+            horizontal: 'center',
+          }}
+        >
+          <div style={{ padding: '50px', width: '500px' }}>
+            <h2 style={{ textAlign: 'center' }}>Customize your game</h2>
 
-          {/* Dropdowns for song genre, language, and artist */}
-          <FormControl fullWidth sx={{ marginTop: '10px' }}>
-            <InputLabel id="genre-label">Genre</InputLabel>
-            <Select
-              labelId="genre-label"
-              id="genre-select"
-              value={selectedGenre}
-              label="Genre"
-              onChange={(e) => setSelectedGenre(e.target.value)}
+            {/* Dropdowns for song genre, language, and artist */}
+            <FormControl fullWidth sx={{ marginTop: '10px' }}>
+              <InputLabel id="genre-label">Genre</InputLabel>
+              <Select
+                labelId="genre-label"
+                id="genre-select"
+                value={selectedGenre}
+                label="Genre"
+                onChange={(e) => setSelectedGenre(e.target.value)}
+              >
+                <MenuItem value="genre1">Genre 1</MenuItem>
+                <MenuItem value="genre2">Genre 2</MenuItem>
+                <MenuItem value="genre3">Genre 3</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth sx={{ marginTop: '10px' }}>
+              <InputLabel id="language-label">Language</InputLabel>
+              <Select
+                labelId="language-label"
+                id="language-select"
+                value={selectedLanguage}
+                label="Language"
+                onChange={(e) => setSelectedLanguage(e.target.value)}
+              >
+                <MenuItem value="language1">Language 1</MenuItem>
+                <MenuItem value="language2">Language 2</MenuItem>
+                <MenuItem value="language3">Language 3</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth sx={{ marginTop: '10px' }}>
+              <InputLabel id="artist-label">Artist</InputLabel>
+              <Select
+                labelId="artist-label"
+                id="artist-select"
+                value={selectedArtist}
+                label="Artist"
+                onChange={(e) => setSelectedArtist(e.target.value)}
+              >
+                <MenuItem value="artist1">Artist 1</MenuItem>
+                <MenuItem value="artist2">Artist 2</MenuItem>
+                <MenuItem value="artist3">Artist 3</MenuItem>
+              </Select>
+            </FormControl>
+
+            {/* Buttons for confirmation and cancel */}
+            <Button
+              variant="contained"
+              style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#DB70DB' }}
+              onClick={handleConfirmRoom}
             >
-              <MenuItem value="genre1">Genre 1</MenuItem>
-              <MenuItem value="genre2">Genre 2</MenuItem>
-              <MenuItem value="genre3">Genre 3</MenuItem>
-            </Select>
-          </FormControl>
-
-          <FormControl fullWidth sx={{ marginTop: '10px' }}>
-            <InputLabel id="language-label">Language</InputLabel>
-            <Select
-              labelId="language-label"
-              id="language-select"
-              value={selectedLanguage}
-              label="Language"
-              onChange={(e) => setSelectedLanguage(e.target.value)}
+              Confirm
+            </Button>
+            <Button
+              variant="outlined"
+              style={{ marginTop: '20px', color: '#DB70DB' }}
+              onClick={handleCloseRoom} //close dialog
             >
-              <MenuItem value="language1">Language 1</MenuItem>
-              <MenuItem value="language2">Language 2</MenuItem>
-              <MenuItem value="language3">Language 3</MenuItem>
-            </Select>
-          </FormControl>
-
-          <FormControl fullWidth sx={{ marginTop: '10px' }}>
-            <InputLabel id="artist-label">Artist</InputLabel>
-            <Select
-              labelId="artist-label"
-              id="artist-select"
-              value={selectedArtist}
-              label="Artist"
-              onChange={(e) => setSelectedArtist(e.target.value)}
-            >
-              <MenuItem value="artist1">Artist 1</MenuItem>
-              <MenuItem value="artist2">Artist 2</MenuItem>
-              <MenuItem value="artist3">Artist 3</MenuItem>
-            </Select>
-          </FormControl>
-
-          {/* Buttons for confirmation and cancel */}
-          <Button
-            variant="contained"
-            style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#DB70DB'}}
-            onClick={handleConfirmRoom}
-          >
-            Confirm
-          </Button>
-          <Button
-            variant="outlined"
-            style={{ marginTop: '20px', color: '#DB70DB' }}
-            onClick={handleCloseRoom} //close dialog
-          >
-            Cancel
-          </Button>
-        </div>
-      </Popover>
-    </div>
+              Cancel
+            </Button>
+          </div>
+        </Popover>
+      </div>
 
       <p className="game paragraph">
         All Players:
@@ -450,7 +461,7 @@ const Game = () => {
     </BaseContainer>
   );
 
-  
+
 };
 
 export default Game;

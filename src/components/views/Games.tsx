@@ -21,14 +21,45 @@ const Player = ({ user }: { user: User }) => {
 const Room = () => {
   const { gameId } = useParams(); 
   const [roomInfo, setRoomInfo] = useState({ players: [] });
-  const [currentUser, setCurrentUser] = useState({ id: null, username: null, hostId: null });
+  const [currentUser, setCurrentUser] = useState({ id: null, username: null});
+  const [host, setHostUser] = useState(null); 
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const ws = new WebSocket('ws://localhost:8080');
+
+    ws.onopen = () => {
+      console.log('Connected to WebSocket server');
+    };
+
+    ws.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      if (message.type === 'roomInfo') {
+        setRoomInfo(message.data);
+      }
+    };
+
+    ws.onclose = () => {
+      console.log('Disconnected from WebSocket server');
+    };
+
+    setSocket(ws);
+
+    return () => {
+      if (ws) {
+        ws.close();
+      }
+    };
+  }, []);
 
 
   useEffect(() => {
     const fetchRoomInfo = async () => {
       try {
         const response = await api.get(`/games/${gameId}`);
+        const { hostId } = response.data;
         setRoomInfo(response.data);
+        setHostUser({ id: hostId });
       } catch (error) {
         console.error('Error fetching room info:', error);
       }
@@ -36,14 +67,20 @@ const Room = () => {
     
     const currentUserId = localStorage.getItem('userId');
     const currentUserName = localStorage.getItem('username');
-    const currentHostId = localStorage.getItem('hostId');
-    setCurrentUser({ id: currentUserId, username: currentUserName, hostId: currentHostId});
+    setCurrentUser({ id: currentUserId, username: currentUserName});
 
-    // Fetch room info every 2 seconds
-    const intervalId = setInterval(fetchRoomInfo, 1000);
+    fetchRoomInfo();
 
-    return () => clearInterval(intervalId);
-  }, [gameId]);
+    if (socket) {
+      socket.send(JSON.stringify({ action: 'subscribe', gameId }));
+    }
+
+    return () => {
+      if (socket) {
+        socket.send(JSON.stringify({ action: 'unsubscribe', gameId }));
+      }
+    };
+  }, [gameId, socket]);
 
   const renderPlayers = () => {
     if (!roomInfo || !roomInfo.players) return null;
@@ -58,7 +95,7 @@ const Room = () => {
   return (
     <BaseContainer className="room-container">
       <h1 className="room-title">Room ID: {gameId}</h1>
-      {currentUser && <p>Host Player: {currentUser.username} (userId {currentUser.id})</p>}
+      <p>Host Player: {host.id} </p>
       <div className="player-list">
         {renderPlayers()}
         {[...Array(3 - roomInfo.players.length)].map((_, index) => (
@@ -68,14 +105,16 @@ const Room = () => {
         ))}
       </div>
       
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Button
-          variant="contained" 
-          color="primary"
-          disabled={roomInfo?.players?.length !== 4}
-           >Start Game
-        </Button>
-      </div>
+      {currentUser.id === host.id && (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Button
+            variant="contained" 
+            color="primary"
+            disabled={roomInfo?.players?.length !== 4}
+            >Start Game
+          </Button>
+        </div>
+      )}
 
     </BaseContainer>
   );

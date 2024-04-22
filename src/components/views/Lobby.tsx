@@ -178,7 +178,6 @@ const Game = () => {
     try {
       // Call backend API to create a new room
       const currentUserId = localStorage.getItem("userId");
-      const gameId = uuidv4();
       const settings = {
         language: selectedLanguage,
         artist: selectedArtist,
@@ -186,11 +185,11 @@ const Game = () => {
       };
       const roomData = {
         hostId: currentUserId,
-        gameId: gameId,
         settings: settings,
       };
       console.log("Room Data:", roomData);
       const response = await api.post("/games", roomData);
+      const{ gameId } = response.data;
       setRoomAnchorEl(null);
       navigate(`/games/${gameId}`);
     } catch (error) {

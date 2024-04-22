@@ -4,25 +4,14 @@ import { api, handleError } from 'helpers/api';
 import BaseContainer from 'components/ui/BaseContainer';
 import Button from '@mui/material/Button';
 import User from "models/User";
+import Player from './Player'; 
 
 
-const Player = ({ user }: { user: User }) => {
-    return (
-      <div className="player container" style={{ width: '350px', height: '250px' }}>
-        <p>
-          ID: {user.id}<br />
-          Username: {user.username}<br />
-          Scores: {user.scores}<br />
-        </p>
-      </div>
-    );
-  };
-
-const Room = () => {
+const Waitingroom = () => {
   const { gameId } = useParams(); 
   const [roomInfo, setRoomInfo] = useState({ players: [] });
   const [currentUser, setCurrentUser] = useState({ id: null, username: null});
-  const [host, setHostUser] = useState(null); 
+  const [host, setHostUser] = useState({ id: null }); // Ensure host is an object
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
@@ -45,29 +34,24 @@ const Room = () => {
 
     setSocket(ws);
 
-    return () => {
-      if (ws) {
-        ws.close();
-      }
-    };
+    return () => ws && ws.close();
   }, []);
-
 
   useEffect(() => {
     const fetchRoomInfo = async () => {
       try {
-        const response = await api.get(`/games/${gameId}`);
+        const response = await api.get(`/games/${gameId}/waitingroom`);
         const { hostId } = response.data;
         setRoomInfo(response.data);
         setHostUser({ id: hostId });
       } catch (error) {
-        console.error('Error fetching room info:', error);
+        console.error('Error fetching room info:', handleError(error));
       }
     };
     
     const currentUserId = localStorage.getItem('userId');
     const currentUserName = localStorage.getItem('username');
-    setCurrentUser({ id: currentUserId, username: currentUserName});
+    setCurrentUser({ id: currentUserId, username: currentUserName });
 
     fetchRoomInfo();
 
@@ -83,8 +67,8 @@ const Room = () => {
   }, [gameId, socket]);
 
   const renderPlayers = () => {
-    if (!roomInfo || !roomInfo.players) return null;
-
+    if (!roomInfo.players) return null;
+  
     return roomInfo.players.map((player, index) => (
       <div key={index} className="player-wrapper">
         <Player user={player} />
@@ -95,12 +79,12 @@ const Room = () => {
   return (
     <BaseContainer className="room-container">
       <h1 className="room-title">Room ID: {gameId}</h1>
-      <p>Host Player: {host.id} </p>
+      <p>Host Player: {host.id || 'Loading host...'}</p>
       <div className="player-list">
         {renderPlayers()}
         {[...Array(3 - roomInfo.players.length)].map((_, index) => (
           <div key={index} className="player-placeholder">
-            <p>Waiting for player {index + 1 + (roomInfo?.players?.length || 1)} ...</p>
+            <p>Waiting for player {index + 1 + roomInfo.players.length}...</p>
           </div>
         ))}
       </div>
@@ -110,14 +94,13 @@ const Room = () => {
           <Button
             variant="contained" 
             color="primary"
-            disabled={roomInfo?.players?.length !== 4}
+            disabled={roomInfo.players.length !== 4}
             >Start Game
           </Button>
         </div>
       )}
-
     </BaseContainer>
   );
 };
 
-export default Room;
+export default Waitingroom;

@@ -6,8 +6,7 @@ import {LoginGuard} from "../routeProtectors/LoginGuard";
 import Login from "../../views/Login";
 import Register from "../../views/Register";
 import Profile from "../../views/Profile";
-import Games from "../../views/Games";
-
+import Waitingroom from "../../views/Waitingroom";
 /**
  * Main router of your application.
  * In the following class, different routes are rendered. In our case, there is a Login Route with matches the path "/login"
@@ -32,7 +31,7 @@ const AppRouter = () => {
           <Route path="/login" element={<Login/>} />
         </Route>
 
-        <Route path="/games/:gameId" element={<Games />} />
+        <Route path="/games/:gameId/waitingroom" element={<Waitingroom />} />
 
         <Route path="/" element={
           <Navigate to="/login" replace />

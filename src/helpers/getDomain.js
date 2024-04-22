@@ -7,11 +7,12 @@ import { isProduction } from "./isProduction"
  * @returns {string}
  */
 export const getDomain = () => {
-  const prodUrl = "https://sopra-fs24-group-27-server.oa.r.appspot.com/" // TODO: insert your prod url for server (once deployed)
+  const prodUrl = "https://sopra-fs24-group-27-server.oa.r.appspot.com/" 
   const devUrl = "http://localhost:8080"
-
-  return isProduction() ? prodUrl : devUrl
-}
+  console.log("Environment is production:", isProduction());  // Debugging line
+  console.log("API URL:", isProduction() ? prodUrl : devUrl); // Debugging line
+  return isProduction() ? prodUrl : devUrl;
+  }
 
 export const getWS = () => {
   return getDomain() + "/ws";

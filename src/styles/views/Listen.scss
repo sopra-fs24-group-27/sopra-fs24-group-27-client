@@ -1,0 +1,62 @@
+.listen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    .listen-header {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 1rem;
+  
+      .user-info {
+        display: flex;
+        align-items: center;
+  
+        img {
+          border-radius: 50%;
+          margin-right: 0.5rem;
+        }
+      }
+  
+      .timer {
+        background-color: purple;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 1rem;
+        font-weight: bold;
+      }
+    }
+  
+    .song-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  
+      img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+      }
+  
+      .song-details {
+        text-align: center;
+  
+        h3 {
+          margin: 0;
+          color: #333;
+        }
+  
+        p {
+          color: #666;
+        }
+  
+        audio {
+          margin-top: 1rem;
+        }
+      }
+    }
+  }
+  

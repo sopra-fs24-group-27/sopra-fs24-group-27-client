@@ -11,20 +11,19 @@ import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 const MusicPage = () => {
   const navigate = useNavigate();
 
-  // 用于管理音频源和曲目信息的状态变量
+  
   const [track, setTrack] = useState(null);
   const [genre, setGenre] = useState('');
   const [language, setLanguage] = useState('');
   const [artist, setArtist] = useState('');
 
   useEffect(() => {
-    // 获取初始数据
     const fetchTrack = async () => {
       try {
         const response = await api.get("/music/track-of-the-day");
-        setTrack(response.data); // 例如：设置今日曲目
+        setTrack(response.data); // 
       } catch (error) {
-        console.error(`获取曲目时出错：\n${handleError(error)}`);
+        console.error(`Error getting tracks：\n${handleError(error)}`);
       }
     };
 

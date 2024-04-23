@@ -45,7 +45,7 @@ const MusicPage = () => {
 
   return (
     <BaseContainer className="music-page container">
-      <h2>音乐播放器</h2>
+      <h2>player</h2>
       <div className="player-container" style={{ textAlign: "center" }}>
         {track ? (
           <AudioPlayer src={track.audioSrc} title={track.title} artist={track.artist} />
@@ -56,35 +56,35 @@ const MusicPage = () => {
 
       <div className="music-filters">
         <FormControl fullWidth sx={{ marginTop: "20px" }}>
-          <InputLabel id="genre-label">流派</InputLabel>
+          <InputLabel id="genre-label">genre</InputLabel>
           <Select
             labelId="genre-label"
             id="genre-select"
             value={genre}
             onChange={handleGenreChange}
           >
-            <MenuItem value="pop">流行</MenuItem>
-            <MenuItem value="rock">摇滚</MenuItem>
-            <MenuItem value="jazz">爵士</MenuItem>
+            <MenuItem value="pop">pop</MenuItem>
+            <MenuItem value="rock">rock</MenuItem>
+            <MenuItem value="jazz">jazz</MenuItem>
           </Select>
         </FormControl>
 
         <FormControl fullWidth sx={{ marginTop: "20px" }}>
-          <InputLabel id="language-label">语言</InputLabel>
+          <InputLabel id="language-label">language</InputLabel>
           <Select
             labelId="language-label"
             id="language-select"
             value={language}
             onChange={handleLanguageChange}
           >
-            <MenuItem value="english">英语</MenuItem>
-            <MenuItem value="spanish">西班牙语</MenuItem>
-            <MenuItem value="french">法语</MenuItem>
+            <MenuItem value="english">English</MenuItem>
+            <MenuItem value="spanish">Spanish</MenuItem>
+            <MenuItem value="french">French</MenuItem>
           </Select>
         </FormControl>
 
         <FormControl fullWidth sx={{ marginTop: "20px" }}>
-          <InputLabel id="artist-label">艺术家</InputLabel>
+          <InputLabel id="artist-label">Artist</InputLabel>
           <Select
             labelId="artist-label"
             id="artist-select"
@@ -103,7 +103,7 @@ const MusicPage = () => {
         style={{ marginTop: "20px" }}
         onClick={() => navigate("/")}
       >
-        返回主页
+        Back
       </Button>
     </BaseContainer>
   );

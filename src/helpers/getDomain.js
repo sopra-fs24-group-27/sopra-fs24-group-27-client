@@ -12,8 +12,14 @@ export const getDomain = () => {
   console.log("Environment is production:", isProduction());  // Debugging line
   console.log("API URL:", isProduction() ? prodUrl : devUrl); // Debugging line
   return isProduction() ? prodUrl : devUrl;
-  }
-
-export const getWS = () => {
-  return getDomain() + "/ws";
 }
+  
+export const getWS = (gameId) => {
+    const httpUrl = getDomain(); // Make sure this checks if it should use ws:// or wss://
+    const protocolPrefix = httpUrl.startsWith("https://") ? "wss://" : "ws://";
+    const wsUrl = httpUrl.replace(/^http(s?):\/\//, protocolPrefix);
+    return `${wsUrl}/games/${gameId}`;
+}
+
+
+

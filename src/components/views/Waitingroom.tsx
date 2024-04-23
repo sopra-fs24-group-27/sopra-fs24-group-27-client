@@ -5,17 +5,21 @@ import BaseContainer from 'components/ui/BaseContainer';
 import Button from '@mui/material/Button';
 import User from "models/User";
 import Player from './Player'; 
+import { getWS } from 'helpers/getDomain'; 
+
 
 
 const Waitingroom = () => {
   const { gameId } = useParams(); 
   const [roomInfo, setRoomInfo] = useState({ players: [] });
   const [currentUser, setCurrentUser] = useState({ id: null, username: null});
-  const [host, setHostUser] = useState({ id: null }); // Ensure host is an object
+  const [host, setHostUser] = useState({ id: null }); 
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8080');
+    const wsUrl = getWS();
+    const ws = new WebSocket(wsUrl);
+
 
     ws.onopen = () => {
       console.log('Connected to WebSocket server');
@@ -67,7 +71,7 @@ const Waitingroom = () => {
   }, [gameId, socket]);
 
   const renderPlayers = () => {
-    if (!roomInfo.players) return null;
+    if (!roomInfo?.players) return <p>No players yet.</p>;
   
     return roomInfo.players.map((player, index) => (
       <div key={index} className="player-wrapper">
@@ -79,7 +83,7 @@ const Waitingroom = () => {
   return (
     <BaseContainer className="room-container">
       <h1 className="room-title">Room ID: {gameId}</h1>
-      <p>Host Player: {host.id || 'Loading host...'}</p>
+      <p>Host Player: {host?.id ? host.id : 'Loading host...'}</p>
       <div className="player-list">
         {renderPlayers()}
         {[...Array(3 - roomInfo.players.length)].map((_, index) => (

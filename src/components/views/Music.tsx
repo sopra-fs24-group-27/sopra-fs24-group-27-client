@@ -23,7 +23,7 @@ const MusicPage = () => {
         const response = await api.get("/music/track-of-the-day");
         setTrack(response.data); // 
       } catch (error) {
-        console.error(`Error getting tracks：\n${handleError(error)}`);
+        console.error(`Error getting tracks:\n${handleError(error)}`);
       }
     };
 

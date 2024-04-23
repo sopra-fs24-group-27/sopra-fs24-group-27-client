@@ -7,6 +7,7 @@ import Login from "../../views/Login";
 import Register from "../../views/Register";
 import Profile from "../../views/Profile";
 import Waitingroom from "../../views/Waitingroom";
+import Round from "../../views/Round";
 /**
  * Main router of your application.
  * In the following class, different routes are rendered. In our case, there is a Login Route with matches the path "/login"
@@ -14,7 +15,7 @@ import Waitingroom from "../../views/Waitingroom";
  * The main difference between these two routes is the following:
  * /login renders another component without any sub-route
  * /game renders a Router that contains other sub-routes that render in turn other react components
- * Documentation about routing in React: https://reactrouter.com/en/main/start/tutorial 
+ * Documentation about routing in React: https://reactrouter.com/en/main/start/tutorial
  */
 const AppRouter = () => {
   return (
@@ -32,6 +33,9 @@ const AppRouter = () => {
         </Route>
 
         <Route path="/games/:gameId/waitingroom" element={<Waitingroom />} />
+
+        <Route path="/games/:gameId/round" element={<Round />} />
+
 
         <Route path="/" element={
           <Navigate to="/login" replace />

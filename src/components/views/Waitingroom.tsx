@@ -20,18 +20,24 @@ const Waitingroom = () => {
                     const data = JSON.parse(message.body);
                     console.log("Received message", data);
                     setRoomInfo(data);  // Update room state based on WebSocket message
-                    setHostUser({ id: data.hostId }); // Assuming 'hostId' is part of the message
+                    if (data.hostId) {
+                        setHostUser({ id: data.hostId });
+                    }
                 });
             })
             .catch(error => {
                 console.error("Failed to connect to WebSocket:", error);
+                console.log("Error details:", error.message);
             });
 
-        return () => websocket.disconnect();
+        return () => {
+            console.log("Disconnecting WebSocket...");
+            websocket.disconnect();
+        };
     }, [gameId]);
 
     const renderPlayers = () => {
-        if (!roomInfo.players) return <p>No players yet.</p>;
+        if (!roomInfo.players || roomInfo.players.length === 0) return <p>No players yet.</p>;
 
         return roomInfo.players.map((player, index) => (
             <div key={index} className="player-wrapper">
@@ -40,10 +46,16 @@ const Waitingroom = () => {
         ));
     };
 
+    const startGame = () => {
+        const websocket = Stomper.getInstance();
+        console.log("Sending start game request...");
+        websocket.send(`/app/games/${gameId}/start`, {});
+    };
+
     return (
         <BaseContainer className="room-container">
             <h1 className="room-title">Room ID: {gameId}</h1>
-            <p>Host Player: {host?.id ? host.id : 'Loading host...'}</p>
+            <p>Host: {localStorage.getItem('username')}</p>
             <div className="player-list">
                 {renderPlayers()}
                 {[...Array(3 - roomInfo.players.length)].map((_, index) => (
@@ -57,8 +69,11 @@ const Waitingroom = () => {
                     <Button
                         variant="contained"
                         color="primary"
-                        disabled={roomInfo.players.length !== 4}
-                    >Start Game</Button>
+                        onClick={startGame}
+                        disabled={roomInfo.players.length < 2}
+                    >
+                        Start Game
+                    </Button>
                 </div>
             )}
         </BaseContainer>

@@ -6,20 +6,15 @@ import { isProduction } from "./isProduction"
  * Otherwise, the link localhost:8080 will be returned (Spring server default port).
  * @returns {string}
  */
+
 export const getDomain = () => {
-  const prodUrl = "https://sopra-fs24-group-27-server.oa.r.appspot.com/" 
-  const devUrl = "http://localhost:8080"
-  console.log("Environment is production:", isProduction());  // Debugging line
-  console.log("API URL:", isProduction() ? prodUrl : devUrl); // Debugging line
+  const prodUrl = "https://sopra-fs24-group-27-server.oa.r.appspot.com";
+  const devUrl = "http://localhost:8080";
   return isProduction() ? prodUrl : devUrl;
-}
-  
+};
+
 export const getWS = (gameId) => {
-    const httpUrl = getDomain(); // Make sure this checks if it should use ws:// or wss://
+    const httpUrl = getDomain();
     const protocolPrefix = httpUrl.startsWith("https://") ? "wss://" : "ws://";
-    const wsUrl = httpUrl.replace(/^http(s?):\/\//, protocolPrefix);
-    return `${wsUrl}/games/${gameId}`;
-}
-
-
-
+    return `${httpUrl.replace(/^http(s?):\/\//, protocolPrefix)}ws/games/${gameId}`;
+};

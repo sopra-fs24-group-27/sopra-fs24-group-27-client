@@ -177,11 +177,11 @@ const Game = () => {
   const handleConfirmRoom = async () => {
     try {
       // Call backend API to create a new room
-      const currentUserId = localStorage.getItem("currentUserId");
+      const currentUserId = localStorage.getItem("userId");
       const settings = {
         language: selectedLanguage,
         artist: selectedArtist,
-        genre: selectedGenre,
+        style: selectedGenre
       };
       const roomData = {
         settings: settings,
@@ -196,15 +196,8 @@ const Game = () => {
       // The userId should be passed as a query parameter, adjust if your server expects differently
       const response = await api.post(`/games?userId=${currentUserId}`, roomData, config);
       const { gameId } = response.data;
-      // close the dialog if the room was created successfully
-      if (gameId) {
-        // send a message to the user to let them know the room was created
-        alert("Room created successfully!");
-        // print response to console
-        console.log(response);
-        setRoomAnchorEl(null);
-        navigate(`/games/${gameId}/waitingroom`);
-      }
+      setRoomAnchorEl(null);
+      navigate(`/games/${gameId}/waitingroom`);
     } catch (error) {
       console.error(
         `Something went wrong while creating the room: \n${handleError(
@@ -411,7 +404,7 @@ const Game = () => {
                 label="Genre"
                 onChange={(e) => setSelectedGenre(e.target.value)}
               >
-                <MenuItem value="Pop">Pop</MenuItem>
+                <MenuItem value="genre1">Pop</MenuItem>
                 <MenuItem value="genre2">Genre 2</MenuItem>
                 <MenuItem value="genre3">Genre 3</MenuItem>
               </Select>
@@ -426,7 +419,7 @@ const Game = () => {
                 label="Language"
                 onChange={(e) => setSelectedLanguage(e.target.value)}
               >
-                <MenuItem value="English">English</MenuItem>
+                <MenuItem value="language1">English</MenuItem>
                 <MenuItem value="language2">Language 2</MenuItem>
                 <MenuItem value="language3">Language 3</MenuItem>
               </Select>
@@ -441,7 +434,7 @@ const Game = () => {
                 label="Artist"
                 onChange={(e) => setSelectedArtist(e.target.value)}
               >
-                <MenuItem value="Maroon 5">Maroon 5</MenuItem>
+                <MenuItem value="artist1">Maroon 5</MenuItem>
                 <MenuItem value="artist2">Artist 2</MenuItem>
                 <MenuItem value="artist3">Artist 3</MenuItem>
               </Select>

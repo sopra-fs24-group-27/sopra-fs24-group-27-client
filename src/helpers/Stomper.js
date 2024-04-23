@@ -1,9 +1,10 @@
-import { handleError } from "helpers/api";
-import Stomp from "stompjs";
-import { getWS } from "./getDomain";
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
+import { getDomain } from './getDomain';
 
 class Stomper {
     static instance = null;
+    reconnectInterval = 5000;  // Interval in milliseconds to attempt reconnection
 
     static getInstance() {
         if (!Stomper.instance) {
@@ -12,64 +13,52 @@ class Stomper {
         return Stomper.instance;
     }
 
-    socket;
-    stompClient;
-    openChannels = [];
-
     constructor() {
-        this.listeners = [];
+        this.stompClient = null;
+        this.reconnectTimer = null;
     }
 
     async connect(gameId) {
-        try {
-            if (this.socket) {
-                this.socket.close();
-            }
-        } catch (e) {
-            console.error("Socket close error:", e);
-        }
-
-        const wsUrl = getWS(gameId); 
-        this.socket = new WebSocket(wsUrl);
-        const token = localStorage.getItem('token');
-        console.log("token:", token);
-        this.stompClient = Stomp.over(this.socket); 
-        this.stompClient.debug = null;
+        const wsUrl = this.getWSUrl(gameId);
+        this.disconnect();  // Ensure clean disconnect before reconnecting
+        const socket = new SockJS(wsUrl);
+        this.stompClient = Stomp.over(socket);
+        this.stompClient.debug = null;  // Turn off debugging to clean up console output
 
         return new Promise((resolve, reject) => {
-            console.log("Attempting to connect to WebSocket at URL:", wsUrl);
-            this.stompClient.connect({
-                'Authorization': `Bearer ${token}` // Include the token in the STOMP connect headers for authentication
-            }, frame => {
+            this.stompClient.connect({}, frame => {
                 console.log("Connected: " + frame);
                 resolve(frame);
             }, error => {
                 console.error("Connection Error: ", error);
                 reject(error);
+                this.scheduleReconnect(gameId);
             });
         });
     }
 
+    scheduleReconnect(gameId) {
+        if (this.reconnectTimer) {
+            clearTimeout(this.reconnectTimer); // Clear any existing reconnection timer
+        }
+        this.reconnectTimer = setTimeout(() => {
+            console.log("Attempting to reconnect WebSocket...");
+            this.connect(gameId).catch(err => console.error("Reconnection failed", err));
+        }, this.reconnectInterval);
+    }
 
     subscribe(endpoint, callback) {
-        if (!this.openChannels.includes(endpoint)) {
-            this.openChannels.push(endpoint);
-            this.stompClient.subscribe(endpoint, callback, { id: endpoint });
+        if (this.stompClient && this.stompClient.connected) {
+            var subscription = this.stompClient.subscribe(endpoint, callback);
             console.log("Subscribed to " + endpoint);
+            return subscription;
         }
     }
 
     send(destination, message) {
-        console.log("Sending message " + JSON.stringify(message) + " to " + destination);
-        this.stompClient.send(destination, {}, JSON.stringify(message));
-    }
-
-    unsubscribe(endpoint) {
-        let index = this.openChannels.indexOf(endpoint);
-        if (index !== -1) {
-            this.stompClient.unsubscribe(endpoint);
-            this.openChannels.splice(index, 1);
-            console.log("Unsubscribed from " + endpoint);
+        if (this.stompClient && this.stompClient.connected) {
+            this.stompClient.send(destination, {}, JSON.stringify(message));
+            console.log("Sending message to " + destination);
         }
     }
 
@@ -78,9 +67,20 @@ class Stomper {
             this.stompClient.disconnect(() => {
                 console.log("Disconnected from WebSocket");
             });
+            this.stompClient = null;
         }
-        this.openChannels = [];
+        if (this.reconnectTimer) {
+            clearTimeout(this.reconnectTimer);
+            this.reconnectTimer = null;
+        }
     }
+
+    getWSUrl() {
+        const httpUrl = getDomain(); // Ensure this returns "http://localhost:8080"
+        return `${httpUrl}/ws`; // No gameId in the connection URL
+    }
+    
+    
 }
 
 export default Stomper;

@@ -80,7 +80,7 @@ const Game = () => {
   
 
   const logout = (): void => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     navigate("/login");
   };
 

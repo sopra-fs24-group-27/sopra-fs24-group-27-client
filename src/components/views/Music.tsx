@@ -1,111 +1,68 @@
 import React, { useEffect, useState } from "react";
-import { api, handleError } from "helpers/api";
+import ReactPlayer from "react-player";
 import { Spinner } from "components/ui/Spinner";
 import BaseContainer from "components/ui/BaseContainer";
+import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
-import Button from '@mui/material/Button';
-import AudioPlayer from "components/ui/AudioPlayer";
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
-const MusicPage = () => {
-  const navigate = useNavigate();
-
-  
+const MusicPlayerPage = () => {
   const [track, setTrack] = useState(null);
-  const [genre, setGenre] = useState('');
-  const [language, setLanguage] = useState('');
-  const [artist, setArtist] = useState('');
-
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  const defaultAudioSrc = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"; 
+  const audioSrc = track && track.audioSrc ? track.audioSrc : defaultAudioSrc;
+  
   useEffect(() => {
     const fetchTrack = async () => {
       try {
-        const response = await api.get("/music/track-of-the-day");
-        setTrack(response.data); // 
+        // 模拟 API 请求
+        const response = await fetch("/music/");
+        const data = await response.json();
+        setTrack(data);
       } catch (error) {
-        console.error(`Error getting tracks:\n${handleError(error)}`);
+        console.error("Error fetching track:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchTrack();
   }, []);
 
-  const handleGenreChange = (event) => {
-    setGenre(event.target.value);
-  };
 
-  const handleLanguageChange = (event) => {
-    setLanguage(event.target.value);
-  };
-
-  const handleArtistChange = (event) => {
-    setArtist(event.target.value);
-  };
 
   return (
-    <BaseContainer className="music-page container">
-      <h2>player</h2>
-      <div className="player-container" style={{ textAlign: "center" }}>
-        {track ? (
-          <AudioPlayer src={track.audioSrc} title={track.title} artist={track.artist} />
-        ) : (
-          <Spinner />
-        )}
-      </div>
+    <BaseContainer className="music-player-container" >
+      {isLoading && <Spinner />} 
 
-      <div className="music-filters">
-        <FormControl fullWidth sx={{ marginTop: "20px" }}>
-          <InputLabel id="genre-label">genre</InputLabel>
-          <Select
-            labelId="genre-label"
-            id="genre-select"
-            value={genre}
-            onChange={handleGenreChange}
-          >
-            <MenuItem value="pop">pop</MenuItem>
-            <MenuItem value="rock">rock</MenuItem>
-            <MenuItem value="jazz">jazz</MenuItem>
-          </Select>
-        </FormControl>
+      <ReactPlayer
+        url={audioSrc} 
+        playing={false} 
+        controls={true} 
+        width="100%" 
+        height="50px" 
+      />
 
-        <FormControl fullWidth sx={{ marginTop: "20px" }}>
-          <InputLabel id="language-label">language</InputLabel>
-          <Select
-            labelId="language-label"
-            id="language-select"
-            value={language}
-            onChange={handleLanguageChange}
-          >
-            <MenuItem value="english">English</MenuItem>
-            <MenuItem value="spanish">Spanish</MenuItem>
-            <MenuItem value="french">French</MenuItem>
-          </Select>
-        </FormControl>
-
-        <FormControl fullWidth sx={{ marginTop: "20px" }}>
-          <InputLabel id="artist-label">Artist</InputLabel>
-          <Select
-            labelId="artist-label"
-            id="artist-select"
-            value={artist}
-            onChange={handleArtistChange}
-          >
-            <MenuItem value="maroon5">Maroon 5</MenuItem>
-            <MenuItem value="taylorSwift">Taylor Swift</MenuItem>
-            <MenuItem value="edSheeran">Ed Sheeran</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-
+      {!track && !isLoading && (
+        <p>No music available. Playing default music.</p> // 无音乐时的消息
+      )}
       <Button
         variant="outlined"
-        style={{ marginTop: "20px" }}
+        style={{ marginTop: "20px",backgroundColor: "#dc3545", color: "#ffffff" }}
         onClick={() => navigate("/")}
       >
         Back
+      </Button>
+
+      <Button
+        variant="outlined"
+        style={{ marginTop: "20px", backgroundColor: "#dc3545", color: "#ffffff" }}
+        onClick={() => navigate("/round")}
+      >
+        Go next
       </Button>
     </BaseContainer>
   );
 };
 
-export default MusicPage;
+export default MusicPlayerPage;

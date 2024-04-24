@@ -8,6 +8,7 @@ import Register from "../../views/Register";
 import Profile from "../../views/Profile";
 import Waitingroom from "../../views/Waitingroom";
 import Round from "../../views/Round";
+import Music from "../../views/Music"
 /**
  * Main router of your application.
  * In the following class, different routes are rendered. In our case, there is a Login Route with matches the path "/login"
@@ -33,7 +34,7 @@ const AppRouter = () => {
         </Route>
 
         <Route path="/games/:gameId/waitingroom" element={<Waitingroom />} />
-
+        <Route path="/music" element={<Music />} />
         <Route path="/games/:gameId/round" element={<Round />} />
 
 

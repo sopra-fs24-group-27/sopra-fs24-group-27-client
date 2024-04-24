@@ -20,7 +20,7 @@ Player.propTypes = {
   user: PropTypes.shape({
     id: PropTypes.number.isRequired,        
     username: PropTypes.string.isRequired,
-    scores: PropTypes.number.isRequired   
+    scores: PropTypes.number.isRequired,
   })
 };
 

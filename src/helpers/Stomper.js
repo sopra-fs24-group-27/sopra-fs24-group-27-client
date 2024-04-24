@@ -61,7 +61,7 @@ class Stomper {
             console.log("Sending message to " + destination);
         }
     }
-
+    
     disconnect() {
         if (this.stompClient) {
             this.stompClient.disconnect(() => {
@@ -73,6 +73,11 @@ class Stomper {
             clearTimeout(this.reconnectTimer);
             this.reconnectTimer = null;
         }
+    }
+    
+    // add getStompClient method
+    getStompClient() {
+        return this.stompClient;
     }
 }
 

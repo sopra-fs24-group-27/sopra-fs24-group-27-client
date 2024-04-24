@@ -75,6 +75,9 @@ const Game = () => {
   const [joinRoomAnchorEl, setJoinRoomAnchorEl] = useState(null);
   const [roomIdInput, setRoomIdInput] = useState('');
   const [tempRoomId, setTempRoomId] = useState('');
+  const userId = localStorage.getItem("userId");
+  const message = JSON.stringify({ userId: userId });
+  const [roomInfo, setRoomInfo] = useState({ players: [] });
 
   const logout = (): void => {
     localStorage.removeItem("token");
@@ -176,7 +179,6 @@ const Game = () => {
   // Function to handle room creation
   const handleConfirmRoom = async () => {
     try {
-        const userId = localStorage.getItem("userId");
         const settings = {
             language: selectedLanguage,
             artist: selectedArtist,
@@ -198,34 +200,41 @@ const Game = () => {
 
 
 const JoinRoomPopover = () => {
+  const [tempRoomId, setTempRoomId] = useState('');  // To hold the room ID input by the user
+  const navigate = useNavigate();
+
   const handleJoinRoom = async () => {
-      if (!tempRoomId) {
-          alert("Please enter a valid room ID.");
-          return;
-      }
+    const userId = localStorage.getItem("userId");
+    if (!tempRoomId) {
+        alert("Please enter a room ID.");
+        return;
+    }
 
-      const userId = localStorage.getItem("userId");
-      if (!userId) {
-          alert("User ID not found, please log in again.");
-          return;
-      }
+    try {
+        await Stomper.getInstance().connect(tempRoomId, userId);
+        console.log("Connected and now subscribing...");
 
-      try {
-          // Connect to WebSocket
-          await Stomper.getInstance().connect(tempRoomId, userId);
+        await Stomper.getInstance().subscribe(`/topic/games/${tempRoomId}/waitingroom`, (message) => {
+          const data = JSON.parse(message.body);
+          console.log("Received message", data);
+          setRoomInfo(data);
+          setHostUser({ id: data.hostId });
+          setCurrentUser({ id: userId, username: data.players.find(p => p.id === userId)?.username });
+      });
 
-          // Send the join message to the server via WebSocket
-          Stomper.getInstance().send(`/app/games/${tempRoomId}/join`, {
-              userId: userId
-          });
+        console.log("Subscribed, now sending join message...");
+        Stomper.getInstance().send(`/app/games/${tempRoomId}/join`, {
+            userId: parseInt(userId, 10)
+        });
 
-          // Navigate to the waiting room after successfully sending the join message
-          navigate(`/games/${tempRoomId}/waitingroom`);
-      } catch (error) {
-          console.error(`Error connecting to WebSocket or navigating: ${handleError(error)}`);
-          alert("Failed to join the room. Please check the console for details.");
-      }
-  };
+        console.log("Join message sent.");
+        navigate(`/games/${tempRoomId}/waitingroom`);
+    } catch (error) {
+        console.error(`Error connecting to WebSocket or navigating: ${handleError(error)}`);
+        alert("Failed to join the room. Please check the console for details.");
+    }
+};
+
 
 
     const handleRoomIdChange = (event) => {
@@ -259,7 +268,7 @@ const JoinRoomPopover = () => {
                     <Input
                         id="room-id-input"
                         value={tempRoomId}
-                        onChange={handleRoomIdChange}
+                        onChange={e => setTempRoomId(e.target.value)}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton onClick={handleJoinRoom} edge="end">
@@ -270,21 +279,18 @@ const JoinRoomPopover = () => {
                     />
                 </FormControl>
                 <Button
-                    variant="outlined"
-                    color="primary"
-                    style={{ marginTop: '10px' }}
-                    fullWidth
-                    onClick={handleCloseJoinRoom}
-                >
-                    Cancel
-                </Button>
+                variant="outlined"
+                color="primary"
+                style={{ marginTop: '10px' }}
+                fullWidth
+                onClick={() => setJoinRoomAnchorEl(null)}
+            >
+                Cancel
+            </Button>
             </div>
         </Popover>
     );
 };
-
-
-
 
 
 
@@ -466,3 +472,15 @@ const JoinRoomPopover = () => {
 };
 
 export default Game;
+
+function setRoomInfo(data: any) {
+  throw new Error("Function not implemented.");
+}
+function setHostUser(arg0: { id: any; }) {
+  throw new Error("Function not implemented.");
+}
+
+function setCurrentUser(arg0: { id: string; username: any; }) {
+  throw new Error("Function not implemented.");
+}
+

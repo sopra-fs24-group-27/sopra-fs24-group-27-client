@@ -176,119 +176,115 @@ const Game = () => {
   // Function to handle room creation
   const handleConfirmRoom = async () => {
     try {
-      // Call backend API to create a new room
-      const currentUserId = localStorage.getItem("userId");
-      const settings = {
-        language: selectedLanguage,
-        artist: selectedArtist,
-        style: selectedGenre
-      };
-      const roomData = {
-        settings: settings,
-      };
-      // Ensure headers are set to application/json
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-      console.log("Room Data:", roomData);
-      // The userId should be passed as a query parameter, adjust if your server expects differently
-      const response = await api.post(`/games?userId=${currentUserId}`, roomData, config);
-      const { gameId } = response.data;
-      setRoomAnchorEl(null);
-      navigate(`/games/${gameId}/waitingroom`);
+        const userId = localStorage.getItem("userId");
+        const settings = {
+            language: selectedLanguage,
+            artist: selectedArtist,
+            genre: selectedGenre,
+        };
+        const roomData = { settings };
+        const response = await api.post(`/games?userId=${userId}`, roomData);
+        const gameId = response.data.gameId;
+        
+        // Connect to WebSocket after successful creation
+        await Stomper.getInstance().connect(gameId, userId);
+        
+        setRoomAnchorEl(null);
+        navigate(`/games/${gameId}/waitingroom`);
     } catch (error) {
-      console.error(
-        `Something went wrong while creating the room: \n${handleError(
-          error
-        )}`
-      );
-      console.error("Details:", error);
-      alert(
-        "Something went wrong while creating the room! See the console for details."
-      );
+        alert(`Something went wrong while creating the room: ${handleError(error)}`);
     }
-  };
+};
 
-  let webSocket = Stomper.getInstance();
 
-  const JoinRoomPopover = () => {
-    const handleJoinRoom = async () => {
-      try {
-        setRoomIdInput(tempRoomId);
-        // Assume you have an endpoint to join a room by ID
-        // const response = await api.post("/games/join", { roomId: roomIdInput });
-
-        // After joining the room, navigate to the room page
-        // navigate(`/room/${roomIdInput}`);
-
-        console.log("Room ID:", tempRoomId);
-
-        webSocket.send("/app/games/" + tempRoomId + "/waitingroom", {
-          userId: localStorage.getItem("userId")
-        });
-
-      } catch (error) {
-        console.error(
-          `Something went wrong while joining the room: \n${handleError(error)}`
-        );
-        alert(
-          "Something went wrong while joining the room! See the console for details."
-        );
+const JoinRoomPopover = () => {
+  const handleJoinRoom = async () => {
+      if (!tempRoomId) {
+          alert("Please enter a valid room ID.");
+          return;
       }
-    };
-    const handleRoomIdChange = (event) => {
-      setTempRoomId(event.target.value);
-    };
-    const handleCloseJoinRoom = () => {
-      setJoinRoomAnchorEl(null);
-      setRoomIdInput('');
-    };
-    return (
-      <Popover
-        open={Boolean(joinRoomAnchorEl)}
-        anchorEl={joinRoomAnchorEl}
-        onClose={handleCloseJoinRoom}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        <div style={{ padding: '20px' }}>
-          <h2>Join a Room</h2>
-          <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="room-id-input">Room ID</InputLabel>
-            <Input
-              id="room-id-input"
-              value={tempRoomId}
-              onChange={handleRoomIdChange}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton onClick={handleJoinRoom} edge="end">
-                    <ArrowForwardIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
-          <Button
-            variant="outlined"
-            color="primary"
-            style={{ marginTop: '10px' }}
-            fullWidth
-            onClick={handleCloseJoinRoom}
-          >
-            Cancel
-          </Button>
-        </div>
-      </Popover>
-    );
+
+      const userId = localStorage.getItem("userId");
+      if (!userId) {
+          alert("User ID not found, please log in again.");
+          return;
+      }
+
+      try {
+          // Connect to WebSocket
+          await Stomper.getInstance().connect(tempRoomId, userId);
+
+          // Send the join message to the server via WebSocket
+          Stomper.getInstance().send(`/app/games/${tempRoomId}/join`, {
+              userId: userId
+          });
+
+          // Navigate to the waiting room after successfully sending the join message
+          navigate(`/games/${tempRoomId}/waitingroom`);
+      } catch (error) {
+          console.error(`Error connecting to WebSocket or navigating: ${handleError(error)}`);
+          alert("Failed to join the room. Please check the console for details.");
+      }
   };
+
+
+    const handleRoomIdChange = (event) => {
+        setTempRoomId(event.target.value);
+    };
+
+    const handleCloseJoinRoom = () => {
+        setJoinRoomAnchorEl(null);
+        setRoomIdInput('');
+        setTempRoomId('');
+    };
+
+    return (
+        <Popover
+            open={Boolean(joinRoomAnchorEl)}
+            anchorEl={joinRoomAnchorEl}
+            onClose={handleCloseJoinRoom}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+            }}
+        >
+            <div style={{ padding: '20px' }}>
+                <h2>Join a Room</h2>
+                <FormControl fullWidth margin="normal">
+                    <InputLabel htmlFor="room-id-input">Room ID</InputLabel>
+                    <Input
+                        id="room-id-input"
+                        value={tempRoomId}
+                        onChange={handleRoomIdChange}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton onClick={handleJoinRoom} edge="end">
+                                    <ArrowForwardIcon />
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                    />
+                </FormControl>
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    style={{ marginTop: '10px' }}
+                    fullWidth
+                    onClick={handleCloseJoinRoom}
+                >
+                    Cancel
+                </Button>
+            </div>
+        </Popover>
+    );
+};
+
+
+
 
 
 

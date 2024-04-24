@@ -14,7 +14,6 @@ export const getDomain = () => {
 };
 
 export const getWS = (gameId) => {
-    const httpUrl = getDomain();
-    const protocolPrefix = httpUrl.startsWith("https://") ? "wss://" : "ws://";
-    return `${httpUrl.replace(/^http(s?):\/\//, protocolPrefix)}ws/games/${gameId}`;
+  const httpUrl = getDomain();  // This should return 'http://...' or 'https://...'
+  return `${httpUrl}/ws/games/${gameId}`;  // No need to replace with 'ws://' or 'wss://', SockJS will handle it
 };

@@ -1,6 +1,6 @@
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-import { getDomain } from './getDomain';
+import { getWS } from './getDomain';  // Make sure to import getWS
 
 class Stomper {
     static instance = null;
@@ -18,32 +18,32 @@ class Stomper {
         this.reconnectTimer = null;
     }
 
-    async connect(gameId) {
-        const wsUrl = this.getWSUrl(gameId);
+    async connect(gameId, userId) {
+        const wsUrl = getWS(gameId); // Use the function from getDomain.js that builds the WS URL including gameId
         this.disconnect();  // Ensure clean disconnect before reconnecting
         const socket = new SockJS(wsUrl);
         this.stompClient = Stomp.over(socket);
         this.stompClient.debug = null;  // Turn off debugging to clean up console output
 
         return new Promise((resolve, reject) => {
-            this.stompClient.connect({}, frame => {
+            this.stompClient.connect({userId: userId}, frame => { // Pass userId as header, align to server implementation
                 console.log("Connected: " + frame);
                 resolve(frame);
             }, error => {
                 console.error("Connection Error: ", error);
                 reject(error);
-                this.scheduleReconnect(gameId);
+                this.scheduleReconnect(gameId, userId);
             });
         });
     }
 
-    scheduleReconnect(gameId) {
+    scheduleReconnect(gameId, userId) {
         if (this.reconnectTimer) {
             clearTimeout(this.reconnectTimer); // Clear any existing reconnection timer
         }
         this.reconnectTimer = setTimeout(() => {
             console.log("Attempting to reconnect WebSocket...");
-            this.connect(gameId).catch(err => console.error("Reconnection failed", err));
+            this.connect(gameId, userId).catch(err => console.error("Reconnection failed", err));
         }, this.reconnectInterval);
     }
 
@@ -74,13 +74,6 @@ class Stomper {
             this.reconnectTimer = null;
         }
     }
-
-    getWSUrl() {
-        const httpUrl = getDomain(); // Ensure this returns "http://localhost:8080"
-        return `${httpUrl}/ws`; // No gameId in the connection URL
-    }
-    
-    
 }
 
 export default Stomper;

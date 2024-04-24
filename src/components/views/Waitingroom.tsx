@@ -12,29 +12,26 @@ const Waitingroom = () => {
     const [host, setHostUser] = useState({ id: null });
 
     useEffect(() => {
+        const userId = localStorage.getItem("userId"); // Ensure userId is stored in local storage
         const websocket = Stomper.getInstance();
-        websocket.connect(gameId)
+        websocket.connect(gameId, userId)  // Ensure gameId and userId are passed correctly
             .then(() => {
                 console.log("WebSocket Connected");
-                websocket.subscribe(`/topic/games/${gameId}`, message => {
+                websocket.subscribe(`/topic/games/${gameId}/waitingroom`, message => {
                     const data = JSON.parse(message.body);
                     console.log("Received message", data);
-                    setRoomInfo(data);  // Update room state based on WebSocket message
-                    if (data.hostId) {
-                        setHostUser({ id: data.hostId });
-                    }
+                    setRoomInfo(data);
+                    setHostUser({ id: data.hostId });
+                    setCurrentUser({ id: userId, username: localStorage.getItem('username') });
                 });
             })
-            .catch(error => {
-                console.error("Failed to connect to WebSocket:", error);
-                console.log("Error details:", error.message);
-            });
-
+            .catch(error => console.error("Failed to connect to WebSocket:", error));
+    
         return () => {
-            console.log("Disconnecting WebSocket...");
             websocket.disconnect();
         };
-    }, [gameId]);
+    }, [gameId]); // Ensure dependencies are correctly listed
+
 
     const renderPlayers = () => {
         if (!roomInfo.players || roomInfo.players.length === 0) return <p>No players yet.</p>;
@@ -46,10 +43,12 @@ const Waitingroom = () => {
         ));
     };
 
+    // This section handles the game start event, which should only be available to the host
     const startGame = () => {
-        const websocket = Stomper.getInstance();
-        console.log("Sending start game request...");
-        websocket.send(`/app/games/${gameId}/start`, {});
+        if (currentUser.id === host.id) {
+            const websocket = Stomper.getInstance();
+            websocket.send(`/app/games/${gameId}/start`, {});
+        }
     };
 
     return (

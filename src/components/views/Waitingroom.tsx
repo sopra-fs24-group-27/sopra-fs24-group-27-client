@@ -23,13 +23,15 @@ const Waitingroom = () => {
                 await stomper.connect(gameId, localStorage.getItem("userId"));
                 const waitingRoomSubscription = stomper.subscribe(`/topic/games/${gameId}/waitingroom`, message => {
                     const data = JSON.parse(message.body);
+                    console.log("Waiting room updated:", data);
                     setRoomInfo(data);
                     updateCurrentUserAndHost(data, localStorage.getItem("userId"));
                 });
 
                 const startSubscription = stomper.subscribe(`/topic/games/${gameId}/start`, message => {
                     const data = JSON.parse(message.body);
-                    console.log("Game start message received:", data);
+                    console.log("Game start confirmed:", data);
+                    console.log("Game start confirmed:", data);
                     navigate(`/games/${gameId}/listen`);
                 });
 
@@ -70,11 +72,11 @@ const Waitingroom = () => {
         }
     };
 
+
     const startGame = () => {
         if (parseInt(currentUser.id, 10) === host.id && roomInfo.players.length >= 4) {
-            const headers = { userId: localStorage.getItem("userId") };
-            stomper.send(`/app/games/${gameId}/start`, headers);
-            console.log("Game start message sent with userId header");
+            stomper.send(`/app/games/${gameId}/start`, {});
+            console.log("Game start request sent by the host");
         }
     };
 

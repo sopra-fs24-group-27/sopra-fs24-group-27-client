@@ -64,7 +64,7 @@ const Game = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [roomAnchorEl, setRoomAnchorEl] = useState(null);
   const [selectedGenre, setSelectedGenre] = useState('');
-  const [selectedLanguage, setSelectedLanguage] = useState('');
+  const [selectedMarket, setSelectedMarket] = useState('');
   const [selectedArtist, setSelectedArtist] = useState('');
   const [joinRoomAnchorEl, setJoinRoomAnchorEl] = useState(null);
   const [roomIdInput, setRoomIdInput] = useState('');
@@ -90,7 +90,7 @@ const Game = () => {
 
   const handleCloseRules = () => {
     setSelectedGenre('');
-    setSelectedLanguage('');
+    setSelectedMarket('');
     setSelectedArtist('');
     setAnchorEl(null);
   };
@@ -179,12 +179,14 @@ const Game = () => {
   const handleConfirmRoom = async () => {
     try {
         const settings = {
-            language: selectedLanguage,
+            market: selectedMarket,
             artist: selectedArtist,
             genre: selectedGenre,
         };
         const roomData = { settings };
+        console.log("Creating room with settings", roomData);
         const response = await api.post(`/games?userId=${userId}`, roomData);
+        console.log("Room created successfully", response.data);
         const gameId = response.data.gameId;
         
         // Connect to WebSocket after successful creation
@@ -390,7 +392,7 @@ const JoinRoomPopover = () => {
           <div style={{ padding: '50px', width: '500px' }}>
             <h2 style={{ textAlign: 'center' }}>Customize your game</h2>
 
-            {/* Dropdowns for song genre, language, and artist */}
+            {/* Dropdowns for song genre, market, and artist */}
             <FormControl fullWidth sx={{ marginTop: '10px' }}>
               <InputLabel id="genre-label">Genre</InputLabel>
               <Select
@@ -400,24 +402,24 @@ const JoinRoomPopover = () => {
                 label="Genre"
                 onChange={(e) => setSelectedGenre(e.target.value)}
               >
-                <MenuItem value="genre1">Pop</MenuItem>
-                <MenuItem value="genre2">Genre 2</MenuItem>
-                <MenuItem value="genre3">Genre 3</MenuItem>
+                <MenuItem value="Pop">Pop</MenuItem>
+                <MenuItem value="Rock">Rock</MenuItem>
+                <MenuItem value="Jazz">Jazz</MenuItem>
               </Select>
             </FormControl>
 
             <FormControl fullWidth sx={{ marginTop: '10px' }}>
-              <InputLabel id="language-label">Language</InputLabel>
+              <InputLabel id="market-label">Country</InputLabel>
               <Select
-                labelId="language-label"
-                id="language-select"
-                value={selectedLanguage}
-                label="Language"
-                onChange={(e) => setSelectedLanguage(e.target.value)}
+                labelId="market-label"
+                id="market-select"
+                value={selectedMarket}
+                label="Market"
+                onChange={(e) => setSelectedMarket(e.target.value)}
               >
-                <MenuItem value="language1">English</MenuItem>
-                <MenuItem value="language2">Language 2</MenuItem>
-                <MenuItem value="language3">Language 3</MenuItem>
+                <MenuItem value="US">US</MenuItem>
+                <MenuItem value="Ca">CA</MenuItem>
+                <MenuItem value="BR">BR</MenuItem>
               </Select>
             </FormControl>
 
@@ -430,9 +432,9 @@ const JoinRoomPopover = () => {
                 label="Artist"
                 onChange={(e) => setSelectedArtist(e.target.value)}
               >
-                <MenuItem value="artist1">Maroon 5</MenuItem>
-                <MenuItem value="artist2">Artist 2</MenuItem>
-                <MenuItem value="artist3">Artist 3</MenuItem>
+                <MenuItem value="Maroon 5">Maroon 5</MenuItem>
+                <MenuItem value="Coldplay">Coldplay</MenuItem>
+                <MenuItem value="Justin Bieber">Justin Bieber</MenuItem>
               </Select>
             </FormControl>
 

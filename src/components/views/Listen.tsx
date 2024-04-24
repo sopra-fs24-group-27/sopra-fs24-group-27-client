@@ -12,19 +12,42 @@ const Listen = () => {
   useEffect(() => {
     if (!gameId || !stomper) return;
 
-    const subscribeToSongInfo = () => {
-      const subscription = stomper.subscribe(`/user/queue/listen`, message => {
-        const songInfo = JSON.parse(message.body);
-        console.log("Received song info:", songInfo);
-        setSong(songInfo);
-      });
+    const subscriptions = [];
 
-      return () => subscription.unsubscribe();
+    // Function to fetch current song info if needed
+    const fetchSongInfo = () => {
+      stomper.send(`/app/games/${gameId}/currentSong`, {});
     };
 
-    subscribeToSongInfo();
-    return () => stomper.disconnect();
+    // Subscription to live song updates
+    const setupSubscriptions = () => {
+      const songUpdateSub = stomper.subscribe(`/user/queue/listen`, message => {
+        const songInfo = JSON.parse(message.body);
+        console.log("Live song info received:", songInfo);
+        setSong(songInfo);
+      });
+      subscriptions.push(songUpdateSub);
+
+      const currentSongSub = stomper.subscribe(`/user/queue/currentSong`, message => {
+        const songInfo = JSON.parse(message.body);
+        console.log("Current song info received on request:", songInfo);
+        setSong(songInfo);
+      });
+      subscriptions.push(currentSongSub);
+    };
+
+    setupSubscriptions();
+    fetchSongInfo();
+
+    return () => {
+      subscriptions.forEach(sub => sub.unsubscribe());
+      console.log('Unsubscribed from song updates');
+    };
   }, [stomper, gameId]);
+
+  if (!song) {
+    return <div className="listen">Loading song...</div>;
+  }
 
   return (
     <div className="listen">

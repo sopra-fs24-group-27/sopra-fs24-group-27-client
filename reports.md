@@ -120,3 +120,23 @@
 **Yi Zhang**
 
 * Fixed bugs related to player entities and playerRepository on server side. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c5be0d81a85ea415225a23785a2013819109080c)
+* 
+
+
+## 19.4 - 25.4 
+
+**Yating Pan**
+
+- Updated server-side logic for creating and joining games, and added tests. Based on **Yi Zhang's** work. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/39d3b3992b7d032469976eb0e4f0e1f781b879ca), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/bb50db9d83855303b6655fcb41546c90fce82668)
+- Solved socket connection handling from game creation to join, based on socket and Stomper configurations by **Yi Zhang**. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/779eaa5837e3e7c44cf60cc4d39a66a4b7a80812), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/ea336c675cbc622c18519d8c586831a8899fd71d), and more.
+- Server-side tasks #45(https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/45), #31(https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/31), #43(https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/43), #29(https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/29), #26(https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/26), and #77(https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/77) completed by the above work.
+- Enhanced server logic for starting games and distributing song data to players. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/39969fc99ee15efd0d5c73e534ee76e21049ba1c)
+- Finalized client-side game creation functionality, ensuring correct data handling based on **Yuying Zhong's** framework. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/0b51e4b8ae93c40a9d60e88536f04210f531cb1f)
+- Improved game joining process and player visibility in the waiting room. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/5e2fad9ead23791a2166ebdfaac22c26be636e0a), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/703e2738488efeaffa94605bce3bc5185b292e04)
+- Implemented start game function with socket communication. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/6e323e0df4c684ab2feb318d3f389e4b63f511fa)
+- Client-side tasks #6(https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/6), #7(https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/7) completed by the above work.
+- User stories #4(https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/4), #5(https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/5), and #6(https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/6) completed through the above tasks.
+
+
+
+

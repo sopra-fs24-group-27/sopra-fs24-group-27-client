@@ -4,6 +4,8 @@ import BaseContainer from 'components/ui/BaseContainer';
 import Button from '@mui/material/Button';
 import Player from './Player'; 
 import Stomper from 'helpers/Stomper';
+import '../../styles/views/Playerlist.scss';
+
 
 const Waitingroom = () => {
     const { gameId } = useParams(); // the game id will be get from the URL
@@ -79,7 +81,7 @@ const Waitingroom = () => {
                         variant="contained"
                         color="primary"
                         onClick={startGame}
-                        disabled={roomInfo.players.length < 2}
+                        disabled={roomInfo.players.length < 4}
                     >
                         Start Game
                     </Button>

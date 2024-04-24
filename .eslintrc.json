@@ -22,6 +22,7 @@
         }
     },
     "rules": {
+        "react/prop-types": "off",
         "eqeqeq": "error",
         "no-unreachable": "error",
         "no-duplicate-imports": "error",

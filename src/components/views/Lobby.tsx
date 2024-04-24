@@ -18,6 +18,7 @@ import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { useWebSocket } from 'context/WebSocketContext';  // Ensure the path is correct
 
 
 
@@ -59,15 +60,8 @@ Player.propTypes = {
 
 const Game = () => {
   // use react-router-dom's hook to access navigation, more info: https://reactrouter.com/en/main/hooks/use-navigate 
-  const navigate = useNavigate();
-
-  // define a state variable (using the state hook).
-  // if this variable changes, the component will re-render, but the variable will
-  // keep its value throughout render cycles.
-  // a component can have as many state variables as you like.
-  // more information can be found under https://react.dev/learn/state-a-components-memory and https://react.dev/reference/react/useState 
-  const [users, setUsers] = useState<User[]>(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [users, setUsers] = useState<User[]>([]);
   const [roomAnchorEl, setRoomAnchorEl] = useState(null);
   const [selectedGenre, setSelectedGenre] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState('');
@@ -77,7 +71,13 @@ const Game = () => {
   const [tempRoomId, setTempRoomId] = useState('');
   const userId = localStorage.getItem("userId");
   const message = JSON.stringify({ userId: userId });
-  const [roomInfo, setRoomInfo] = useState({ players: [] });
+  const stomper = useWebSocket();
+
+  const [roomInfo, setRoomInfo] = useState({ players: [], hostId: null });
+  const [currentUser, setCurrentUser] = useState({ id: null, username: null });
+  const [host, setHostUser] = useState({ id: null });
+  const navigate = useNavigate();
+  
 
   const logout = (): void => {
     localStorage.removeItem("token");
@@ -175,7 +175,6 @@ const Game = () => {
   };
 
 
-
   // Function to handle room creation
   const handleConfirmRoom = async () => {
     try {
@@ -189,9 +188,7 @@ const Game = () => {
         const gameId = response.data.gameId;
         
         // Connect to WebSocket after successful creation
-        await Stomper.getInstance().connect(gameId, userId);
-        
-        setRoomAnchorEl(null);
+        await stomper.connect(gameId, userId);
         navigate(`/games/${gameId}/waitingroom`);
     } catch (error) {
         alert(`Something went wrong while creating the room: ${handleError(error)}`);
@@ -209,31 +206,28 @@ const JoinRoomPopover = () => {
         alert("Please enter a room ID.");
         return;
     }
-
     try {
-        await Stomper.getInstance().connect(tempRoomId, userId);
-        console.log("Connected and now subscribing...");
+        await stomper.connect(tempRoomId, userId);
+        console.log("Connected to WebSocket server");
 
-        await Stomper.getInstance().subscribe(`/topic/games/${tempRoomId}/waitingroom`, (message) => {
-          const data = JSON.parse(message.body);
-          console.log("Received message", data);
-          setRoomInfo(data);
-          setHostUser({ id: data.hostId });
-          setCurrentUser({ id: userId, username: data.players.find(p => p.id === userId)?.username });
-      });
+        // Send the join request
+        await stomper.send(`/app/games/${tempRoomId}/join`, { userId: parseInt(userId, 10) });
+        console.log("Join request sent");
 
-        console.log("Subscribed, now sending join message...");
-        Stomper.getInstance().send(`/app/games/${tempRoomId}/join`, {
-            userId: parseInt(userId, 10)
+        // Subscribe to the waiting room updates
+        await stomper.subscribe(`/topic/games/${tempRoomId}/waitingroom`, message => {
+            const data = JSON.parse(message.body);
+            console.log("Received message from waiting room", data);
         });
 
-        console.log("Join message sent.");
+        // Navigate to the waiting room view
         navigate(`/games/${tempRoomId}/waitingroom`);
     } catch (error) {
-        console.error(`Error connecting to WebSocket or navigating: ${handleError(error)}`);
-        alert("Failed to join the room. Please check the console for details.");
+        console.error(`Failed to join room: ${handleError(error)}`);
+        alert("Failed to join the room.");
     }
-};
+}
+
 
 
 
@@ -473,14 +467,4 @@ const JoinRoomPopover = () => {
 
 export default Game;
 
-function setRoomInfo(data: any) {
-  throw new Error("Function not implemented.");
-}
-function setHostUser(arg0: { id: any; }) {
-  throw new Error("Function not implemented.");
-}
-
-function setCurrentUser(arg0: { id: string; username: any; }) {
-  throw new Error("Function not implemented.");
-}
 

@@ -1,59 +1,34 @@
-// This page is for users to listen to the songs they are assigned to during the game
 import React, { useState, useEffect } from 'react';
-import './Listen.scss';
+import { useParams } from 'react-router-dom';
+import { useWebSocket } from 'context/WebSocketContext';
+import '../../styles/views/Listen.scss';
+import SongPlayer from './SongPlayer';
 
-import SongInfo from 'models/SongInfo';
-import User from 'models/User';
-import Player from 'components/ui/Player';
-
-interface ListenProps {
-  fetchSong: () => Promise<SongInfo>;
-  currentUser: User;
-}
-
-const Listen: React.FC<ListenProps> = ({ fetchSong, currentUser }) => {
-  const [song, setSong] = useState<SongInfo>(new SongInfo());
-  const [timer, setTimer] = useState(30);
+const Listen = () => {
+  const { gameId } = useParams();
+  const stomper = useWebSocket();
+  const [song, setSong] = useState(null);
 
   useEffect(() => {
-    // Fetch the song details when the component mounts
-    fetchSong().then(setSong);
+    if (!gameId || !stomper) return;
 
-    // Timer countdown
-    const interval = setInterval(() => {
-      setTimer((prevTimer) => prevTimer - 1);
-    }, 1000);
+    const subscribeToSongInfo = () => {
+      const subscription = stomper.subscribe(`/user/queue/listen`, message => {
+        const songInfo = JSON.parse(message.body);
+        console.log("Received song info:", songInfo);
+        setSong(songInfo);
+      });
 
-    // Clear interval on component unmount
-    return () => clearInterval(interval);
-  }, [fetchSong]);
+      return () => subscription.unsubscribe();
+    };
 
-  // Handle timer expiration
-  useEffect(() => {
-    if (timer === 0) {
-      // Handle what happens when the timer runs out
-      console.log('Time is up!');
-    }
-  }, [timer]);
+    subscribeToSongInfo();
+    return () => stomper.disconnect();
+  }, [stomper, gameId]);
 
   return (
     <div className="listen">
-      <div className="listen-header">
-        <div className="user-info">
-          <img src={currentUser.imageUrl} alt={`${currentUser.username}`} />
-          <span>{currentUser.username}</span>
-        </div>
-        <div className="timer">{timer} SEC</div>
-      </div>
-      <div className="song-info">
-        <img src={song.imageUrl} alt={`Cover for ${song.title} by ${song.artist}`} />
-        <div className="song-details">
-          <h3>{song.title}</h3>
-          <p>{song.artist}</p>
-          {/* Use the Player component to play the song */}
-            <Player src={song.previewUrl} />
-        </div>
-      </div>
+      <SongPlayer song={song} />
     </div>
   );
 };

@@ -135,7 +135,7 @@
 - Improved game joining process and player visibility in the waiting room. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/5e2fad9ead23791a2166ebdfaac22c26be636e0a), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/703e2738488efeaffa94605bce3bc5185b292e04)
 - Implemented start game function with socket communication. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/6e323e0df4c684ab2feb318d3f389e4b63f511fa)
 - Client-side tasks #6[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/6), #7[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/7) completed by the above work.
-- User stories #4[Link to userstory](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/4), #5[Link to userstory](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/5), and #6(https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/6) completed through the above tasks.
+- User stories #4[Link to userstory](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/4), #5[Link to userstory](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/5), and #6[Link to userstory](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/6) completed through the above tasks.
 
 
 

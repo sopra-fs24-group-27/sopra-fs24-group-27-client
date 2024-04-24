@@ -1,0 +1,13 @@
+.music-player-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column; 
+    height: 100vh; 
+  }
+  
+  .button-container {
+    display: flex;
+    gap: 10px; 
+  }
+  

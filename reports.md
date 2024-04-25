@@ -143,4 +143,5 @@
 
 - Created the waitingroom page, fixed the problem with roomId.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/a9eb1ae0d258b1c75711f840e2570dc3468e288a)
 - Completed #7 and added websocket on the page.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6d82b3f22990092d75543e0509ab19ad8931e5cf)
+- Created the Vote page.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/65bad1b14f9dc427e366d33c73370f3513060ac1)
 

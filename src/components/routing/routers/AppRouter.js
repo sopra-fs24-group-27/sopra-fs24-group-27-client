@@ -1,8 +1,8 @@
 import React from "react";
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
-import {GameGuard} from "../routeProtectors/GameGuard";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { GameGuard } from "../routeProtectors/GameGuard";
 import GameRouter from "./GameRouter";
-import {LoginGuard} from "../routeProtectors/LoginGuard";
+import { LoginGuard } from "../routeProtectors/LoginGuard";
 import Login from "../../views/Login";
 import Register from "../../views/Register";
 import Profile from "../../views/Profile";
@@ -11,6 +11,8 @@ import Round from "../../views/Round";
 import Music from "../../views/Music"
 import Listen from "../../views/Listen";
 import Vote from "../../views/Vote";
+import { webSocketProvider } from "context/WebSocketContext";
+
 
 /**
  * Main router of your application.
@@ -27,16 +29,21 @@ const AppRouter = () => {
       <Routes>
 
         <Route path="/lobby/*" element={<GameGuard />}>
-          <Route path="/lobby/*" element={<GameRouter base="/lobby"/>} />
+          <Route path="/lobby/*" element={<GameRouter base="/lobby" />} />
         </Route>
 
-        <Route path="/register" element={<Register/>} />
+        <Route path="/register" element={<Register />} />
         <Route path="/profile/:userId" element={<Profile />} />
         <Route path="/login" element={<LoginGuard />}>
-          <Route path="/login" element={<Login/>} />
+          <Route path="/login" element={<Login />} />
         </Route>
-        
-        <Route path="/games/:gameId/waitingroom" element={<Waitingroom />} />
+
+
+        <Route path="/games/:gameId/waitingroom" element={
+          <webSocketProvider>
+            <Waitingroom />
+          </webSocketProvider>
+        } />
         <Route path="/games/:gameId/listen" element={<Listen />} />
         <Route path="/games/:gameId/round" element={<Round />} />
         <Route path="/games/:gameId/music" element={<Music />} />
@@ -45,10 +52,10 @@ const AppRouter = () => {
 
         <Route path="/" element={
           <Navigate to="/login" replace />
-        }/>
+        } />
 
       </Routes>
-    </BrowserRouter>
+    </BrowserRouter >
   );
 };
 

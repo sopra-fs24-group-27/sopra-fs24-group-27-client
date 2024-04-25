@@ -26,7 +26,7 @@ class Stomper {
         this.stompClient.debug = null;  // Turn off debugging to clean up console output
 
         return new Promise((resolve, reject) => {
-            this.stompClient.connect({userId: userId}, frame => { // Pass userId as header, align to server implementation
+            this.stompClient.connect({ userId: userId }, frame => { // Pass userId as header, align to server implementation
                 console.log("Connected: " + frame);
                 resolve(frame);
             }, error => {
@@ -61,7 +61,7 @@ class Stomper {
             console.log("Sending message to " + destination);
         }
     }
-    
+
     disconnect() {
         if (this.stompClient) {
             this.stompClient.disconnect(() => {
@@ -74,7 +74,7 @@ class Stomper {
             this.reconnectTimer = null;
         }
     }
-    
+
     // add getStompClient method
     getStompClient() {
         return this.stompClient;

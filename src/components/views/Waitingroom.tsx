@@ -1,10 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import BaseContainer from 'components/ui/BaseContainer';
 import Button from '@mui/material/Button';
 import Player from './Player';
 import { useWebSocket } from 'context/WebSocketContext';
 import '../../styles/views/Playerlist.scss';
+
+const saveMessages = (messages) => {
+    localStorage.setItem('waitingroomMessages', JSON.stringify(messages));
+};
+
+const loadMessages = () => {
+    const savedMessages = localStorage.getItem('waitingroomMessages');
+    return savedMessages ? JSON.parse(savedMessages) : [];
+};
+
+const dropMessages = () => {
+    localStorage.removeItem('waitingroomMessages');
+}
 
 const Waitingroom = () => {
     const { gameId } = useParams();
@@ -15,6 +28,8 @@ const Waitingroom = () => {
     const [host, setHostUser] = useState({ id: null });
     const [error, setError] = useState(null);
 
+    const [messages, setMessages] = useState(loadMessages());
+
     useEffect(() => {
         if (!gameId || !stomper) return;
 
@@ -22,10 +37,17 @@ const Waitingroom = () => {
             try {
                 await stomper.connect(gameId, localStorage.getItem("userId"));
                 const waitingRoomSubscription = stomper.subscribe(`/topic/games/${gameId}/waitingroom`, message => {
-                    const data = JSON.parse(message.body);
-                    console.log("Waiting room updated:", data);
-                    setRoomInfo(data);
-                    updateCurrentUserAndHost(data, localStorage.getItem("userId"));
+                    console.log("Waiting room 1:", message.body);
+
+                    const newMessage = JSON.parse(message.body);
+                    setMessages(prevMessages => {
+                        const updatedMessages = [...prevMessages, newMessage];
+                        saveMessages(updatedMessages);
+                        return updatedMessages;
+                    });
+                    console.log("Waiting room updated:", newMessage);
+                    setRoomInfo(newMessage);
+                    updateCurrentUserAndHost(newMessage, localStorage.getItem("userId"));
                 });
 
                 const startSubscription = stomper.subscribe(`/topic/games/${gameId}/start`, message => {
@@ -48,6 +70,7 @@ const Waitingroom = () => {
 
                 return () => {
                     waitingRoomSubscription.unsubscribe();
+                    dropMessages();
                     startSubscription.unsubscribe();
                     errorSubscription.unsubscribe();
                 };
@@ -58,14 +81,17 @@ const Waitingroom = () => {
 
         connectAndSubscribe();
 
+        setRoomInfo(messages[messages.length - 1]);
+        updateCurrentUserAndHost(messages[messages.length - 1], localStorage.getItem("userId"));
+
         return () => {
             stomper.disconnect(); // Properly handle WebSocket disconnect
         };
-    }, [stomper, gameId, navigate]);
+    }, [stomper, gameId, navigate, messages]);
 
     const updateCurrentUserAndHost = (data, userId) => {
-        const hostPlayer = data.players.find(p => p.id === data.hostId);
-        const currentUserDetails = data.players.find(p => p.userId === parseInt(userId, 10));
+        const hostPlayer = data?.players && data?.players?.find(p => p.id === data.hostId);
+        const currentUserDetails = data?.players?.find(p => p.userId === parseInt(userId, 10));
         if (hostPlayer && currentUserDetails) {
             setHostUser({ id: hostPlayer.id });
             setCurrentUser({ id: currentUserDetails.userId, username: currentUserDetails.username });
@@ -82,22 +108,26 @@ const Waitingroom = () => {
 
     const renderPlayers = () => roomInfo.players.map((player, index) => (
         <div key={index} className="player-wrapper">
-            <Player user={{...player, scores: player.score ?? 0}} />
+            <Player user={{ ...player, scores: player.score ?? 0 }} />
         </div>
     ));
 
-    const numberOfPlaceholders = Math.max(0, 4 - roomInfo.players.length);  // show at least 4 placeholders
+    const numberOfPlaceholders = Math.max(0, 4 - (roomInfo?.players ? roomInfo?.players?.length : 0));  // show at least 4 placeholders
 
     return (
         <BaseContainer className="room-container">
             <h1 className="room-title">Room ID: {gameId}</h1>
-            <p>Host: {roomInfo.players.find(p => p.id === host.id)?.username}</p>
+            <p>Host: {(roomInfo?.players) && roomInfo.players.find(p => p.id === host.id)?.username}</p>
             {error && <p className="error-message">{error}</p>}
             <div className="player-list">
-                {renderPlayers()}
+                {roomInfo?.players && roomInfo.players.map((player, index) => (
+                    <div key={index} className="player-wrapper">
+                        <Player user={{ ...player, scores: player.score ?? 0 }} />
+                    </div>
+                ))}
                 {[...Array(numberOfPlaceholders)].map((_, index) => (
                     <div key={index} className="player-placeholder">
-                        <p>Waiting for player {index + 1 + roomInfo.players.length}...</p>
+                        <p>Waiting for player {index + 1 + (roomInfo?.players?.length ? roomInfo.players.length : 0)}...</p>
                     </div>
                 ))}
             </div>
@@ -107,7 +137,7 @@ const Waitingroom = () => {
                         variant="contained"
                         color="primary"
                         onClick={startGame}
-                        disabled={roomInfo.players.length < 4}
+                        disabled={roomInfo?.players ? roomInfo.players.length < 4 : true}
                     >
                         Start Game
                     </Button>

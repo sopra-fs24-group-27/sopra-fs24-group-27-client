@@ -11,7 +11,7 @@ import Round from "../../views/Round";
 import Music from "../../views/Music"
 import Listen from "../../views/Listen";
 import Vote from "../../views/Vote";
-import { webSocketProvider } from "context/WebSocketContext";
+import { WebSocketProvider } from "context/WebSocketContext";
 
 
 /**
@@ -40,9 +40,9 @@ const AppRouter = () => {
 
 
         <Route path="/games/:gameId/waitingroom" element={
-          <webSocketProvider>
+          <WebSocketProvider>
             <Waitingroom />
-          </webSocketProvider>
+          </WebSocketProvider>
         } />
         <Route path="/games/:gameId/listen" element={<Listen />} />
         <Route path="/games/:gameId/round" element={<Round />} />

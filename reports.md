@@ -52,7 +52,7 @@
 
 **Qingcheng Wang**
 
-- Completed #3, #22 and #25 on the client side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4acc4e68db0362fbd5b057066a7775090e676c19)
+- Completed #3, #22 and #25 on the server side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4acc4e68db0362fbd5b057066a7775090e676c19)
 
 **Yi Zhang**
 
@@ -145,3 +145,7 @@
 - Completed #7 and added websocket on the page.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6d82b3f22990092d75543e0509ab19ad8931e5cf)
 - Created the Vote page.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/65bad1b14f9dc427e366d33c73370f3513060ac1)
 
+**Qingcheng Wang**
+- Completed the front-end and back-end of rounds control and sending emojis [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/58d75228dcb4486b4345bf7f3c9bf5d33e5de648), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/2eeea1f2f9b474c09f6076663bd46e307ea66be5)
+- Client-side tasks #32[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/32), #31[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/31) completed by the above work.
+- Server-side tasks #34[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/34), #37[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/37) completed by the above work.

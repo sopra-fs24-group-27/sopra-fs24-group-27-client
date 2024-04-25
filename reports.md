@@ -120,7 +120,8 @@
 **Yi Zhang**
 
 * Fixed bugs related to player entities and playerRepository on server side. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c5be0d81a85ea415225a23785a2013819109080c)
-* 
+* Stuck with WebSocket connection errors, including testing and debugging
+
 
 
 ## 19.4 - 25.4 
@@ -145,6 +146,8 @@
 - Completed #7 and added websocket on the page.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6d82b3f22990092d75543e0509ab19ad8931e5cf)
 - Created the Vote page.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/65bad1b14f9dc427e366d33c73370f3513060ac1)
 
+
+
 **Hepeng Fan**
 
 - Completed #8.
@@ -152,7 +155,18 @@
 - Created the Music page.[Link to task]([https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/a9eb1ae0d258b1c75711f840e2570dc3468e288a](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/2bebc14eb4ec9f5cdff1d83deb1336e399cf7e56))
 - Fixed the problem with Profile of backend and client.[Link to task]([[https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/a9eb1ae0d258b1c75711f840e2570dc3468e288a](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/2bebc14eb4ec9f5cdff1d83deb1336e399cf7e56)](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6f5faff3c92e2ed10c3ea044bbb0576e2857b584))
 
+
+
 **Qingcheng Wang**
+
 - Completed the front-end and back-end of rounds control and sending emojis [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/58d75228dcb4486b4345bf7f3c9bf5d33e5de648), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/2eeea1f2f9b474c09f6076663bd46e307ea66be5)
 - Client-side tasks #32[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/32), #31[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/31) completed by the above work.
 - Server-side tasks #34[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/34), #37[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/37) completed by the above work.
+
+
+
+**Yi Zhang**
+
+* Contributed to the WebSocket and STOMP client for the front-end as well as the user stories #4 #5 #6 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/32060ec7a7520793b5a10e185bfde7a58ace3f97)
+* Contributed to the server test, add game/room related REST DTO tests [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4ac8ff6bce19eaf1c5c322ab3d0d90722787d8cb)
+* Prepared the presentation slides, and report for M3

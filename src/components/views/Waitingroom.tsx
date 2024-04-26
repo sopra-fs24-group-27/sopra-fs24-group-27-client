@@ -104,6 +104,7 @@ const Waitingroom = () => {
             stomper.send(`/app/games/${gameId}/start`, {});
             console.log("Game start request sent by the host");
         }
+        navigate(`/games/${gameId}/listen`);
     };
 
     const renderPlayers = () => roomInfo.players.map((player, index) => (

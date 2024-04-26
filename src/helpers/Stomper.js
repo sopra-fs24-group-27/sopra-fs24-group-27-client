@@ -55,6 +55,16 @@ class Stomper {
         }
     }
 
+    subscribeToUserQueue(gameId, callback) {
+        if (this.stompClient && this.stompClient.connected && callback) {
+            return this.stompClient.subscribe(`/user/topic/games/${gameId}/listen`, (message) => {
+                console.log("Received message from user queue: ", message.body);
+                callback(JSON.parse(message.body));
+            });
+        }
+    }
+    
+
     send(destination, message) {
         if (this.stompClient && this.stompClient.connected) {
             this.stompClient.send(destination, {}, JSON.stringify(message));

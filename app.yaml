@@ -1,6 +1,5 @@
 # https://cloud.google.com/appengine/docs/flexible/reference/app-yaml?tab=node.js#top
 runtime: nodejs20
-env: flex  # Specifies that your app will use the flexible environment
 
 handlers:
   - url: /static/js/(.*)

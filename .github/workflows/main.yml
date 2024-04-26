@@ -41,5 +41,6 @@ jobs:
           deliverables: app.yaml
           version: ${{ env.VERSION_ID }}
           credentials: ${{ secrets.GCP_SERVICE_CREDENTIALS }}
+          verbosity: debug
       - name: Test
         run: curl "${{ steps.deploy.outputs.url }}"

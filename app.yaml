@@ -1,5 +1,6 @@
 # https://cloud.google.com/appengine/docs/flexible/reference/app-yaml?tab=node.js#top
 runtime: nodejs20
+env: flex
 
 handlers:
   - url: /static/js/(.*)

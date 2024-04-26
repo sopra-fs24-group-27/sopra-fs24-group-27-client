@@ -1,8 +1,11 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "node": true,   // For Node.js global variables and scope.
+        "jest": true    // For testing globals like `describe` and `it`.
     },
+
     "extends": ["plugin:react/recommended"],
     "overrides": [],
     "parser": "@babel/eslint-parser",
@@ -20,8 +23,12 @@
             "version": "detect"
         }
     },
+    "globals": {
+        "process": "readonly"
+    },
     "rules": {
         "react/prop-types": "off",
+        "no-undef": "warn",
         "eqeqeq": "error",
         "no-unreachable": "error",
         "no-duplicate-imports": "error",

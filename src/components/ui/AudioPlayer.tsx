@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types'; // 导入 PropTypes
-import { IconButton } from '@mui/material';
-import { PlayArrow, Pause } from '@mui/icons-material';
+import React from "react";
+import PropTypes from "prop-types"; // 导入 PropTypes
+import { IconButton } from "@mui/material";
+import { PlayArrow, Pause } from "@mui/icons-material";
 
 // 定义组件的属性类型
 interface AudioPlayerProps {

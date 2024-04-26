@@ -1,25 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import BaseContainer from 'components/ui/BaseContainer';
-import SongPlayer from './SongPlayer';
-import { useWebSocket } from 'context/WebSocketContext';
-import '../../styles/views/Listen.scss';
-import '../../styles/ui/MusicPlayer.scss';
-import ReactPlayer from 'react-player';
-import { Button } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import BaseContainer from "components/ui/BaseContainer";
+import SongPlayer from "./SongPlayer";
+import { useWebSocket } from "context/WebSocketContext";
+import "../../styles/views/Listen.scss";
+import "../../styles/ui/MusicPlayer.scss";
+import ReactPlayer from "react-player";
+import { Button } from "@mui/material";
 
 // Functions to manage messages in localStorage
 const saveMessages = (messages) => {
-  localStorage.setItem('listenMessages', JSON.stringify(messages));
+  localStorage.setItem("listenMessages", JSON.stringify(messages));
 }
 
 const loadMessages = () => {
-  const savedMessages = localStorage.getItem('listenMessages');
+  const savedMessages = localStorage.getItem("listenMessages");
+  
   return savedMessages ? JSON.parse(savedMessages) : [];
 }
 
 const dropMessages = () => {
-  localStorage.removeItem('listenMessages');
+  localStorage.removeItem("listenMessages");
 }
 
 const Listen = () => {
@@ -33,6 +34,7 @@ const Listen = () => {
   useEffect(() => {
     if (!gameId || !stomper) {
       setError("Missing game ID or WebSocket connection");
+      
       return;
     }
 
@@ -117,7 +119,7 @@ const Listen = () => {
         {error && <div className="error">{error}</div>}
         {song ? (
           <>
-            <img src={song.imageUrl} alt={`Cover for ${song.title}`} style={{ width: '400px', height: '400px', marginBottom: '20px' }} />
+            <img src={song.imageUrl} alt={`Cover for ${song.title}`} style={{ width: "400px", height: "400px", marginBottom: "20px" }} />
             <ReactPlayer url={song.playUrl} playing controls width="100%" height="50px" />
             <h3>{song.title}</h3>
             <p>Artist: {song.artist}</p>

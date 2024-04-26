@@ -30,10 +30,9 @@
     "build": "set CI=false&& react-scripts build",
     "gcp-build": "",
     "eject": "react-scripts eject",
-    "test": "react-scripts test --env=jsdom"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "test": "react-scripts test --env=jsdom",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix"
   },
   "jest": {
     "moduleNameMapper": {

@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { getDomain } from './getDomain';
+import axios from "axios";
+import { getDomain } from "./getDomain";
 
 // Create Axios instance configured with base URL
 export const api = axios.create({
@@ -22,6 +22,7 @@ export const handleError = error => {
     // Something happened in setting up the request that triggered an Error
     console.log("Error", error.message);
   }
-  console.error('Detailed error:', error);
+  console.error("Detailed error:", error);
+  
   return message;
 };

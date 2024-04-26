@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { api, handleError } from 'helpers/api';
-import { Avatar, Button, CssBaseline, TextField, Box, Typography, Grid, Paper } from '@mui/material';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import 'styles/views/Profile.scss';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { api, handleError } from "helpers/api";
+import { Avatar, Button, CssBaseline, TextField, Box, Typography, Grid, Paper } from "@mui/material";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import "styles/views/Profile.scss";
 
 const defaultTheme = createTheme();
 
@@ -12,19 +12,19 @@ export default function Profile() {
   const { userId } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [currentUserId, setCurrentUserId] = useState(localStorage.getItem('currentUserId'));
+  const [currentUserId, setCurrentUserId] = useState(localStorage.getItem("currentUserId"));
   const [editableUser, setEditableUser] = useState({
-    username: '',
-    name: '',
-    birthDate: '',
-    overallPoints: '',
+    username: "",
+    name: "",
+    birthDate: "",
+    overallPoints: "",
   });
   const [isEditing, setIsEditing] = useState(false);
   const [isAllowedToEdit, setIsAllowedToEdit] = useState(false);
 
 
   useEffect(() => {
-    const currentUserId = localStorage.getItem('currentUserId');
+    const currentUserId = localStorage.getItem("currentUserId");
     setCurrentUserId(currentUserId);
     
     const fetchUserData = async () => {
@@ -34,7 +34,7 @@ export default function Profile() {
         setEditableUser(response.data);
         setIsAllowedToEdit(currentUserId === userId);
       } catch (error) {
-        console.error('Fetching user data failed', error);
+        console.error("Fetching user data failed", error);
       }
     };
 
@@ -43,7 +43,7 @@ export default function Profile() {
     }
   }, [userId]);
   const handleBack = () => {
-    navigate('/lobby'); 
+    navigate("/lobby"); 
   };
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -57,29 +57,29 @@ export default function Profile() {
       setUser(editableUser);
       setIsEditing(false);
     } catch (error) {
-      console.error('Updating user failed', error);
+      console.error("Updating user failed", error);
     }
   };
 
   const logout = async () => {
     try {
-      console.log('Logging out...');
-      const token = localStorage.getItem('token'); 
+      console.log("Logging out...");
+      const token = localStorage.getItem("token"); 
       if (!token) {
-        console.error('No token found');
-        alert('No token found. You might not be logged in.');
+        console.error("No token found");
+        alert("No token found. You might not be logged in.");
+        
         return;
       }
-      const response = await api.post('/logout', { token }); 
-      console.log('Logout response', response);
-      localStorage.removeItem('token');
-      navigate('/login');
+      const response = await api.post("/logout", { token }); 
+      console.log("Logout response", response);
+      localStorage.removeItem("token");
+      navigate("/login");
     } catch (error) {
-      console.error('Logout failed', error);
-      alert('Logout failed. Check console for details.'); 
+      console.error("Logout failed", error);
+      alert("Logout failed. Check console for details."); 
     }
   };
-  
   
 
   if (!user) {
@@ -88,19 +88,19 @@ export default function Profile() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: '100vh', justifyContent: 'center' }} > 
+      <Grid container component="main" sx={{ height: "100vh", justifyContent: "center" }} > 
         <CssBaseline />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,
               mx: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <PersonOutlineIcon />
             </Avatar>
             <Typography component="h1" variant="h5">

@@ -13,7 +13,7 @@ import "../../styles/views/Header.scss";
  */
 const Header = props => (
   <div className="header container" style={{height: props.height}}>
-    <h1 className="header title" style={{ fontFamily: 'Comic Sans MS', color: '#D8BFD8' }}>
+    <h1 className="header title" style={{ fontFamily: "Comic Sans MS", color: "#D8BFD8" }}>
       LyricLies: Listen, Emoji, Vote
     </h1>
   </div>

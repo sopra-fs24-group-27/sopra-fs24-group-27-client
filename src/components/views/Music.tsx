@@ -43,7 +43,7 @@ const MusicPlayerPage = () => {
     const subscriptions = [];
 
     if (stomper) {
-      const songUpdateSub = stomper.subscribe(`/user/queue/listen`, (message) => {
+      const songUpdateSub = stomper.subscribe("/user/queue/listen", (message) => {
         const songInfo = JSON.parse(message.body);
         setTrack(songInfo);
         setImageSrc(songInfo.imageSrc || defaultImageSrc);
@@ -69,8 +69,8 @@ const MusicPlayerPage = () => {
             width: "400px",
             height: "400px",
             marginBottom: "20px",
-  }}
-/>
+          }}
+        />
 
       )}
 

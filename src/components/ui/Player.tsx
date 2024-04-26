@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import './Player.scss';
+import React, { useState, useEffect, useRef } from "react";
+import "./Player.scss";
 
 const Player = ({ src }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -28,8 +28,8 @@ const Player = ({ src }) => {
     const setAudioTime = () => setCurrentTime(audio.currentTime);
 
     // Add event listeners
-    audio.addEventListener('loadeddata', setAudioData);
-    audio.addEventListener('timeupdate', setAudioTime);
+    audio.addEventListener("loadeddata", setAudioData);
+    audio.addEventListener("timeupdate", setAudioTime);
 
     // Play audio if src changes
     if (src) {
@@ -39,8 +39,8 @@ const Player = ({ src }) => {
 
     // Remove event listeners on cleanup
     return () => {
-      audio.removeEventListener('loadeddata', setAudioData);
-      audio.removeEventListener('timeupdate', setAudioTime);
+      audio.removeEventListener("loadeddata", setAudioData);
+      audio.removeEventListener("timeupdate", setAudioTime);
     };
   }, [src]);
 
@@ -48,13 +48,14 @@ const Player = ({ src }) => {
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
   return (
     <div className="player">
       <button onClick={togglePlayPause}>
-        {isPlaying ? 'Pause' : 'Play'}
+        {isPlaying ? "Pause" : "Play"}
       </button>
       <div className="time">
         <span>{formatTime(currentTime)}</span> / <span>{formatTime(duration)}</span>

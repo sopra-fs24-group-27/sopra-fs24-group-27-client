@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from 'react-router-dom';
-import BaseContainer from 'components/ui/BaseContainer';
-import Button from '@mui/material/Button';
-import EmojiPicker from 'emoji-picker-react';
-import { useWebSocket } from 'context/WebSocketContext';
+import { useParams, useNavigate } from "react-router-dom";
+import BaseContainer from "components/ui/BaseContainer";
+import Button from "@mui/material/Button";
+import EmojiPicker from "emoji-picker-react";
+import { useWebSocket } from "context/WebSocketContext";
 
 const Round = () => {
   const { gameId } = useParams();
   const navigate = useNavigate();
   const stomper = useWebSocket(); // Using WebSocket context for consistency
   const [gameState, setGameState] = useState(null);
-  const [currentUser, setCurrentUser] = useState(localStorage.getItem('currentUserId'));
+  const [currentUser, setCurrentUser] = useState(localStorage.getItem("currentUserId"));
   const [currentTurn, setCurrentTurn] = useState(null);
   const [playerEmojis, setPlayerEmojis] = useState({});
   const [chosenEmoji, setChosenEmoji] = useState([]);
@@ -71,28 +71,29 @@ const Round = () => {
         }));
       }
     } else {
-      console.log('Not your turn');
+      console.log("Not your turn");
     }
   };
 
   // Render the round description based on the current round state
   const renderRoundDescription = () => {
     switch (round) {
-      case 1:
-        return 'Round 1 Description';
-      case 2:
-        return 'Round 2 Description';
-      case 3:
-        return 'Round 3 Description';
-      default:
-        return 'Voting';
+    case 1:
+      return "Round 1 Description";
+    case 2:
+      return "Round 2 Description";
+    case 3:
+      return "Round 3 Description";
+    default:
+      return "Voting";
     }
   };
 
   const renderPlayers = () => {
     console.log("Game State:", gameState);
+    
     return gameState && gameState.players.map((player, index) => (
-      <div key={index} className={`player-wrapper ${currentUser === player.id ? 'current-player' : ''}`}>
+      <div key={index} className={`player-wrapper ${currentUser === player.id ? "current-player" : ""}`}>
         {player.username}
         {player.emojis.map((emoji, emojiIndex) => (
           <span key={emojiIndex}>{emoji}</span>

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import { useWebSocket } from 'context/WebSocketContext';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import '../../styles/views/VotePage.scss';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import Button from "@mui/material/Button";
+import { useWebSocket } from "context/WebSocketContext";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import "../../styles/views/VotePage.scss";
 
 const VotePage = () => {
   const { gameId } = useParams();
@@ -27,6 +27,7 @@ const VotePage = () => {
           console.log("Received updated player list:", data);
           setPlayers(data);
         });
+        
         return () => subscription.unsubscribe();
       } catch (error) {
         console.error("Failed to connect to WebSocket:", error);

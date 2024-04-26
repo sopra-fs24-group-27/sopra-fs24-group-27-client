@@ -7,19 +7,18 @@ import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
 import User from "models/User";
-import Button from '@mui/material/Button';
-import Popover from '@mui/material/Popover';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import FormControl from '@mui/material/FormControl';
-import { v4 as uuidv4 } from 'uuid';
-import Input from '@mui/material/Input';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { useWebSocket } from 'context/WebSocketContext';  // Ensure the path is correct
-
+import Button from "@mui/material/Button";
+import Popover from "@mui/material/Popover";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import { v4 as uuidv4 } from "uuid";
+import Input from "@mui/material/Input";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useWebSocket } from "context/WebSocketContext";  // Ensure the path is correct
 
 
 const Player = ({ user }: { user: User }) => {
@@ -35,7 +34,7 @@ const Player = ({ user }: { user: User }) => {
   };
 
   return (
-    <div className="player container" style={{ width: '350px', height: '250px' }}>
+    <div className="player container" style={{ width: "350px", height: "250px" }}>
       <p>
         ID: {user.id}<br />
         Username: {user.username}<br />
@@ -44,7 +43,7 @@ const Player = ({ user }: { user: User }) => {
       </p>
       <Button
         variant="text"
-        style={{ marginTop: '20px', left: '5%', color: '#DB70DB' }}
+        style={{ marginTop: "20px", left: "5%", color: "#DB70DB" }}
         onClick={navigateToProfile}
       >
         → View Profile ←
@@ -63,12 +62,12 @@ const Game = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [users, setUsers] = useState<User[]>([]);
   const [roomAnchorEl, setRoomAnchorEl] = useState(null);
-  const [selectedGenre, setSelectedGenre] = useState('');
-  const [selectedMarket, setSelectedMarket] = useState('');
-  const [selectedArtist, setSelectedArtist] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState("");
+  const [selectedMarket, setSelectedMarket] = useState("");
+  const [selectedArtist, setSelectedArtist] = useState("");
   const [joinRoomAnchorEl, setJoinRoomAnchorEl] = useState(null);
-  const [roomIdInput, setRoomIdInput] = useState('');
-  const [tempRoomId, setTempRoomId] = useState('');
+  const [roomIdInput, setRoomIdInput] = useState("");
+  const [tempRoomId, setTempRoomId] = useState("");
   const userId = localStorage.getItem("userId");
   const message = JSON.stringify({ userId: userId });
   const stomper = useWebSocket();
@@ -89,9 +88,9 @@ const Game = () => {
   };
 
   const handleCloseRules = () => {
-    setSelectedGenre('');
-    setSelectedMarket('');
-    setSelectedArtist('');
+    setSelectedGenre("");
+    setSelectedMarket("");
+    setSelectedArtist("");
     setAnchorEl(null);
   };
 
@@ -150,7 +149,7 @@ const Game = () => {
             </li>
           ))}
           <Button
-            style={{ width: '100%', color: 'white' }}
+            style={{ width: "100%", color: "white" }}
             onClick={() => logout()}
           >
             Logout
@@ -169,7 +168,6 @@ const Game = () => {
   };
 
 
-
   const handleCloseRoom = () => {
     setRoomAnchorEl(null);
   };
@@ -178,37 +176,38 @@ const Game = () => {
   // Function to handle room creation
   const handleConfirmRoom = async () => {
     try {
-        const settings = {
-            market: selectedMarket,
-            artist: selectedArtist,
-            genre: selectedGenre,
-        };
-        const roomData = { settings };
-        console.log("Creating room with settings", roomData);
-        const response = await api.post(`/games?userId=${userId}`, roomData);
-        console.log("Room created successfully", response.data);
-        const gameId = response.data.gameId;
+      const settings = {
+        market: selectedMarket,
+        artist: selectedArtist,
+        genre: selectedGenre,
+      };
+      const roomData = { settings };
+      console.log("Creating room with settings", roomData);
+      const response = await api.post(`/games?userId=${userId}`, roomData);
+      console.log("Room created successfully", response.data);
+      const gameId = response.data.gameId;
         
-        // Connect to WebSocket after successful creation
-        await stomper.connect(gameId, userId);
-        navigate(`/games/${gameId}/waitingroom`);
+      // Connect to WebSocket after successful creation
+      await stomper.connect(gameId, userId);
+      navigate(`/games/${gameId}/waitingroom`);
     } catch (error) {
-        alert(`Something went wrong while creating the room: ${handleError(error)}`);
+      alert(`Something went wrong while creating the room: ${handleError(error)}`);
     }
-};
+  };
 
 
-const JoinRoomPopover = () => {
-  const [tempRoomId, setTempRoomId] = useState('');  // To hold the room ID input by the user
-  const navigate = useNavigate();
+  const JoinRoomPopover = () => {
+    const [tempRoomId, setTempRoomId] = useState("");  // To hold the room ID input by the user
+    const navigate = useNavigate();
 
-  const handleJoinRoom = async () => {
-    const userId = localStorage.getItem("userId");
-    if (!tempRoomId) {
+    const handleJoinRoom = async () => {
+      const userId = localStorage.getItem("userId");
+      if (!tempRoomId) {
         alert("Please enter a room ID.");
+        
         return;
-    }
-    try {
+      }
+      try {
         await stomper.connect(tempRoomId, userId);
         console.log("Connected to WebSocket server");
 
@@ -218,116 +217,113 @@ const JoinRoomPopover = () => {
 
         // Subscribe to the waiting room updates
         await stomper.subscribe(`/topic/games/${tempRoomId}/waitingroom`, message => {
-            const data = JSON.parse(message.body);
-            console.log("Received message from waiting room", data);
+          const data = JSON.parse(message.body);
+          console.log("Received message from waiting room", data);
         });
 
         // Navigate to the waiting room view
         navigate(`/games/${tempRoomId}/waitingroom`);
-    } catch (error) {
+      } catch (error) {
         console.error(`Failed to join room: ${handleError(error)}`);
         alert("Failed to join the room.");
+      }
     }
-}
-
-
 
 
     const handleRoomIdChange = (event) => {
-        setTempRoomId(event.target.value);
+      setTempRoomId(event.target.value);
     };
 
     const handleCloseJoinRoom = () => {
-        setJoinRoomAnchorEl(null);
-        setRoomIdInput('');
-        setTempRoomId('');
+      setJoinRoomAnchorEl(null);
+      setRoomIdInput("");
+      setTempRoomId("");
     };
 
     return (
-        <Popover
-            open={Boolean(joinRoomAnchorEl)}
-            anchorEl={joinRoomAnchorEl}
-            onClose={handleCloseJoinRoom}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-            }}
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
-            }}
-        >
-            <div style={{ padding: '20px' }}>
-                <h2>Join a Room</h2>
-                <FormControl fullWidth margin="normal">
-                    <InputLabel htmlFor="room-id-input">Room ID</InputLabel>
-                    <Input
-                        id="room-id-input"
-                        value={tempRoomId}
-                        onChange={e => setTempRoomId(e.target.value)}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton onClick={handleJoinRoom} edge="end">
-                                    <ArrowForwardIcon />
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                    />
-                </FormControl>
-                <Button
-                variant="outlined"
-                color="primary"
-                style={{ marginTop: '10px' }}
-                fullWidth
-                onClick={() => setJoinRoomAnchorEl(null)}
-            >
+      <Popover
+        open={Boolean(joinRoomAnchorEl)}
+        anchorEl={joinRoomAnchorEl}
+        onClose={handleCloseJoinRoom}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <div style={{ padding: "20px" }}>
+          <h2>Join a Room</h2>
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="room-id-input">Room ID</InputLabel>
+            <Input
+              id="room-id-input"
+              value={tempRoomId}
+              onChange={e => setTempRoomId(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton onClick={handleJoinRoom} edge="end">
+                    <ArrowForwardIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+          <Button
+            variant="outlined"
+            color="primary"
+            style={{ marginTop: "10px" }}
+            fullWidth
+            onClick={() => setJoinRoomAnchorEl(null)}
+          >
                 Cancel
-            </Button>
-            </div>
-        </Popover>
+          </Button>
+        </div>
+      </Popover>
     );
-};
-
+  };
 
 
   return (
     <BaseContainer className="game container">
       <Button
-        aria-describedby={anchorEl ? 'game-rules-popover' : undefined}
+        aria-describedby={anchorEl ? "game-rules-popover" : undefined}
         variant="text"
         onClick={handleOpenRules}
-        style={{ position: 'absolute', top: '100px', right: '10%', color: '#AFEEEE' }}
+        style={{ position: "absolute", top: "100px", right: "10%", color: "#AFEEEE" }}
       >
         → Game Rules ←
       </Button>
-      <div className="popover-container" style={{ maxHeight: '50vh', overflowY: 'auto', scrollbarWidth: 'thin' }}>
+      <div className="popover-container" style={{ maxHeight: "50vh", overflowY: "auto", scrollbarWidth: "thin" }}>
         <Popover
           id="game-rules-popover"
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}
           onClose={handleCloseRules}
           sx={{
-            width: '80%',
-            height: '80%',
+            width: "80%",
+            height: "80%",
           }}
           anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
+            vertical: "bottom",
+            horizontal: "left",
           }}
           transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
+            vertical: "top",
+            horizontal: "center",
           }}
           slotProps={{
             paper: {
               style: {
-                backgroundColor: '#D8BFD8',
+                backgroundColor: "#D8BFD8",
               },
             },
           }}
         >
 
-          <div style={{ padding: '20px' }}>
+          <div style={{ padding: "20px" }}>
             <h2><strong>Game Rules</strong></h2>
             <h3><strong>Overview of LyricLies</strong></h3>
             <p>Objective of LyricLies: The objective of LyricLies is to find out the spy who is listening to a different song by using emojis to describe the song they are listening to.</p>
@@ -361,14 +357,14 @@ const JoinRoomPopover = () => {
       <h2>Welcome to LyricLies!</h2>
       <Button
         variant="contained"
-        style={{ marginTop: '20px', backgroundColor: '#DB70DB', color: '#00008B' }}
+        style={{ marginTop: "20px", backgroundColor: "#DB70DB", color: "#00008B" }}
         onClick={handleClickCreateRoom} // Call handleClickCreateRoom when button is clicked
       >
         Create a new Room
       </Button>
       <Button
         variant="contained"
-        style={{ marginTop: '20px', backgroundColor: '#AFEEEE', color: '#00008B' }}
+        style={{ marginTop: "20px", backgroundColor: "#AFEEEE", color: "#00008B" }}
         onClick={handleClickJoinRoom}
       >
         Join a Room
@@ -381,19 +377,19 @@ const JoinRoomPopover = () => {
           anchorEl={roomAnchorEl}
           onClose={handleConfirmRoom}
           anchorOrigin={{
-            vertical: 'center',
-            horizontal: 'center',
+            vertical: "center",
+            horizontal: "center",
           }}
           transformOrigin={{
-            vertical: 'center',
-            horizontal: 'center',
+            vertical: "center",
+            horizontal: "center",
           }}
         >
-          <div style={{ padding: '50px', width: '500px' }}>
-            <h2 style={{ textAlign: 'center' }}>Customize your game</h2>
+          <div style={{ padding: "50px", width: "500px" }}>
+            <h2 style={{ textAlign: "center" }}>Customize your game</h2>
 
             {/* Dropdowns for song genre, market, and artist */}
-            <FormControl fullWidth sx={{ marginTop: '10px' }}>
+            <FormControl fullWidth sx={{ marginTop: "10px" }}>
               <InputLabel id="genre-label">Genre</InputLabel>
               <Select
                 labelId="genre-label"
@@ -408,7 +404,7 @@ const JoinRoomPopover = () => {
               </Select>
             </FormControl>
 
-            <FormControl fullWidth sx={{ marginTop: '10px' }}>
+            <FormControl fullWidth sx={{ marginTop: "10px" }}>
               <InputLabel id="market-label">Country</InputLabel>
               <Select
                 labelId="market-label"
@@ -423,7 +419,7 @@ const JoinRoomPopover = () => {
               </Select>
             </FormControl>
 
-            <FormControl fullWidth sx={{ marginTop: '10px' }}>
+            <FormControl fullWidth sx={{ marginTop: "10px" }}>
               <InputLabel id="artist-label">Artist</InputLabel>
               <Select
                 labelId="artist-label"
@@ -441,14 +437,14 @@ const JoinRoomPopover = () => {
             {/* Buttons for confirmation and cancel */}
             <Button
               variant="contained"
-              style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#DB70DB' }}
+              style={{ marginTop: "20px", marginRight: "10px", backgroundColor: "#DB70DB" }}
               onClick={handleConfirmRoom}
             >
               Confirm
             </Button>
             <Button
               variant="outlined"
-              style={{ marginTop: '20px', color: '#DB70DB' }}
+              style={{ marginTop: "20px", color: "#DB70DB" }}
               onClick={handleCloseRoom} //close dialog
             >
               Cancel

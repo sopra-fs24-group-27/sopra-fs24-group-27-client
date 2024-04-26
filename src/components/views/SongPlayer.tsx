@@ -1,13 +1,13 @@
-import React from 'react';
-import ReactPlayer from 'react-player';
-import PropTypes from 'prop-types';
+import React from "react";
+import ReactPlayer from "react-player";
+import PropTypes from "prop-types";
 
 const SongPlayer = ({ song }) => {
   if (!song) return <p>Loading song...</p>;
 
   return (
     <div className="song-container">
-      <img src={song.imageUrl} alt={`Cover for ${song.songTitle}`} style={{ width: '100%', height: 'auto' }} />
+      <img src={song.imageUrl} alt={`Cover for ${song.songTitle}`} style={{ width: "100%", height: "auto" }} />
       <div className="song-details">
         <h3>{song.songTitle}</h3>
         <p>Artist: {song.songArtist}</p>

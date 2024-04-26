@@ -33,11 +33,11 @@ public class SongInfo {
  */
 
 class SongInfo {
-    constructor(data = {}) {
-        this.title = null;
-        this.artist = null;
-        this.imageUrl = null;
-        this.playUrl = null;
-        Object.assign(this, data);
-    }
+  constructor(data = {}) {
+    this.title = null;
+    this.artist = null;
+    this.imageUrl = null;
+    this.playUrl = null;
+    Object.assign(this, data);
+  }
 }

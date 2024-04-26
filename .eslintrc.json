@@ -14,7 +14,6 @@
             "presets": ["@babel/preset-react"]
         }
     },
-    "parser": "@babel/eslint-parser",
     "plugins": ["react"],
     "settings": {
         "react": {

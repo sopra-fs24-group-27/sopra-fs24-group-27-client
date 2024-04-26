@@ -29,7 +29,11 @@ const AppRouter = () => {
       <Routes>
 
         <Route path="/lobby/*" element={<GameGuard />}>
-          <Route path="/lobby/*" element={<GameRouter base="/lobby" />} />
+          <Route path="/lobby/*" element={
+            <WebSocketProvider>
+              <GameRouter base="/lobby" />
+            </WebSocketProvider>
+          } />
         </Route>
 
         <Route path="/register" element={<Register />} />

@@ -76,7 +76,7 @@ const Game = () => {
   const [currentUser, setCurrentUser] = useState({ id: null, username: null });
   const [host, setHostUser] = useState({ id: null });
   const navigate = useNavigate();
-  
+
 
   const logout = (): void => {
     localStorage.clear();
@@ -186,9 +186,20 @@ const Game = () => {
       const response = await api.post(`/games?userId=${userId}`, roomData);
       console.log("Room created successfully", response.data);
       const gameId = response.data.gameId;
-        
-      // Connect to WebSocket after successful creation
+
       await stomper.connect(gameId, userId);
+      console.log("Connected to WebSocket server");
+
+      // Send the join request
+      await stomper.send(`/app/games/${gameId}/join`, { userId: userId });
+      console.log("Join request sent");
+
+      // Subscribe to the waiting room updates
+      await stomper.subscribe(`/topic/games/${gameId}/waitingroom`, message => {
+        const data = JSON.parse(message.body);
+        console.log("Received message from waiting room", data);
+      });
+
       navigate(`/games/${gameId}/waitingroom`);
     } catch (error) {
       alert(`Something went wrong while creating the room: ${handleError(error)}`);
@@ -204,7 +215,7 @@ const Game = () => {
       const userId = localStorage.getItem("userId");
       if (!tempRoomId) {
         alert("Please enter a room ID.");
-        
+
         return;
       }
       try {
@@ -278,7 +289,7 @@ const Game = () => {
             fullWidth
             onClick={() => setJoinRoomAnchorEl(null)}
           >
-                Cancel
+            Cancel
           </Button>
         </div>
       </Popover>

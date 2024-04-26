@@ -27,9 +27,9 @@ const Round = () => {
           const data = JSON.parse(message.body);
           console.log("Round data received:", data);
           // if (data.gameState) {
-            setGameState(data.players);
-            setCurrentTurn(data.currentTurn);
-            setPlayerEmojis(data.playerEmojis);
+          setGameState(data.players);
+          setCurrentTurn(data.currentTurn);
+          setPlayerEmojis(data.playerEmojis);
           // }
         });
 

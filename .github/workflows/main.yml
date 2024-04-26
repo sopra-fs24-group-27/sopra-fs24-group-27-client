@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-
-  # run the workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
@@ -19,13 +17,12 @@ jobs:
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   deploy:
     name: Deploying to Google Cloud
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -34,16 +31,20 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "20.x"
+
       - run: npm install
       - run: npm run build
+
+      - name: Set Version ID
+        run: echo "VERSION_ID=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
 
       - name: Deploy to App Engine
         id: deploy
         uses: google-github-actions/deploy-appengine@v0.2.0
         with:
           deliverables: app.yaml
-          version: v1
+          version: ${{ env.VERSION_ID }}
           credentials: ${{ secrets.GCP_SERVICE_CREDENTIALS }}
 
-      - name: Test
+      - name: Test Deployment
         run: curl "${{ steps.deploy.outputs.url }}"

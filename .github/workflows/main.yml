@@ -39,11 +39,10 @@ jobs:
 
       - name: Get the current date and time for version
         run: echo "VERSION_ID=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
-
+        
       - name: Deploy to App Engine
         id: deploy
         uses: google-github-actions/deploy-appengine@v0.2.0
-        id: deploy
         with:
           deliverables: app.yaml
           version: v1

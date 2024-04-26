@@ -11,6 +11,7 @@
   &.container {
     background: $background;
     background-image: url("./images/Background.png"); 
+    background-size: cover;
     padding: 1.5em;
     border-radius: $borderRadius;
     display: flex;

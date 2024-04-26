@@ -77,7 +77,7 @@ const Game = () => {
   const [currentUser, setCurrentUser] = useState({ id: null, username: null });
   const [host, setHostUser] = useState({ id: null });
   const navigate = useNavigate();
-  
+
 
   const logout = (): void => {
     localStorage.clear();
@@ -178,37 +178,49 @@ const Game = () => {
   // Function to handle room creation
   const handleConfirmRoom = async () => {
     try {
-        const settings = {
-            market: selectedMarket,
-            artist: selectedArtist,
-            genre: selectedGenre,
-        };
-        const roomData = { settings };
-        console.log("Creating room with settings", roomData);
-        const response = await api.post(`/games?userId=${userId}`, roomData);
-        console.log("Room created successfully", response.data);
-        const gameId = response.data.gameId;
-        
-        // Connect to WebSocket after successful creation
-        await stomper.connect(gameId, userId);
-        navigate(`/games/${gameId}/waitingroom`);
+      const settings = {
+        market: selectedMarket,
+        artist: selectedArtist,
+        genre: selectedGenre,
+      };
+      const roomData = { settings };
+      console.log("Creating room with settings", roomData);
+      const response = await api.post(`/games?userId=${userId}`, roomData);
+      console.log("Room created successfully", response.data);
+      const gameId = response.data.gameId;
+
+      await stomper.connect(gameId, userId);
+      console.log("Connected to WebSocket server");
+
+      // Send the join request
+      await stomper.send(`/app/games/${gameId}/join`, { userId: userId });
+      console.log("Join request sent");
+
+      // Subscribe to the waiting room updates
+      await stomper.subscribe(`/topic/games/${gameId}/waitingroom`, message => {
+        const data = JSON.parse(message.body);
+        console.log("Received message from waiting room", data);
+      });
+
+      navigate(`/games/${gameId}/waitingroom`);
     } catch (error) {
-        alert(`Something went wrong while creating the room: ${handleError(error)}`);
+      alert(`Something went wrong while creating the room: ${handleError(error)}`);
     }
-};
+  };
 
 
-const JoinRoomPopover = () => {
-  const [tempRoomId, setTempRoomId] = useState('');  // To hold the room ID input by the user
-  const navigate = useNavigate();
+  const JoinRoomPopover = () => {
+    const [tempRoomId, setTempRoomId] = useState('');  // To hold the room ID input by the user
+    const navigate = useNavigate();
 
-  const handleJoinRoom = async () => {
-    const userId = localStorage.getItem("userId");
-    if (!tempRoomId) {
+    const handleJoinRoom = async () => {
+      const userId = localStorage.getItem("userId");
+      if (!tempRoomId) {
         alert("Please enter a room ID.");
+
         return;
-    }
-    try {
+      }
+      try {
         await stomper.connect(tempRoomId, userId);
         console.log("Connected to WebSocket server");
 
@@ -218,75 +230,75 @@ const JoinRoomPopover = () => {
 
         // Subscribe to the waiting room updates
         await stomper.subscribe(`/topic/games/${tempRoomId}/waitingroom`, message => {
-            const data = JSON.parse(message.body);
-            console.log("Received message from waiting room", data);
+          const data = JSON.parse(message.body);
+          console.log("Received message from waiting room", data);
         });
 
         // Navigate to the waiting room view
         navigate(`/games/${tempRoomId}/waitingroom`);
-    } catch (error) {
+      } catch (error) {
         console.error(`Failed to join room: ${handleError(error)}`);
         alert("Failed to join the room.");
+      }
     }
-}
 
 
 
 
     const handleRoomIdChange = (event) => {
-        setTempRoomId(event.target.value);
+      setTempRoomId(event.target.value);
     };
 
     const handleCloseJoinRoom = () => {
-        setJoinRoomAnchorEl(null);
-        setRoomIdInput('');
-        setTempRoomId('');
+      setJoinRoomAnchorEl(null);
+      setRoomIdInput('');
+      setTempRoomId('');
     };
 
     return (
-        <Popover
-            open={Boolean(joinRoomAnchorEl)}
-            anchorEl={joinRoomAnchorEl}
-            onClose={handleCloseJoinRoom}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-            }}
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
-            }}
-        >
-            <div style={{ padding: '20px' }}>
-                <h2>Join a Room</h2>
-                <FormControl fullWidth margin="normal">
-                    <InputLabel htmlFor="room-id-input">Room ID</InputLabel>
-                    <Input
-                        id="room-id-input"
-                        value={tempRoomId}
-                        onChange={e => setTempRoomId(e.target.value)}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton onClick={handleJoinRoom} edge="end">
-                                    <ArrowForwardIcon />
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                    />
-                </FormControl>
-                <Button
-                variant="outlined"
-                color="primary"
-                style={{ marginTop: '10px' }}
-                fullWidth
-                onClick={() => setJoinRoomAnchorEl(null)}
-            >
-                Cancel
-            </Button>
-            </div>
-        </Popover>
+      <Popover
+        open={Boolean(joinRoomAnchorEl)}
+        anchorEl={joinRoomAnchorEl}
+        onClose={handleCloseJoinRoom}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <div style={{ padding: "20px" }}>
+          <h2>Join a Room</h2>
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="room-id-input">Room ID</InputLabel>
+            <Input
+              id="room-id-input"
+              value={tempRoomId}
+              onChange={e => setTempRoomId(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton onClick={handleJoinRoom} edge="end">
+                    <ArrowForwardIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+          <Button
+            variant="outlined"
+            color="primary"
+            style={{ marginTop: "10px" }}
+            fullWidth
+            onClick={() => setJoinRoomAnchorEl(null)}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Popover>
     );
-};
+  };
 
 
 

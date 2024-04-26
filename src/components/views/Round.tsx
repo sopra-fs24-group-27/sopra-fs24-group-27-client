@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from 'react-router-dom';
-import BaseContainer from 'components/ui/BaseContainer';
-import Button from '@mui/material/Button';
-import EmojiPicker from 'emoji-picker-react';
-import { useWebSocket } from 'context/WebSocketContext';
+import { useParams, useNavigate } from "react-router-dom";
+import BaseContainer from "components/ui/BaseContainer";
+import Button from "@mui/material/Button";
+import EmojiPicker from "emoji-picker-react";
+import { useWebSocket } from "context/WebSocketContext";
 
 const Round = () => {
   const { gameId } = useParams();
   const navigate = useNavigate();
   const stomper = useWebSocket(); // Using WebSocket context for consistency
   const [gameState, setGameState] = useState(null);
-  const [currentUser, setCurrentUser] = useState(localStorage.getItem('currentUserId'));
+  const [currentUser, setCurrentUser] = useState(localStorage.getItem("currentUserId"));
   const [currentTurn, setCurrentTurn] = useState(null);
   const [playerEmojis, setPlayerEmojis] = useState({});
   const [chosenEmoji, setChosenEmoji] = useState([]);
@@ -78,14 +78,14 @@ const Round = () => {
   // Render the round description based on the current round state
   const renderRoundDescription = () => {
     switch (round) {
-      case 1:
-        return 'Round 1 Description';
-      case 2:
-        return 'Round 2 Description';
-      case 3:
-        return 'Round 3 Description';
-      default:
-        return 'Voting';
+    case 1:
+      return "Round 1 Description";
+    case 2:
+      return "Round 2 Description";
+    case 3:
+      return "Round 3 Description";
+    default:
+      return "Voting";
     }
   };
 
@@ -99,24 +99,24 @@ const Round = () => {
     console.log("Game State user id:", gameState[0].id);
 
     const playerCardStyle = {
-      margin: '10px',
-      backgroundColor: '#7c83fd',
-      borderRadius: '10px',
-      boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
-      width: '300px',
-      padding: '20px',
-      color: 'white',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'relative', // Positioning for emoji picker
+      margin: "10px",
+      backgroundColor: "#7c83fd",
+      borderRadius: "10px",
+      boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
+      width: "300px",
+      padding: "20px",
+      color: "white",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      position: "relative", // Positioning for emoji picker
     };
 
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", justifyContent: "center", alignItems: "center" }}>
         {gameState.map((player, index) => (
-          <div key={index} className={`player-wrapper ${currentUser === player.id ? 'current-player' : ''}`} style={{ margin: '10px', backgroundColor: '#7c83fd', borderRadius: '10px', boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)', width: '300px', padding: '20px', color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <div key={index} className={`player-wrapper ${currentUser === player.id ? "current-player" : ""}`} style={{ margin: "10px", backgroundColor: "#7c83fd", borderRadius: "10px", boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)", width: "300px", padding: "20px", color: "white", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <p>Order of sending emojis: {player.turn}</p>
             <p>Username: {player.username}</p>
             <p>emojis: {player.emojis || 0}</p>
@@ -124,8 +124,8 @@ const Round = () => {
             {/*  <EmojiPicker onEmojiClick={handleEmojiClick} />*/}
             {/*)}*/}
             {player.turn === 4 && (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <input type="text" placeholder="Enter emojis" value={player.inputValue || ''} onChange={(e) => handleInputChange(e, player.id)} />
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <input type="text" placeholder="Enter emojis" value={player.inputValue || ""} onChange={(e) => handleInputChange(e, player.id)} />
                 <EmojiPicker onEmojiClick={(e, emojiObject) => handleEmojiClick(emojiObject, player.id)} />
               </div>
             )}
@@ -141,6 +141,7 @@ const Round = () => {
       if (player.id === playerId) {
         return { ...player, inputValue };
       }
+      
       return player;
     }));
   };
@@ -149,13 +150,14 @@ const Round = () => {
     const emoji = emojiObject.emoji;
     setGameState(prevState => prevState.map(player => {
       if (player.id === playerId) {
-        const inputValue = (player.inputValue || '') + emoji;
+        const inputValue = (player.inputValue || "") + emoji;
+        
         return { ...player, inputValue };
       }
+      
       return player;
     }));
   };
-
 
 
   function handleNavigate() {

@@ -13,7 +13,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
-import { v4 as uuidv4 } from 'uuid';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
@@ -44,10 +43,10 @@ const Player = ({ user }: { user: User }) => {
       </p>
       <Button
         variant="text"
-        style={{ marginTop: '20px', left: '5%', color: '#DB70DB' }}
+        style={{ marginTop: '20px', left: '15%', color: 'white' }}
         onClick={navigateToProfile}
       >
-        → View Profile ←
+        → Profile ←
       </Button>
     </div>
   );
@@ -142,19 +141,13 @@ const Game = () => {
 
   if (users) {
     content = (
-      <div className="game">
+      <div className="game" style={{ maxHeight: '50vh', overflowY: 'auto'}}>
         <ul className="game user-list">
-          {users.map((user: User) => (
+          {users.slice().reverse().map((user: User) => (
             <li key={user.id}>
               <Player user={user} />
             </li>
           ))}
-          <Button
-            style={{ width: '100%', color: 'white' }}
-            onClick={() => logout()}
-          >
-            Logout
-          </Button>
         </ul>
       </div>
     );
@@ -370,7 +363,7 @@ const Game = () => {
         </Popover>
       </div>
 
-      <h2>Welcome to LyricLies!</h2>
+      <h2 style={{ fontFamily: 'Comic Sans MS' }}>Welcome to LyricLies!</h2>
       <Button
         variant="contained"
         style={{ marginTop: '20px', backgroundColor: '#DB70DB', color: '#00008B' }}
@@ -473,6 +466,12 @@ const Game = () => {
         All Players:
       </p>
       {content}
+      <Button
+            style={{ width: '100%', color: 'white' }}
+            onClick={() => logout()}
+          >
+            Logout
+          </Button>
     </BaseContainer>
   );
 

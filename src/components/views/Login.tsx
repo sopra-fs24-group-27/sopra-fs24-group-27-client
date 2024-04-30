@@ -48,7 +48,7 @@ export default function SignInSide() {
       localStorage.setItem("currentUserId", user.id);
       navigate("/lobby");
     } catch (error) {
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
+      alert(`Invalid username or password : (`);
     }
   };
   

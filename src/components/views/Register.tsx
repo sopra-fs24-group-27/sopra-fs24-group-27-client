@@ -55,7 +55,7 @@ export default function Register() {
         throw new Error("Registration failed");
       }
     } catch (error) {
-      alert(`Something went wrong during the registration: \n${handleError(error)}`);
+      alert(`The user name already exists. Try another one :D`);
     }
   };
 

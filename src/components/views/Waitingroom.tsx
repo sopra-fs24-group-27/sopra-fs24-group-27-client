@@ -5,6 +5,8 @@ import Button from '@mui/material/Button';
 import Player from './Player';
 import { useWebSocket } from 'context/WebSocketContext';
 import '../../styles/views/Playerlist.scss';
+import IconButton from '@mui/material/IconButton';
+import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 
 const saveMessages = (messages) => {
     localStorage.setItem('waitingroomMessages', JSON.stringify(messages));
@@ -115,9 +117,24 @@ const Waitingroom = () => {
 
     const numberOfPlaceholders = Math.max(0, 4 - (roomInfo?.players ? roomInfo?.players?.length : 0));  // show at least 4 placeholders
 
+    const handleCopyId = () => {
+        const textarea = document.createElement('textarea');
+        textarea.value = gameId;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+      };
+      
+
     return (
         <BaseContainer className="room-container">
-            <h1 className="room-title">Room ID: {gameId}</h1>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <h1 className="room-title">Room ID: {gameId}</h1>
+                <IconButton onClick={handleCopyId}>
+                    <FileCopyOutlinedIcon />
+                </IconButton>
+            </div>
             <p>Host: {(roomInfo?.players) && roomInfo.players.find(p => p.id === host.id)?.username}</p>
             {error && <p className="error-message">{error}</p>}
             <div className="player-list">

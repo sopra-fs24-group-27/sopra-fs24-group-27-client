@@ -170,3 +170,18 @@
 * Contributed to the WebSocket and STOMP client for the front-end as well as the user stories #4 #5 #6 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/32060ec7a7520793b5a10e185bfde7a58ace3f97)
 * Contributed to the server test, add game/room related REST DTO tests [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4ac8ff6bce19eaf1c5c322ab3d0d90722787d8cb)
 * Prepared the presentation slides, and report for M3
+
+
+
+## 26.4 - 2.5 
+
+**Yuying Zhong**
+- Added updateUser tests to UserServiceTest&IntegrationTest.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/39c997a0740863c69ac4fc1e5390ce73401162eb)
+- Added Tests for Login and Logout to ControllerTest&UserServiceTest&IntegrationTest. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/5439078828b13a620c8825605fa5f28aa4934995)
+- Clear data in local storage when user closes the web tab.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/d4a4224b8348c4a207f7a90bd3633a444e1db9a4)
+- Changed the layout style & error message.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/3a81173a7d9e03c6a3fd3b089b45aa51055cfec1)&[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/486bb2021663a09ac2a005a6619068c82211cc31)
+- Added a copy button for RoomId in waitingroom.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/cb62c8f4ce5fc566b87724825a6245e93164b1d9)
+- Changed the random RoomId to six digits.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/7eb9bc0d17c3aab0e177a0f8b67349bf8aa026ae)
+
+
+

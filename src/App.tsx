@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useEffect }  from "react";
 import Header from "./components/views/Header";
 import AppRouter from "./components/routing/routers/AppRouter";
-// test push
-/**
- * Happy coding!
- * React Template by Lucas Pelloni
- * Overhauled by Kyrill Hux
- * Updated by Marco Leder
- */
+import { BrowserRouter as Router } from "react-router-dom";
+
 const App = () => {
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('username');
+      localStorage.removeItem('currentUserId');
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
   return (
     <div>
       <Header height="100" />

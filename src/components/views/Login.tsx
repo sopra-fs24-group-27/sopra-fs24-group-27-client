@@ -45,6 +45,8 @@ export default function SignInSide() {
       const response = await api.post("/login", requestBody);
       const user = new User(response.data);
       localStorage.setItem("token", user.token);
+      localStorage.setItem('userId', user.id);
+      localStorage.setItem('username', user.username);
       localStorage.setItem("currentUserId", user.id);
       navigate("/lobby");
     } catch (error) {

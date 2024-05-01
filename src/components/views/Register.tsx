@@ -64,7 +64,7 @@ export default function Register() {
       <CssBaseline />
         <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', marginTop: '-80px'  }}>
         <Grid item xs={12} sm={8} md={4}>
-          <Paper elevation={6} square sx={{ backgroundColor: 'rgba(235, 200, 255, 0.7)', borderRadius: '10px' }}>
+          <Paper elevation={6} square sx={{ backgroundColor: 'rgba(235, 200, 255, 0.7)', borderRadius: '50px 10px 50px 10px' }}>
             <Box p={4} display="flex" flexDirection="column" alignItems="center">
             <Avatar sx={{ m: 1, bgcolor: '#ba68c8' }}>
               <NightlifeOutlinedIcon />

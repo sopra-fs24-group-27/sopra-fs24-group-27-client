@@ -184,4 +184,6 @@
 - Changed the random RoomId to six digits.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/7eb9bc0d17c3aab0e177a0f8b67349bf8aa026ae)
 
 
-
+**Yating Pan**
+- Updated Principal Handshake to send private song info to each user. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/15c84eb25abc5ba7411055d06bfc8acc3356b0ef). Related task #67 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/67)
+- Refined the listen page, added timer and moving forward button. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/ea9e971052e62daec1f2df798e4dbe8e9a94c20f). Completed task 39 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/39) and task 40 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/40).

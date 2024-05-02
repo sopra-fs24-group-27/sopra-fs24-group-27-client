@@ -3,6 +3,7 @@
 .header {
   &.container {
     @include center;
+    height: 80px; 
   }
 
   &.title {

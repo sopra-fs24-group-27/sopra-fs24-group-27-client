@@ -88,7 +88,9 @@
 
 - Completed #6, #43 on server side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/97203f17a8a64920a90b42c47e654f7daa0450b7)
 
+**Qingcheng Wang**
 
+- Complete database design and draw ER diagrams.
 
 ## 12.4 - 18.4 
 
@@ -193,4 +195,6 @@
 - Added UserControllerTest. [Link to commit]([https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/15c84eb25abc5ba7411055d06bfc8acc3356b0ef](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2c987bc589b11e3476e6d5d06513b6ff28c58344)). Related task #3 and #5.
 - Design the frontend of music playing page. [Link to commit]([https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/15c84eb25abc5ba7411055d06bfc8acc3356b0ef](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2c987bc589b11e3476e6d5d06513b6ff28c58344)). Completed task #66 with Yating Pan. 
   
-
+**Qingcheng Wang**
+- Completed repository test. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/8fb3a3f44eb5bdc8600957187c9cb3eef1047580)
+- Complete the correlation logic between voting and room waiting. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6288ec9dffd9ca358f458e28bc05005137d177c6)

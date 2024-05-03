@@ -140,10 +140,22 @@ const Game = () => {
   let content = <Spinner />;
 
   if (users) {
+    const sortedUsers = users.slice().sort((a, b) => b.id - a.id);
+    const usersPerColumn = Math.ceil(sortedUsers.length / 2);
+    const usersColumn1 = sortedUsers.slice(0, usersPerColumn);
+    const usersColumn2 = sortedUsers.slice(usersPerColumn);
+
     content = (
-      <div className="game" style={{ maxHeight: '50vh', overflowY: 'auto'}}>
-        <ul className="game user-list">
-          {users.slice().reverse().map((user: User) => (
+      <div className="game" style={{ maxHeight: '50vh', overflowY: 'auto', display: 'flex' }}>
+        <ul className="game user-list" style={{ marginRight: '10px' }}>
+          {usersColumn1.map((user: User) => (
+            <li key={user.id}>
+              <Player user={user} />
+            </li>
+          ))}
+        </ul>
+        <ul className="game user-list" style={{ marginRight: '10px' }}>
+          {usersColumn2.map((user: User) => (
             <li key={user.id}>
               <Player user={user} />
             </li>
@@ -467,7 +479,7 @@ const Game = () => {
       </p>
       {content}
       <Button
-            style={{ width: '100%', color: 'white' }}
+            style={{ width: '100%', color: 'white', marginTop: '20px' }}
             onClick={() => logout()}
           >
             Logout

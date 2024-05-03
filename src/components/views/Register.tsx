@@ -16,6 +16,15 @@ import { api, handleError } from "helpers/api";
 import User from "models/User";
 import {useNavigate} from "react-router-dom";
 
+import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
+import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
+import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
+import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
+import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
+import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
+import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
+
+
 const defaultTheme = createTheme({
   palette: {
     primary: {
@@ -27,11 +36,17 @@ const defaultTheme = createTheme({
   },
 });
 
+const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
+
 export default function Register() {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [selectedAvatarIndex, setSelectedAvatarIndex] = useState(0);
 
+  const handleAvatarClick = (index) => {
+    setSelectedAvatarIndex(index);
+  };
 
   const handleRegister = async () => {
     try {
@@ -96,6 +111,15 @@ export default function Register() {
                 autoComplete="current-password"
                 onChange={(event) => setPassword(event.target.value)}
               />
+               <Box sx={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', width: '100%', mb: 2 }}>
+                {avatarComponents.map((AvatarComponent, index) => (
+                  <AvatarComponent
+                    key={index}
+                    style={{ width: 60, height: 60, marginTop: '15px' , cursor: 'pointer', border: selectedAvatarIndex === index ? '2px solid #7e57c2' : 'none' }}
+                    onClick={() => handleAvatarClick(index)}
+                  />
+                ))}
+              </Box>
               <Button
                 type="button"
                 fullWidth

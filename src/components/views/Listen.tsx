@@ -55,7 +55,7 @@ const Listen = () => {
         {song ? (
           <>
             <img src={song.imageUrl} alt={`Cover for ${song.songTitle}`} style={{ width: '400px', height: '400px', marginBottom: '20px' }} />
-            <ReactPlayer url={song.playUrl} playing controls width="100%" height="50px" />
+            <ReactPlayer url={song.playUrl} playing controls width="100%" height="80px" />
             <h3>{song.songTitle}</h3>
             <p>Artist: {song.songArtist}</p>
           </>

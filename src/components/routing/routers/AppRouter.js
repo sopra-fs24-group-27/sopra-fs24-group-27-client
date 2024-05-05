@@ -48,7 +48,7 @@ const AppRouter = () => {
             <Waitingroom />
           </WebSocketProvider>
         } />
-        <Route path="/games/:gameId/listen" element={<Listen />} />
+        <Route path="/games/:gameId/listen/:playerId" element={<Listen />} />
         <Route path="/games/:gameId/round" element={<Round />} />
         <Route path="/games/:gameId/music" element={<Music />} />
         <Route path="/games/:gameId/vote" element={<Vote />} />

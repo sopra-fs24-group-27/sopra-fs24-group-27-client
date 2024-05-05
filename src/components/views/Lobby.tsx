@@ -180,38 +180,34 @@ const Game = () => {
   };
 
 
-  // Function to handle room creation
-  const handleConfirmRoom = async () => {
-    try {
-      const settings = {
-        market: selectedMarket,
-        artist: selectedArtist,
-        genre: selectedGenre,
-      };
-      const roomData = { settings };
-      console.log("Creating room with settings", roomData);
-      const response = await api.post(`/games?userId=${userId}`, roomData);
-      console.log("Room created successfully", response.data);
-      const gameId = response.data.gameId;
+// Function to handle room creation
+const handleConfirmRoom = async () => {
+  handleCloseRoom();  // Ensure the room creation popover is closed after confirming
 
-      await stomper.connect(gameId, userId);
-      console.log("Connected to WebSocket server");
+  try {
+    const settings = {
+      market: selectedMarket,
+      artist: selectedArtist,
+      genre: selectedGenre,
+    };
+    const roomData = {
+      hostId: userId,  // Assuming userId is stored and retrieved correctly
+      settings,
+      currentRound: 0,  // Assuming you start at round 0
+      players: []  // Initially, there are no players until they join
+    };
+    const response = await api.post('/games', roomData);
+    console.log("Room created successfully", response.data);
+    const gameId = response.data.gameId;
 
-      // Send the join request
-      await stomper.send(`/app/games/${gameId}/join`, { userId: userId });
-      console.log("Join request sent");
+    // Navigate to the game's lobby or waiting room
+    navigate(`/games/${gameId}/waitingroom`);
+  } catch (error) {
+    console.error(`Something went wrong while creating the room: ${handleError(error)}`);
+    alert(`Something went wrong while creating the room: ${handleError(error)}`);
+  }
+};
 
-      // Subscribe to the waiting room updates
-      await stomper.subscribe(`/topic/games/${gameId}/waitingroom`, message => {
-        const data = JSON.parse(message.body);
-        console.log("Received message from waiting room", data);
-      });
-
-      navigate(`/games/${gameId}/waitingroom`);
-    } catch (error) {
-      alert(`Something went wrong while creating the room: ${handleError(error)}`);
-    }
-  };
 
 
   const JoinRoomPopover = () => {
@@ -219,36 +215,24 @@ const Game = () => {
     const navigate = useNavigate();
 
     const handleJoinRoom = async () => {
-      const userId = localStorage.getItem("userId");
       if (!tempRoomId) {
         alert("Please enter a room ID.");
-
         return;
       }
+    
       try {
-        await stomper.connect(tempRoomId, userId);
-        console.log("Connected to WebSocket server");
-
-        // Send the join request
-        await stomper.send(`/app/games/${tempRoomId}/join`, { userId: parseInt(userId, 10) });
-        console.log("Join request sent");
-
-        // Subscribe to the waiting room updates
-        await stomper.subscribe(`/topic/games/${tempRoomId}/waitingroom`, message => {
-          const data = JSON.parse(message.body);
-          console.log("Received message from waiting room", data);
-        });
-
-        // Navigate to the waiting room view
+        const response = await api.post(`/games/${tempRoomId}/join?userId=${userId}`);
+        console.log("Joined room successfully", response.data);
+    
+        // Navigate to the game's waiting room
         navigate(`/games/${tempRoomId}/waitingroom`);
       } catch (error) {
         console.error(`Failed to join room: ${handleError(error)}`);
         alert("Failed to join the room.");
+      } finally {
+        handleCloseJoinRoom();  // Close the join room popover regardless of outcome
       }
     }
-
-
-
 
     const handleRoomIdChange = (event) => {
       setTempRoomId(event.target.value);

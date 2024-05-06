@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { useWebSocket } from 'context/WebSocketContext';
 import Dialog from '@mui/material/Dialog';
@@ -8,22 +8,44 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import '../../styles/views/VotePage.scss';
+import { api, handleError } from "helpers/api";
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 
 const VotePage = () => {
 
-   // For testing
+  /*TESTING
   const fakeUsers = [
     { id: 1, username: "User1" },
     { id: 2, username: "User2" },
     { id: 3, username: "User3" },
     { id: 4, username: "User4" }
   ];
+  */
+ 
   const { gameId } = useParams();
-  //const [players, setPlayers] = useState([]);
-  const [players, setPlayers] = useState(fakeUsers); // For testing
+  const [players, setPlayers] = useState([]);
+  //const [players, setPlayers] = useState(fakeUsers); // For testing
   const [votedPlayer, setVotedPlayer] = useState(null);
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const [hasVoted, setHasVoted] = useState(false);
+  const [timer, setTimer] = useState(10); 
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTimer(prevTimer => prevTimer - 1);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    if (timer === 0) {
+      navigate(`/games/${gameId}/end`);
+    }
+  }, [timer, votedPlayer]);
+
+  const navigate = useNavigate();
+
 
   const handleVote = (playerId:any) => {
     if (playerId.toString() === localStorage.getItem("userId") || hasVoted) return;  // Cannot vote for self or if already voted
@@ -31,36 +53,31 @@ const VotePage = () => {
     setOpenConfirmation(true);
     };
 
-  /*
- const confirmVote = () => {
-    // Send the vote to the server
-    fetch(`/api/games/${gameId}/vote`, {
-    method: "POST",
-    headers: {
-    "Content-Type": "application/json"
-   },
-    body: JSON.stringify({ playerId: votedPlayer })
-   })
-  .then(response => {
-    if (response.ok) {
-    setOpenConfirmation(false);
-    setHasVoted(true); // Mark that current player has voted
-   } else {
-  console.error("Failed to send vote:", response.statusText);
-    }
-   })
-  .catch(error => {
-  console.error("Error sending vote:", error);
-    });
-   };
-*/
+  
+  const confirmVote = async () => {
+    try {
+      const response = await api.post(`/games/${gameId}/vote`, { playerId: votedPlayer });
+      if (response.ok) {
+      alert(`Vote for ${players.find(player => player.id === votedPlayer).username} successful!`);
+      setOpenConfirmation(false);
+      setHasVoted(true); // Mark that current player has voted
+    } else {
+    console.error("Failed to send vote:", response.statusText);
+      }
+    } catch (error) {
+    console.error("Error sending vote:", error);
+      }
+    };
+  
 
+  /*TESTING
   const confirmVote = () => {
     // for testing
     alert(`Vote for ${players.find(player => player.id === votedPlayer).username} successful!`);
     setOpenConfirmation(false);
     setHasVoted(true); // Mark that current player has voted
     };
+  */
 
 
   const handleCloseConfirmation = () => {
@@ -70,7 +87,11 @@ const VotePage = () => {
 
   return (
     <div className="vote-page">
-     <h1 className="page-title" style={{ fontSize: "24px", color: "pink", display: "flex", justifyContent: "center"}}>Who do you think the spy is?</h1>
+     <h1 className="page-title" style={{ fontSize: "24px", color: "white", display: "flex", justifyContent: "center"}}>Who do you think the spy is?</h1>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <AccessAlarmIcon style={{ fontSize: 48 }} />
+        <span style={{ fontSize: 24, marginLeft: 10 }}>{timer}</span>
+      </div>
       <div className="player-list">
         {players.map(player => (
           <div key={player.id} className="player">

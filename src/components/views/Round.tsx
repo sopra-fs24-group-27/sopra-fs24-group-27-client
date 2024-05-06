@@ -3,91 +3,74 @@ import { useParams, useNavigate } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import Button from "@mui/material/Button";
 import EmojiPicker from "emoji-picker-react";
-import { useWebSocket } from "context/WebSocketContext";
+import { api, handleError } from 'helpers/api';
+import TextField from "@mui/material/TextField";
 
 const Round = () => {
   const { gameId } = useParams();
   const navigate = useNavigate();
-  const stomper = useWebSocket(); // Using WebSocket context for consistency
   const [gameState, setGameState] = useState(null);
+  const [roomInfo, setRoomInfo] = useState(null);
   const [currentUser, setCurrentUser] = useState(localStorage.getItem("currentUserId"));
-  const [currentTurn, setCurrentTurn] = useState(null);
+  const [currentTurn, setCurrentTurn] = useState(1);
   const [playerEmojis, setPlayerEmojis] = useState({});
-  const [chosenEmoji, setChosenEmoji] = useState([]);
+  const [chosenEmojis, setChosenEmojis] = useState([]);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [error, setError] = useState(null);
   const [round, setRound] = useState(1);
 
   useEffect(() => {
-    if (!gameId || !stomper) return;
+    if (!gameId) return;
 
-    const setupWebSocket = async () => {
+    // Function to fetch game state
+    const fetchGameState = async () => {
       try {
-        await stomper.connect(gameId, currentUser);
-        const roundSubscription = stomper.subscribe(`/topic/games/${gameId}`, message => {
-          const data = JSON.parse(message.body);
-          console.log("Round data received:", data);
-          // if (data.gameState) {
-          setGameState(data.players);
-          setCurrentTurn(data.currentTurn);
-          setPlayerEmojis(data.playerEmojis);
-          // }
-        });
+        const response = await api.get(`/games/${gameId}`);
+        setGameState(response.data.players);
+        setRoomInfo(response.data);
+        setCurrentTurn(response.data.currentTurn);
 
-        const errorSubscription = stomper.subscribe(`/topic/games/${gameId}/errors`, message => {
-          try {
-            const error = JSON.parse(message.body);
-            setError(error.error || "Unknown error occurred");
-          } catch (e) {
-            setError(message.body || "Error occurred");
-            console.error("Error received:", message.body);
-          }
-        });
-
-        return () => {
-          roundSubscription.unsubscribe();
-          errorSubscription.unsubscribe();
-        };
+        console.log("currentturn",currentTurn)
       } catch (error) {
-        console.error("Failed to connect to WebSocket:", error);
-        setError("WebSocket connection failed");
+        console.error("Error fetching game state:", error);
+        setError("Failed to load game state");
       }
     };
 
-    setupWebSocket();
+    fetchGameState();
 
-    return () => {
-      stomper.disconnect(); // Properly handle WebSocket disconnect
-    };
-  }, [stomper, gameId, currentUser, navigate]);
+    // Set up polling
+    const intervalId = setInterval(fetchGameState, 2000); // Fetch every 2 seconds
 
-  // const handleEmojiClick = (event, emojiObject) => {
-  //   if (currentUser === currentTurn) {
-  //     const updatedChosenEmojis = [...chosenEmoji, emojiObject];
-  //     if (updatedChosenEmojis.length <= 5) {
-  //       setChosenEmoji(updatedChosenEmojis);
-  //       stomper.send(`/app/games/${gameId}/sendEmojis`, JSON.stringify({
-  //         playerId: currentUser,
-  //         emojis: updatedChosenEmojis.map(e => e.emoji)
-  //       }));
-  //     }
-  //   } else {
-  //     console.log('Not your turn');
-  //   }
-  // };
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [gameId]);
 
   // Render the round description based on the current round state
   const renderRoundDescription = () => {
     switch (round) {
-    case 1:
-      return "Round 1 Description";
-    case 2:
-      return "Round 2 Description";
-    case 3:
-      return "Round 3 Description";
-    default:
-      return "Voting";
+      case 1:
+        return "Round 1 Description";
+      case 2:
+        return "Round 2 Description";
+      case 3:
+        return "Round 3 Description";
+      default:
+        return "Voting";
     }
   };
+
+  // const isCurrentUserTurn = () => {
+  //   // Ensure gameState is an array and currentUser is defined
+  //   if (!Array.isArray(gameState) || !currentUser) return false;
+  //
+  //   // Find the player object that matches the currentUser id
+  //   const currentPlayer = gameState.find(player => player.id.toString() === currentUser);
+  //
+  //   // Check if the currentPlayer exists and it is their turn
+  //   return currentPlayer ? currentPlayer.turn === currentTurn : false;
+  // };
+
 
   const renderPlayers = () => {
     if (!gameState) {
@@ -98,36 +81,31 @@ const Round = () => {
     console.log("current user", currentUser);
     console.log("Game State user id:", gameState[0].id);
 
-    const playerCardStyle = {
-      margin: "10px",
-      backgroundColor: "#7c83fd",
-      borderRadius: "10px",
-      boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
-      width: "300px",
-      padding: "20px",
-      color: "white",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      position: "relative", // Positioning for emoji picker
-    };
-
     return (
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", justifyContent: "center", alignItems: "center" }}>
         {gameState.map((player, index) => (
-          <div key={index} className={`player-wrapper ${currentUser === player.id ? "current-player" : ""}`} style={{ margin: "10px", backgroundColor: "#7c83fd", borderRadius: "10px", boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)", width: "300px", padding: "20px", color: "white", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+          <div key={index} className={`player-wrapper ${currentUser === player.id && currentTurn === player.turn ? "current-player" : ""}`} style={{ margin: "10px", backgroundColor: "#7c83fd", borderRadius: "10px", boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)", width: "300px", padding: "20px", color: "white", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <p>Order of sending emojis: {player.turn}</p>
-            <p>Username: {player.username}</p>
-            <p>emojis: {player.emojis || 0}</p>
-            {/*{currentUser === player.id && (*/}
-            {/*  <EmojiPicker onEmojiClick={handleEmojiClick} />*/}
-            {/*)}*/}
-            {player.turn === 4 && (
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <input type="text" placeholder="Enter emojis" value={player.inputValue || ""} onChange={(e) => handleInputChange(e, player.id)} />
-                <EmojiPicker onEmojiClick={(e, emojiObject) => handleEmojiClick(emojiObject, player.id)} />
-              </div>
+            <p>Username: {player.user.username}</p>
+            <p>Emojis: {player.emojis.join(" ")}</p>
+            {player.id.toString() === currentUser && player.turn === currentTurn &&(
+              <>
+                <TextField
+                  onFocus={handleEmojiInputFocus}
+                  onBlur={handleEmojiInputBlur}
+                  value={chosenEmojis.join(' ')}
+                  placeholder="Click to add emojis"
+                  variant="outlined"
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+                {renderEmojiPicker()}
+                <Button variant="contained" color="primary" onClick={handleSubmitEmojis} disabled={chosenEmojis.length === 0}>
+                  Submit Emojis
+                </Button>
+              </>
             )}
           </div>
         ))}
@@ -135,34 +113,52 @@ const Round = () => {
     );
   };
 
-  const handleInputChange = (event, playerId) => {
-    const inputValue = event.target.value;
-    setGameState(prevState => prevState.map(player => {
-      if (player.id === playerId) {
-        return { ...player, inputValue };
-      }
-      
-      return player;
-    }));
+  const handleEmojiInputBlur = () => {
+    // setShowEmojiPicker(false);
   };
 
-  const handleEmojiClick = (emojiObject, playerId) => {
-    const emoji = emojiObject.emoji;
-    setGameState(prevState => prevState.map(player => {
-      if (player.id === playerId) {
-        const inputValue = (player.inputValue || "") + emoji;
-        
-        return { ...player, inputValue };
-      }
-      
-      return player;
-    }));
+  const handleSubmitEmojis = async () => {
+    try {
+      const requestBody = chosenEmojis;
+
+      await api.post(`/games/${gameId}/emojis?playerId=${currentUser}`, requestBody);
+
+      setChosenEmojis([]);
+
+      // setCurrentTurn(prevTurn => prevTurn + 1);
+
+      const response = await api.get(`/games/${gameId}/`);
+      setGameState(response.data.players);
+      setShowEmojiPicker(false);
+    } catch (error) {
+      console.error("Error saving emojis:", error);
+      setError("Failed to save emojis");
+    }
   };
 
 
-  function handleNavigate() {
-    stomper.send(`/app/games/${gameId}/sortTurnOrder`, {});
-  }
+  const handleEmojiInputFocus = () => {
+    setShowEmojiPicker(true);
+  };
+
+  const renderEmojiPicker = () => {
+    if (showEmojiPicker) {
+      return (
+        <EmojiPicker onEmojiClick={onEmojiClick} />
+      );
+    }
+  };
+
+  const onEmojiClick = (event, emojiObject) => {
+    console.log(emojiObject);
+    setChosenEmojis(prevEmojis => {
+      const newEmojis = [...prevEmojis, emojiObject.emoji];
+      console.log("Updated Chosen Emojis:", newEmojis);
+      return newEmojis;
+    });
+  };
+
+
 
   function toVote() {
     navigate(`/games/${gameId}/vote`);
@@ -170,28 +166,21 @@ const Round = () => {
 
   return (
     <BaseContainer className="round-container">
-      <h1>{renderRoundDescription()}</h1>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <h1>{renderRoundDescription()}</h1>
+        {gameState && <p style={{ marginLeft: "10px" }}>Current turn: {gameState[currentTurn - 1].user.username}</p>}
+      </div>
       {error && <p className="error-message">{error}</p>}
       {renderPlayers()}
-      <div className="button-container">
-        <Button variant="contained" color="primary" onClick={handleNavigate}>
-          Start Round
-        </Button>
-      </div>
 
       <div className="button-container">
         <Button variant="contained" color="primary" onClick={toVote}>
           Vote
         </Button>
       </div>
-
-      <div className="emoji-display">
-        {chosenEmoji.map((emoji, index) => (
-          <span key={index}>{emoji.emoji}</span>
-        ))}
-      </div>
     </BaseContainer>
   );
 };
 
 export default Round;
+

@@ -61,6 +61,7 @@ const Waitingroom = () => {
         if (currentUser.id === hostId && roomInfo.players.length >= 4) {
             try {
                 await api.put(`/games/${gameId}`);
+                await api.post(`/games/${gameId}/sortTurnOrder`)
                 setGameStarted(true);  // Update game started state
             } catch (error) {
                 setError(`Failed to start the game: ${handleError(error)}`);

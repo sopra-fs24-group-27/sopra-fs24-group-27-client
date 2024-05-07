@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import { useWebSocket } from 'context/WebSocketContext';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import '../../styles/views/VotePage.scss';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Button from "@mui/material/Button";
+import { useWebSocket } from "context/WebSocketContext";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import "../../styles/views/VotePage.scss";
 import { api, handleError } from "helpers/api";
-import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 
 const VotePage = () => {
 
@@ -51,23 +51,23 @@ const VotePage = () => {
     if (playerId.toString() === localStorage.getItem("userId") || hasVoted) return;  // Cannot vote for self or if already voted
     setVotedPlayer(playerId);
     setOpenConfirmation(true);
-    };
+  };
 
   
   const confirmVote = async () => {
     try {
       const response = await api.post(`/games/${gameId}/vote`, { playerId: votedPlayer });
       if (response.ok) {
-      alert(`Vote for ${players.find(player => player.id === votedPlayer).username} successful!`);
-      setOpenConfirmation(false);
-      setHasVoted(true); // Mark that current player has voted
-    } else {
-    console.error("Failed to send vote:", response.statusText);
+        alert(`Vote for ${players.find(player => player.id === votedPlayer).username} successful!`);
+        setOpenConfirmation(false);
+        setHasVoted(true); // Mark that current player has voted
+      } else {
+        console.error("Failed to send vote:", response.statusText);
       }
     } catch (error) {
-    console.error("Error sending vote:", error);
-      }
-    };
+      console.error("Error sending vote:", error);
+    }
+  };
   
 
   /*TESTING
@@ -87,7 +87,7 @@ const VotePage = () => {
 
   return (
     <div className="vote-page">
-     <h1 className="page-title" style={{ fontSize: "24px", color: "white", display: "flex", justifyContent: "center"}}>Who do you think the spy is?</h1>
+      <h1 className="page-title" style={{ fontSize: "24px", color: "white", display: "flex", justifyContent: "center"}}>Who do you think the spy is?</h1>
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
         <AccessAlarmIcon style={{ fontSize: 48 }} />
         <span style={{ fontSize: 24, marginLeft: 10 }}>{timer}</span>
@@ -97,11 +97,11 @@ const VotePage = () => {
           <div key={player.id} className="player">
             <Button
               variant="contained"
-              style={{ backgroundColor: '#AFEEEE', 
-              color: '#00008B', 
-              textAlign: "center", 
-              display: "block", 
-              margin: "0 auto" }} 
+              style={{ backgroundColor: "#AFEEEE", 
+                color: "#00008B", 
+                textAlign: "center", 
+                display: "block", 
+                margin: "0 auto" }} 
               disabled={player.id.toString() === localStorage.getItem("userId") || hasVoted}
               onClick={() => handleVote(player.id)}
             >
@@ -121,10 +121,10 @@ const VotePage = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseConfirmation} style={{ color: 'grey' }}>
+          <Button onClick={handleCloseConfirmation} style={{ color: "grey" }}>
             Cancel
           </Button>
-          <Button onClick={confirmVote} style={{ color: '#DB70DB' }}>
+          <Button onClick={confirmVote} style={{ color: "#DB70DB" }}>
             Confirm
           </Button>
         </DialogActions>

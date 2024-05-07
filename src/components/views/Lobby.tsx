@@ -7,18 +7,17 @@ import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
 import User from "models/User";
-import Button from '@mui/material/Button';
-import Popover from '@mui/material/Popover';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import FormControl from '@mui/material/FormControl';
-import Input from '@mui/material/Input';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { useWebSocket } from 'context/WebSocketContext';  // Ensure the path is correct
-
+import Button from "@mui/material/Button";
+import Popover from "@mui/material/Popover";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import Input from "@mui/material/Input";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useWebSocket } from "context/WebSocketContext";  // Ensure the path is correct
 
 
 const Player = ({ user }: { user: User }) => {
@@ -43,7 +42,7 @@ const Player = ({ user }: { user: User }) => {
       </p>
       <Button
         variant="text"
-        style={{ marginTop: '20px', left: '15%', color: 'white' }}
+        style={{ marginTop: "20px", left: "15%", color: "white" }}
         onClick={navigateToProfile}
       >
         → Profile ←
@@ -146,15 +145,15 @@ const Game = () => {
     const usersColumn2 = sortedUsers.slice(usersPerColumn);
 
     content = (
-      <div className="game" style={{ maxHeight: '50vh', overflowY: 'auto', display: 'flex' }}>
-        <ul className="game user-list" style={{ marginRight: '10px' }}>
+      <div className="game" style={{ maxHeight: "50vh", overflowY: "auto", display: "flex" }}>
+        <ul className="game user-list" style={{ marginRight: "10px" }}>
           {usersColumn1.map((user: User) => (
             <li key={user.id}>
               <Player user={user} />
             </li>
           ))}
         </ul>
-        <ul className="game user-list" style={{ marginRight: '10px' }}>
+        <ul className="game user-list" style={{ marginRight: "10px" }}>
           {usersColumn2.map((user: User) => (
             <li key={user.id}>
               <Player user={user} />
@@ -179,38 +178,37 @@ const Game = () => {
   };
 
 
-// Function to handle room creation
-const handleConfirmRoom = async () => {
-  handleCloseRoom();  // Ensure the room creation popover is closed after confirming
+  // Function to handle room creation
+  const handleConfirmRoom = async () => {
+    handleCloseRoom();  // Ensure the room creation popover is closed after confirming
 
-  try {
-    const settings = {
-      market: selectedMarket,
-      artist: selectedArtist,
-      genre: selectedGenre,
-    };
-    const roomData = {
-      hostId: userId,  // Assuming userId is stored and retrieved correctly
-      settings,
-      currentRound: 0,  // Assuming you start at round 0
-      players: []  // Initially, there are no players until they join
-    };
-    const response = await api.post('/games', roomData);
-    console.log("Room created successfully", response.data);
-    const gameId = response.data.gameId;
+    try {
+      const settings = {
+        market: selectedMarket,
+        artist: selectedArtist,
+        genre: selectedGenre,
+      };
+      const roomData = {
+        hostId: userId,  // Assuming userId is stored and retrieved correctly
+        settings,
+        currentRound: 0,  // Assuming you start at round 0
+        players: []  // Initially, there are no players until they join
+      };
+      const response = await api.post("/games", roomData);
+      console.log("Room created successfully", response.data);
+      const gameId = response.data.gameId;
 
-    // Navigate to the game's lobby or waiting room
-    navigate(`/games/${gameId}/waitingroom`);
-  } catch (error) {
-    console.error(`Something went wrong while creating the room: ${handleError(error)}`);
-    alert(`Something went wrong while creating the room: ${handleError(error)}`);
-  }
-};
-
+      // Navigate to the game's lobby or waiting room
+      navigate(`/games/${gameId}/waitingroom`);
+    } catch (error) {
+      console.error(`Something went wrong while creating the room: ${handleError(error)}`);
+      alert(`Something went wrong while creating the room: ${handleError(error)}`);
+    }
+  };
 
 
   const JoinRoomPopover = () => {
-    const [tempRoomId, setTempRoomId] = useState('');  // To hold the room ID input by the user
+    const [tempRoomId, setTempRoomId] = useState("");  // To hold the room ID input by the user
     const navigate = useNavigate();
 
     const handleJoinRoom = async () => {
@@ -240,8 +238,8 @@ const handleConfirmRoom = async () => {
 
     const handleCloseJoinRoom = () => {
       setJoinRoomAnchorEl(null);
-      setRoomIdInput('');
-      setTempRoomId('');
+      setRoomIdInput("");
+      setTempRoomId("");
     };
 
     return (
@@ -358,7 +356,7 @@ const handleConfirmRoom = async () => {
         </Popover>
       </div>
 
-      <h2 style={{ fontFamily: 'Comic Sans MS' }}>Welcome to LyricLies!</h2>
+      <h2 style={{ fontFamily: "Comic Sans MS" }}>Welcome to LyricLies!</h2>
       <Button
         variant="contained"
         style={{ marginTop: "20px", backgroundColor: "#DB70DB", color: "#00008B" }}
@@ -462,11 +460,11 @@ const handleConfirmRoom = async () => {
       </p>
       {content}
       <Button
-            style={{ width: '100%', color: 'white', marginTop: '20px' }}
-            onClick={() => logout()}
-          >
+        style={{ width: "100%", color: "white", marginTop: "20px" }}
+        onClick={() => logout()}
+      >
             Logout
-          </Button>
+      </Button>
     </BaseContainer>
   );
 

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import Button from "@mui/material/Button";
 import EmojiPicker from "emoji-picker-react";
-import { api, handleError } from 'helpers/api';
+import { api, handleError } from "helpers/api";
 import TextField from "@mui/material/TextField";
 
 const Round = () => {
@@ -49,12 +49,12 @@ const Round = () => {
   // Render the round description based on the current round state
   const renderRoundDescription = () => {
     switch (round) {
-      case 1:
-        return "Round 1 Description";
-      case 2:
-        return "Round 2 Description";
-      default:
-        return "Please click on vote";
+    case 1:
+      return "Round 1 Description";
+    case 2:
+      return "Round 2 Description";
+    default:
+      return "Please click on vote";
     }
   };
 
@@ -91,7 +91,7 @@ const Round = () => {
                 <TextField
                   onFocus={handleEmojiInputFocus}
                   onBlur={handleEmojiInputBlur}
-                  value={chosenEmojis.join(' ')}
+                  value={chosenEmojis.join(" ")}
                   placeholder="Click to add emojis"
                   variant="outlined"
                   fullWidth
@@ -153,6 +153,7 @@ const Round = () => {
     setChosenEmojis(prevEmojis => {
       const newEmojis = [...prevEmojis, emojiObject.emoji];
       console.log("Updated Chosen Emojis:", newEmojis);
+      
       return newEmojis;
     });
   };

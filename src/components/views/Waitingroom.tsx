@@ -88,9 +88,9 @@ const Waitingroom = () => {
             </div>
             <p>Host: {hostUsername}</p>
             {error && <p className="error-message">{error}</p>}
-            <div className="player-list">
+            <div className="player-list" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', width: '80%', margin: '0 auto'}}>
                 {roomInfo?.players && roomInfo.players.map((player, index) => (
-                    <div key={index} className="player-wrapper">
+                    <div key={index} className="player-wrapper" style={{ width: '40%', boxSizing: 'border-box', padding: '10px', margin: '0 40px 10px 0'}}>
                         <Player user={{ ...player.user, scores: player.score ?? 0 }} />
                     </div>
                 ))}
@@ -101,6 +101,7 @@ const Waitingroom = () => {
                         variant="contained"
                         color="primary"
                         onClick={startGame}
+                        style={{ marginTop: '20px', backgroundColor: '#AFEEEE', color: '#00008B' }}
                         disabled={gameStarted}  // Disable if game has already started
                     >
                         Start Game

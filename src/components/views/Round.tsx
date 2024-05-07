@@ -29,7 +29,7 @@ const Round = () => {
         setGameState(response.data.players);
         setRoomInfo(response.data);
         setCurrentTurn(response.data.currentTurn);
-
+        setRound(response.data.currentRound);
         console.log("currentturn",currentTurn)
       } catch (error) {
         console.error("Error fetching game state:", error);
@@ -53,10 +53,8 @@ const Round = () => {
         return "Round 1 Description";
       case 2:
         return "Round 2 Description";
-      case 3:
-        return "Round 3 Description";
       default:
-        return "Voting";
+        return "Please click on vote";
     }
   };
 
@@ -129,6 +127,7 @@ const Round = () => {
 
       const response = await api.get(`/games/${gameId}/`);
       setGameState(response.data.players);
+      // setRound(response.data.currentRound);
       setShowEmojiPicker(false);
     } catch (error) {
       console.error("Error saving emojis:", error);
@@ -158,10 +157,39 @@ const Round = () => {
     });
   };
 
-
+  const renderButtons = () => {
+    if (round === 1 || round === 2) {
+      return (
+        <>
+          <Button variant="contained" color="primary" onClick={toVote} style={{ marginRight: "10px" }}>
+            Vote
+          </Button>
+          <Button variant="contained" color="secondary" onClick={toNextRound}>
+            Next Round
+          </Button>
+        </>
+      );
+    } else if (round === 3) {
+      return (
+        <Button variant="contained" color="primary" onClick={toVote}>
+          Vote
+        </Button>
+      );
+    }
+  };
 
   function toVote() {
     navigate(`/games/${gameId}/vote`);
+  }
+
+  const toNextRound = async () =>{
+    try {
+      const response = await api.get(`/games/${gameId}/`);
+      setRound(response.data.currentRound);
+    } catch (error) {
+      console.error("Error Nest Round:", error);
+      setError("Failed to nest round");
+    }
   }
 
   return (
@@ -174,9 +202,7 @@ const Round = () => {
       {renderPlayers()}
 
       <div className="button-container">
-        <Button variant="contained" color="primary" onClick={toVote}>
-          Vote
-        </Button>
+        {renderButtons()}
       </div>
     </BaseContainer>
   );

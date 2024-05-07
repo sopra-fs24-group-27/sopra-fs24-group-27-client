@@ -198,3 +198,14 @@
 **Qingcheng Wang**
 - Completed repository test. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/8fb3a3f44eb5bdc8600957187c9cb3eef1047580)
 - Complete the correlation logic between voting and room waiting. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6288ec9dffd9ca358f458e28bc05005137d177c6)
+
+
+## 03.5 - 09.5 
+
+**Yuying Zhong**
+- Completed #26[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/26) on the client side. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/1bd35887be5b00ab8a6eb9a6835e2f69a9d744b3)
+- Refined the Lobby page[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/c3a30c7fcf12ef4e76ec0392ff423617c523b94f) and Waitingroom page[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/c771d36331d32ab1311cf62fcfb82817f82b163d).Related task #43[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/43) and #42[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/42)
+- Refined the Profile page[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/9e1ec7e327abb0f51562063955df77bdc96ddd01).Related task[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/47)
+- Completed #25[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/25) and #29[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/29) on the client side. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6bf61a68f84411d7833b24a5003a8331edf26dd6).
+- Created the End page for revealing the results of the games and Completed task #46[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/46). [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6bf61a68f84411d7833b24a5003a8331edf26dd6)
+- Added selectable avatars to the register page. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/4b2d7931d23176d62e9eb9f9d99fb3456c4523c0)

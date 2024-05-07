@@ -1,147 +1,109 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import BaseContainer from "components/ui/BaseContainer";
-import Button from "@mui/material/Button";
-import Player from "./Player";
-import { useWebSocket } from "context/WebSocketContext";
-import "../../styles/views/Playerlist.scss";
-
-const saveMessages = (messages) => {
-  localStorage.setItem("waitingroomMessages", JSON.stringify(messages));
-};
-
-const loadMessages = () => {
-  const savedMessages = localStorage.getItem("waitingroomMessages");
-  
-  return savedMessages ? JSON.parse(savedMessages) : [];
-};
-
-const dropMessages = () => {
-  localStorage.removeItem("waitingroomMessages");
-}
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import BaseContainer from 'components/ui/BaseContainer';
+import Button from '@mui/material/Button';
+import Player from './Player';
+import '../../styles/views/Playerlist.scss';
+import IconButton from '@mui/material/IconButton';
+import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
+import { api, handleError } from 'helpers/api';
 
 const Waitingroom = () => {
-  const { gameId } = useParams();
-  const navigate = useNavigate();
-  const stomper = useWebSocket();
-  const [roomInfo, setRoomInfo] = useState({ players: [], hostId: null });
-  const [currentUser, setCurrentUser] = useState({ id: null, username: null });
-  const [host, setHostUser] = useState({ id: null });
-  const [error, setError] = useState(null);
+    const { gameId } = useParams();
+    const navigate = useNavigate();
+    const [roomInfo, setRoomInfo] = useState({ players: [], hostId: null });
+    const [currentUser, setCurrentUser] = useState({ id: null });
+    const [hostUsername, setHostUsername] = useState('');
+    const [hostId, setHostId] = useState(null);
+    const [error, setError] = useState(null);
+    const [gameStarted, setGameStarted] = useState(false);  // State to track if the game has started
 
-  const [messages, setMessages] = useState(loadMessages());
+    useEffect(() => {
+        const userId = localStorage.getItem("userId");
 
-  useEffect(() => {
-    if (!gameId || !stomper) return;
-
-    const connectAndSubscribe = async () => {
-      try {
-        await stomper.connect(gameId, localStorage.getItem("userId"));
-        const waitingRoomSubscription = stomper.subscribe(`/topic/games/${gameId}/waitingroom`, message => {
-          console.log("Waiting room 1:", message.body);
-
-          const newMessage = JSON.parse(message.body);
-          setMessages(prevMessages => {
-            const updatedMessages = [...prevMessages, newMessage];
-            saveMessages(updatedMessages);
-            
-            return updatedMessages;
-          });
-          console.log("Waiting room updated:", newMessage);
-          setRoomInfo(newMessage);
-          updateCurrentUserAndHost(newMessage, localStorage.getItem("userId"));
-        });
-
-        const startSubscription = stomper.subscribe(`/topic/games/${gameId}/start`, message => {
-          const data = JSON.parse(message.body);
-          console.log("Game start confirmed:", data);
-          console.log("Game start confirmed:", data);
-          navigate(`/games/${gameId}/listen`);
-        });
-
-        const errorSubscription = stomper.subscribe(`/topic/games/${gameId}/errors`, message => {
-          try {
-            const error = JSON.parse(message.body);
-            setError(error.error || "Unknown error occurred");
-          } catch (e) {
-            // If JSON parsing fails, handle plain text error
-            setError(message.body || "Error occurred");
-          }
-          console.error("Error received:", message.body);
-        });
-
-        return () => {
-          waitingRoomSubscription.unsubscribe();
-          dropMessages();
-          startSubscription.unsubscribe();
-          errorSubscription.unsubscribe();
+        const fetchGameRoomDetails = async () => {
+            try {
+                const response = await api.get(`/games/${gameId}`);
+                setRoomInfo(response.data);
+                const hostPlayer = response.data.players.find(p => p.id === response.data.hostId);
+                if (hostPlayer) {
+                    setHostUsername(hostPlayer.user.username);
+                    setHostId(hostPlayer.user.id);
+                }
+                const currentUserDetails = response.data.players.find(p => p.user.id === parseInt(userId, 10));
+                if (currentUserDetails) {
+                    setCurrentUser(currentUserDetails.user);  // Update to use user object
+                }
+                // Check if game has started based on some condition or flag in the response
+                if (response.data.currentRound > 0) {  // Assuming 'currentRound' changes when the game starts
+                    setGameStarted(true);
+                }
+            } catch (error) {
+                console.error(`Failed to fetch game details: ${handleError(error)}`);
+                setError(`Failed to fetch game details: ${handleError(error)}`);
+            }
         };
-      } catch (error) {
-        console.error("Failed to connect to WebSocket:", error);
-      }
+
+        const intervalId = setInterval(fetchGameRoomDetails, 2000); // Poll every 2 seconds
+        fetchGameRoomDetails();
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [gameId, navigate]);
+
+    useEffect(() => {
+        if (gameStarted) {
+            navigate(`/games/${gameId}/listen/${currentUser.id}`);  // Navigate all players when game starts
+        }
+    }, [gameStarted, gameId, currentUser.id, navigate]);
+
+    const startGame = async () => {
+        if (currentUser.id === hostId && roomInfo.players.length >= 4) {
+            try {
+                await api.put(`/games/${gameId}`);
+                await api.post(`/games/${gameId}/sortTurnOrder`)
+                setGameStarted(true);  // Update game started state
+            } catch (error) {
+                setError(`Failed to start the game: ${handleError(error)}`);
+            }
+        }
     };
 
-    connectAndSubscribe();
-
-    setRoomInfo(messages[messages.length - 1]);
-    updateCurrentUserAndHost(messages[messages.length - 1], localStorage.getItem("userId"));
-
-    return () => {
-      stomper.disconnect(); // Properly handle WebSocket disconnect
+    const handleCopyId = () => {
+        navigator.clipboard.writeText(gameId).then(() => {
+            alert('Game ID copied to clipboard!');
+        }, (err) => {
+            console.error('Could not copy text: ', err);
+            alert('Failed to copy Game ID');
+        });
     };
-  }, [stomper, gameId, navigate, messages]);
 
-  const updateCurrentUserAndHost = (data, userId) => {
-    const hostPlayer = data?.players && data?.players?.find(p => p.id === data.hostId);
-    const currentUserDetails = data?.players?.find(p => p.userId === parseInt(userId, 10));
-    if (hostPlayer && currentUserDetails) {
-      setHostUser({ id: hostPlayer.id });
-      setCurrentUser({ id: currentUserDetails.userId, username: currentUserDetails.username });
-    }
-  };
-
-
-  const startGame = () => {
-    if (parseInt(currentUser.id, 10) === host.id && roomInfo.players.length >= 4) {
-      stomper.send(`/app/games/${gameId}/start`, {});
-      console.log("Game start request sent by the host");
-    }
-    navigate(`/games/${gameId}/listen`);
-  };
-
-  const renderPlayers = () => roomInfo.players.map((player, index) => (
-    <div key={index} className="player-wrapper">
-      <Player user={{ ...player, scores: player.score ?? 0 }} />
-    </div>
-  ));
-
-  const numberOfPlaceholders = Math.max(0, 4 - (roomInfo?.players ? roomInfo?.players?.length : 0));  // show at least 4 placeholders
-
-  return (
-    <BaseContainer className="room-container">
-      <h1 className="room-title">Room ID: {gameId}</h1>
-      <p>Host: {(roomInfo?.players) && roomInfo.players.find(p => p.id === host.id)?.username}</p>
-      {error && <p className="error-message">{error}</p>}
-      <div className="player-list">
-        {roomInfo?.players && roomInfo.players.map((player, index) => (
-          <div key={index} className="player-wrapper">
-            <Player user={{ ...player, scores: player.score ?? 0 }} />
-          </div>
-        ))}
-        {[...Array(numberOfPlaceholders)].map((_, index) => (
-          <div key={index} className="player-placeholder">
-            <p>Waiting for player {index + 1 + (roomInfo?.players?.length ? roomInfo.players.length : 0)}...</p>
-          </div>
-        ))}
-      </div>
-      {parseInt(currentUser.id, 10) === host.id && (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={startGame}
-            disabled={roomInfo?.players ? roomInfo.players.length < 4 : true}
-          >
+    return (
+        <BaseContainer className="room-container">
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <h1 className="room-title">Room ID: {gameId}</h1>
+                <IconButton onClick={handleCopyId}>
+                    <FileCopyOutlinedIcon />
+                </IconButton>
+            </div>
+            <p>Host: {hostUsername}</p>
+            {error && <p className="error-message">{error}</p>}
+            <div className="player-list" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', width: '80%', margin: '0 auto'}}>
+                {roomInfo?.players && roomInfo.players.map((player, index) => (
+                    <div key={index} className="player-wrapper" style={{ width: '40%', boxSizing: 'border-box', padding: '10px', margin: '0 40px 10px 0'}}>
+                        <Player user={{ ...player.user, scores: player.score ?? 0 }} />
+                    </div>
+                ))}
+            </div>
+            {parseInt(currentUser.id, 10) === roomInfo.hostId && roomInfo.players.length === 4 && (
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={startGame}
+                        style={{ marginTop: '20px', backgroundColor: '#AFEEEE', color: '#00008B' }}
+                        disabled={gameStarted}  // Disable if game has already started
+                    >
                         Start Game
           </Button>
         </div>

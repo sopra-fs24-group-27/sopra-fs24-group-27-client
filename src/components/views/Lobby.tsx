@@ -7,18 +7,18 @@ import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
 import User from "models/User";
-import Button from "@mui/material/Button";
-import Popover from "@mui/material/Popover";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import { v4 as uuidv4 } from "uuid";
-import Input from "@mui/material/Input";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useWebSocket } from "context/WebSocketContext";  // Ensure the path is correct
+import Button from '@mui/material/Button';
+import Popover from '@mui/material/Popover';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { useWebSocket } from 'context/WebSocketContext';  // Ensure the path is correct
+
 
 
 const Player = ({ user }: { user: User }) => {
@@ -43,10 +43,10 @@ const Player = ({ user }: { user: User }) => {
       </p>
       <Button
         variant="text"
-        style={{ marginTop: "20px", left: "5%", color: "#DB70DB" }}
+        style={{ marginTop: '20px', left: '15%', color: 'white' }}
         onClick={navigateToProfile}
       >
-        → View Profile ←
+        → Profile ←
       </Button>
     </div>
   );
@@ -140,20 +140,26 @@ const Game = () => {
   let content = <Spinner />;
 
   if (users) {
+    const sortedUsers = users.slice().sort((a, b) => b.id - a.id);
+    const usersPerColumn = Math.ceil(sortedUsers.length / 2);
+    const usersColumn1 = sortedUsers.slice(0, usersPerColumn);
+    const usersColumn2 = sortedUsers.slice(usersPerColumn);
+
     content = (
-      <div className="game">
-        <ul className="game user-list">
-          {users.map((user: User) => (
+      <div className="game" style={{ maxHeight: '50vh', overflowY: 'auto', display: 'flex' }}>
+        <ul className="game user-list" style={{ marginRight: '10px' }}>
+          {usersColumn1.map((user: User) => (
             <li key={user.id}>
               <Player user={user} />
             </li>
           ))}
-          <Button
-            style={{ width: "100%", color: "white" }}
-            onClick={() => logout()}
-          >
-            Logout
-          </Button>
+        </ul>
+        <ul className="game user-list" style={{ marginRight: '10px' }}>
+          {usersColumn2.map((user: User) => (
+            <li key={user.id}>
+              <Player user={user} />
+            </li>
+          ))}
         </ul>
       </div>
     );
@@ -173,73 +179,60 @@ const Game = () => {
   };
 
 
-  // Function to handle room creation
-  const handleConfirmRoom = async () => {
-    try {
-      const settings = {
-        market: selectedMarket,
-        artist: selectedArtist,
-        genre: selectedGenre,
-      };
-      const roomData = { settings };
-      console.log("Creating room with settings", roomData);
-      const response = await api.post(`/games?userId=${userId}`, roomData);
-      console.log("Room created successfully", response.data);
-      const gameId = response.data.gameId;
+// Function to handle room creation
+const handleConfirmRoom = async () => {
+  handleCloseRoom();  // Ensure the room creation popover is closed after confirming
 
-      await stomper.connect(gameId, userId);
-      console.log("Connected to WebSocket server");
+  try {
+    const settings = {
+      market: selectedMarket,
+      artist: selectedArtist,
+      genre: selectedGenre,
+    };
+    const roomData = {
+      hostId: userId,  // Assuming userId is stored and retrieved correctly
+      settings,
+      currentRound: 0,  // Assuming you start at round 0
+      players: []  // Initially, there are no players until they join
+    };
+    const response = await api.post('/games', roomData);
+    console.log("Room created successfully", response.data);
+    const gameId = response.data.gameId;
 
-      // Send the join request
-      await stomper.send(`/app/games/${gameId}/join`, { userId: userId });
-      console.log("Join request sent");
+    // Navigate to the game's lobby or waiting room
+    navigate(`/games/${gameId}/waitingroom`);
+  } catch (error) {
+    console.error(`Something went wrong while creating the room: ${handleError(error)}`);
+    alert(`Something went wrong while creating the room: ${handleError(error)}`);
+  }
+};
 
-      // Subscribe to the waiting room updates
-      await stomper.subscribe(`/topic/games/${gameId}/waitingroom`, message => {
-        const data = JSON.parse(message.body);
-        console.log("Received message from waiting room", data);
-      });
-
-      navigate(`/games/${gameId}/waitingroom`);
-    } catch (error) {
-      alert(`Something went wrong while creating the room: ${handleError(error)}`);
-    }
-  };
 
 
   const JoinRoomPopover = () => {
-    const [tempRoomId, setTempRoomId] = useState("");  // To hold the room ID input by the user
+    const [tempRoomId, setTempRoomId] = useState('');  // To hold the room ID input by the user
     const navigate = useNavigate();
 
     const handleJoinRoom = async () => {
-      const userId = localStorage.getItem("userId");
       if (!tempRoomId) {
         alert("Please enter a room ID.");
 
         return;
       }
+    
       try {
-        await stomper.connect(tempRoomId, userId);
-        console.log("Connected to WebSocket server");
-
-        // Send the join request
-        await stomper.send(`/app/games/${tempRoomId}/join`, { userId: parseInt(userId, 10) });
-        console.log("Join request sent");
-
-        // Subscribe to the waiting room updates
-        await stomper.subscribe(`/topic/games/${tempRoomId}/waitingroom`, message => {
-          const data = JSON.parse(message.body);
-          console.log("Received message from waiting room", data);
-        });
-
-        // Navigate to the waiting room view
+        const response = await api.post(`/games/${tempRoomId}/join?userId=${userId}`);
+        console.log("Joined room successfully", response.data);
+    
+        // Navigate to the game's waiting room
         navigate(`/games/${tempRoomId}/waitingroom`);
       } catch (error) {
         console.error(`Failed to join room: ${handleError(error)}`);
         alert("Failed to join the room.");
+      } finally {
+        handleCloseJoinRoom();  // Close the join room popover regardless of outcome
       }
     }
-
 
     const handleRoomIdChange = (event) => {
       setTempRoomId(event.target.value);
@@ -247,8 +240,8 @@ const Game = () => {
 
     const handleCloseJoinRoom = () => {
       setJoinRoomAnchorEl(null);
-      setRoomIdInput("");
-      setTempRoomId("");
+      setRoomIdInput('');
+      setTempRoomId('');
     };
 
     return (
@@ -365,7 +358,7 @@ const Game = () => {
         </Popover>
       </div>
 
-      <h2>Welcome to LyricLies!</h2>
+      <h2 style={{ fontFamily: 'Comic Sans MS' }}>Welcome to LyricLies!</h2>
       <Button
         variant="contained"
         style={{ marginTop: "20px", backgroundColor: "#DB70DB", color: "#00008B" }}
@@ -468,6 +461,12 @@ const Game = () => {
         All Players:
       </p>
       {content}
+      <Button
+            style={{ width: '100%', color: 'white', marginTop: '20px' }}
+            onClick={() => logout()}
+          >
+            Logout
+          </Button>
     </BaseContainer>
   );
 

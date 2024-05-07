@@ -1,117 +1,42 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import BaseContainer from "components/ui/BaseContainer";
-import SongPlayer from "./SongPlayer";
-import { useWebSocket } from "context/WebSocketContext";
-import "../../styles/views/Listen.scss";
-import "../../styles/ui/MusicPlayer.scss";
-import ReactPlayer from "react-player";
-import { Button } from "@mui/material";
-
-// Functions to manage messages in localStorage
-const saveMessages = (messages) => {
-  localStorage.setItem("listenMessages", JSON.stringify(messages));
-}
-
-const loadMessages = () => {
-  const savedMessages = localStorage.getItem("listenMessages");
-  
-  return savedMessages ? JSON.parse(savedMessages) : [];
-}
-
-const dropMessages = () => {
-  localStorage.removeItem("listenMessages");
-}
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import BaseContainer from 'components/ui/BaseContainer';
+import ReactPlayer from 'react-player';
+import { api, handleError } from 'helpers/api';
 
 const Listen = () => {
+  const { gameId, playerId } = useParams(); // Retrieve both gameId and playerId from URL
   const navigate = useNavigate();
-  const { gameId } = useParams();
-  const stomper = useWebSocket();
   const [error, setError] = useState(null);
   const [song, setSong] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(30); // Timer set for 30 seconds
 
   useEffect(() => {
-    if (!gameId || !stomper) {
-      setError("Missing game ID or WebSocket connection");
-      
+    if (!gameId || !playerId) {
+      setError("Missing game ID or Player ID");
       return;
     }
 
-    let listenSubscription, errorSubscription;
-
-    const connectAndSubscribe = async () => {
+    const fetchSongInfo = async () => {
       try {
-        await stomper.connect(gameId, localStorage.getItem("userId"));
-        
-        listenSubscription = stomper.subscribe(`/user/topic/games/${gameId}/listen`, message => {
-          console.log("Received message:", message.body);
-          const newMessage = JSON.parse(message.body);
-          const messages = loadMessages();
-          messages.push(newMessage);
-          saveMessages(messages);
-          setSong(newMessage);
-        });
-
-        errorSubscription = stomper.subscribe(`/topic/games/${gameId}/errors`, message => {
-          const errorData = JSON.parse(message.body);
-          console.error("Error received:", errorData);
-          setError(errorData.error || "Unknown error occurred");
-        });
-
-        return () => {
-          listenSubscription.unsubscribe();
-          errorSubscription.unsubscribe();
-          dropMessages();
-          stomper.disconnect();
-        };
-      } catch (e) {
-        console.error("Error connecting to WebSocket:", e);
-        setError("Error connecting to WebSocket");
+        const response = await api.get(`/games/${gameId}/listen/${playerId}`);
+        setSong(response.data);
+        console.log("Song data:", response.data);
+      } catch (error) {
+        console.error("Failed to fetch song data:", handleError(error));
+        setError("Failed to fetch song data");
       }
     };
 
-    connectAndSubscribe();
-
-    return () => {
-      if (listenSubscription) listenSubscription.unsubscribe();
-      if (errorSubscription) errorSubscription.unsubscribe();
-      stomper.disconnect();
-    };
-  }, [gameId, stomper]);
+    fetchSongInfo();
+  }, [gameId, playerId]);
 
   useEffect(() => {
-    if (!song) {
-      setSong({
-        title: "Animals",
-        artist: "Maroon 5",
-        imageUrl: "https://i.scdn.co/image/ab67616d0000b2737a2a4b225ad828477e358206",
-        playUrl: "https://api.spotify.com/v1/tracks/4H52xXIWHfi68h8VqBcS4V"
-      });
-    }
-  }, [song]);
-
-  useEffect(() => {
-    let timer;
-    if (timeLeft > 0) {
-      timer = setInterval(() => setTimeLeft(timeLeft - 1), 1000);
-    } else {
-      navigate(`/games/${gameId}/round`);
-    }
-
-    return () => clearInterval(timer);
-  }, [timeLeft, navigate, gameId]);
-
-  const handleNavigate = () => {
-    if (timeLeft > 0) {
-      const confirmMove = window.confirm("The timer has not expired, are you sure you want to start?");
-      if (confirmMove) {
+    if (song) {
+      setTimeout(() => {
         navigate(`/games/${gameId}/round`);
-      }
-    } else {
-      navigate(`/games/${gameId}/round`);
+      }, 30000); // Redirect after 30 seconds
     }
-  };
+  }, [song, navigate, gameId]);
 
   return (
     <BaseContainer className="music-player-container">
@@ -119,20 +44,21 @@ const Listen = () => {
         {error && <div className="error">{error}</div>}
         {song ? (
           <>
-            <img src={song.imageUrl} alt={`Cover for ${song.title}`} style={{ width: "400px", height: "400px", marginBottom: "20px" }} />
-            <ReactPlayer url={song.playUrl} playing controls width="100%" height="50px" />
-            <h3>{song.title}</h3>
-            <p>Artist: {song.artist}</p>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10px'}}>
+              <div style={{width: '100%', textAlign: 'center', padding: '10px', fontSize: '18px', fontWeight: 'bold', marginBottom: '10px'}}>
+                Hey, this is the song you got, please enjoy: <span style={{ fontWeight: 'bold', fontSize: '20px' }}>{song.songTitle}</span> by <span style={{ fontWeight: 'bold', fontSize: '20px' }}>{song.songArtist}</span>
+              </div>
+              <img src={song.imageUrl} alt={`Cover for ${song.songTitle}`} style={{ width: '400px', height: '400px', marginBottom: '20px', marginTop: '-20px' }} />
+              <ReactPlayer url={song.playUrl} playing controls width="400px" height="50px" />
+              <div style={{ marginTop: '10px', fontWeight: 'bold', fontSize: '16px' }}>
+              Please listen to the <span style={{ fontSize: '18px', fontWeight: 'bold' }}>30 seconds</span> highlights of the song carefully.
+              You will be asked to describe it later!
+              </div>
+            </div>
           </>
         ) : (
           <p>Loading song...</p>
         )}
-      </div>
-      <div className="button-container">
-        <Button variant="contained" color="primary" onClick={handleNavigate}>
-          Start Round
-        </Button>
-        <p>Time remaining: {timeLeft} seconds</p>
       </div>
     </BaseContainer>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { WebSocketProvider } from './context/WebSocketContext';
 import App from "./App";
 import { WebSocketProvider } from "./context/WebSocketContext";
 import "./styles/index.scss";

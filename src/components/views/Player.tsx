@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const Player = ({ user }) => {
   if (!user) return null;
-  
+
   return (
     <div className="player container" style={{ width: "350px", height: "250px" }}>
       <p>
@@ -18,7 +18,7 @@ const Player = ({ user }) => {
 // Define the expected prop types
 Player.propTypes = {
   user: PropTypes.shape({
-    id: PropTypes.number.isRequired,        
+    id: PropTypes.number.isRequired,
     username: PropTypes.string.isRequired,
     scores: PropTypes.number.isRequired,
   })

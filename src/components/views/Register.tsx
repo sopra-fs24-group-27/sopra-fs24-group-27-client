@@ -1,48 +1,52 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import NightlifeOutlinedIcon from '@mui/icons-material/NightlifeOutlined';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { api, handleError } from "helpers/api";
 import User from "models/User";
 import {useNavigate} from "react-router-dom";
 
-const defaultTheme = createTheme();
+import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
+import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
+import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
+import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
+import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
+import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
+import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
 
-const FormField = (props) => {
-  return (
-    <div className="login field">
-      <label className="login label">{props.label}</label>
-      <input
-        className="login input"
-        placeholder="enter here.."
-        value={props.value}
-        onChange={(e) => props.onChange(e.target.value)}
-      />
-    </div>
-  );
-};
 
-FormField.propTypes = {
-  label: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-};
+const defaultTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#7e57c2', 
+    },
+  },
+  typography: {
+    fontFamily: 'Comic Sans MS', 
+  },
+});
+
+const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
 
 export default function Register() {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [selectedAvatarIndex, setSelectedAvatarIndex] = useState(0);
 
+  const handleAvatarClick = (index) => {
+    setSelectedAvatarIndex(index);
+  };
 
   const handleRegister = async () => {
     try {
@@ -66,40 +70,19 @@ export default function Register() {
         throw new Error("Registration failed");
       }
     } catch (error) {
-      alert(`Something went wrong during the registration: \n${handleError(error)}`);
+      alert(`The user name already exists. Try another one :D`);
     }
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
-        <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage: "url(/images/LyricLies6.png)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light" ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <Box
-            sx={{
-              my: 8,
-              mx: 4,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
+      <CssBaseline />
+        <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', marginTop: '-80px'  }}>
+        <Grid item xs={12} sm={8} md={4}>
+          <Paper elevation={6} square sx={{ backgroundColor: 'rgba(235, 200, 255, 0.7)', borderRadius: '50px 10px 50px 10px' }}>
+            <Box p={4} display="flex" flexDirection="column" alignItems="center">
+            <Avatar sx={{ m: 1, bgcolor: '#ba68c8' }}>
+              <NightlifeOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               Register
@@ -128,6 +111,15 @@ export default function Register() {
                 autoComplete="current-password"
                 onChange={(event) => setPassword(event.target.value)}
               />
+               <Box sx={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', width: '100%', mb: 2 }}>
+                {avatarComponents.map((AvatarComponent, index) => (
+                  <AvatarComponent
+                    key={index}
+                    style={{ width: 60, height: 60, marginTop: '15px' , cursor: 'pointer', border: selectedAvatarIndex === index ? '2px solid #7e57c2' : 'none' }}
+                    onClick={() => handleAvatarClick(index)}
+                  />
+                ))}
+              </Box>
               <Button
                 type="button"
                 fullWidth
@@ -146,6 +138,7 @@ export default function Register() {
               </Grid>
             </Box>
           </Box>
+        </Paper>
         </Grid>
       </Grid>
     </ThemeProvider>

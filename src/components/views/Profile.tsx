@@ -1,12 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { api, handleError } from "helpers/api";
-import { Avatar, Button, CssBaseline, TextField, Box, Typography, Grid, Paper } from "@mui/material";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import "styles/views/Profile.scss";
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { api, handleError } from 'helpers/api';
+import { Avatar, Button, CssBaseline, TextField, Box, Typography, Grid, Paper } from '@mui/material';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import 'styles/views/Profile.scss';
+import "styles/views/Game.scss";
 
-const defaultTheme = createTheme();
+
+
+const defaultTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#7e57c2', 
+    },
+  },
+  typography: {
+    fontFamily: 'Comic Sans MS', 
+  },
+});
 
 export default function Profile() {
   const { userId } = useParams();
@@ -61,25 +73,6 @@ export default function Profile() {
     }
   };
 
-  const logout = async () => {
-    try {
-      console.log("Logging out...");
-      const token = localStorage.getItem("token"); 
-      if (!token) {
-        console.error("No token found");
-        alert("No token found. You might not be logged in.");
-        
-        return;
-      }
-      const response = await api.post("/logout", { token }); 
-      console.log("Logout response", response);
-      localStorage.removeItem("token");
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout failed", error);
-      alert("Logout failed. Check console for details."); 
-    }
-  };
   
 
   if (!user) {
@@ -88,22 +81,20 @@ export default function Profile() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "100vh", justifyContent: "center" }} > 
-        <CssBaseline />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <CssBaseline />
+        <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', marginTop: '-80px'  }}>
+        <Grid item xs={12} sm={8} md={4}>
+          <Paper elevation={6} square sx={{ backgroundColor: 'rgba(235, 200, 255, 0.7)', borderRadius: '50px 50px 50px 50px' }}>
           <Box
             sx={{
               my: 8,
-              mx: 4,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
+              mx: 10,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <PersonOutlineIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h5" style={{ marginTop: '25px',marginBottom: '20px', color: 'white' }}>
               User Profile
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -173,7 +164,7 @@ export default function Profile() {
                   <Button
                     fullWidth
                     variant="contained"
-                    color="secondary"
+                    color="primary"
                     onClick={() => setIsEditing(false)}
                     sx={{ mt: 3, mb: 2 }}
                   >
@@ -187,6 +178,7 @@ export default function Profile() {
                   onClick={() => setIsEditing(true)}
                   disabled={!isAllowedToEdit}
                   sx={{ mt: 3, mb: 2 }}
+                  style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#AFEEEE', color: '#00008B' }}
                 >
                   Edit Profile
                 </Button>
@@ -196,23 +188,15 @@ export default function Profile() {
               <Button
                 fullWidth
                 variant="contained"
-                color="error"
+                style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#DB70DB', marginBottom: '50px' }}
                 onClick={handleBack}
                 sx={{ mt: 3, mb: 2 }}
               >
                 Back
               </Button>
-              <Button
-                fullWidth
-                variant="contained"
-                color="error"
-                onClick={logout}
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Logout
-              </Button>
             </Box>
-          </Box>
+           </Box>
+           </Paper>
         </Grid>
       </Grid>
     </ThemeProvider>

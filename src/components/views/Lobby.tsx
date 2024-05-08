@@ -38,7 +38,7 @@ const Player = ({ user }: { user: User }) => {
         ID: {user.id}<br />
         Username: {user.username}<br />
         Scores: {user.scores}<br />
-        Birthday: {formattedBirthday} <br />
+        Birthday: {user.birthDate} <br />
       </p>
       <Button
         variant="text"
@@ -70,6 +70,7 @@ const Game = () => {
   const userId = localStorage.getItem("userId");
   const message = JSON.stringify({ userId: userId });
   const stomper = useWebSocket();
+  const [artistList, setArtistList] = useState([]);
 
   const [roomInfo, setRoomInfo] = useState({ players: [], hostId: null });
   const [currentUser, setCurrentUser] = useState({ id: null, username: null });
@@ -92,6 +93,23 @@ const Game = () => {
     setSelectedArtist("");
     setAnchorEl(null);
   };
+
+  const handleGenreChange = (event) => {
+    const genre = event.target.value;
+    setSelectedGenre(genre);
+  
+    // Define artists by genre
+    const genreArtists = {
+      "Pop": ["Maroon 5", "Rihanna", "Taylor Swift", "Justin Bieber", "Ed Sheeran"],
+      "Rap": ["Drake", "Nicki Minaj", "Eminem", "Doja Cat", "Kanye West"],
+      "Rock": ["Linkin Park", "Fall Out Boy", "Imagine Dragons", "Guns N' Roses", "Coldplay"],
+      "Country": ["Jason Aldean", "Taylor Swift", "Hunter Hayes", "Morgan Wallen", "Brett Young"]
+    };
+  
+    // Set artists for the selected genre
+    setArtistList(genreArtists[genre] || []);
+  };
+  
 
   // the effect hook can be used to react to change in your component.
   // in this case, the effect hook is only run once, the first time the component is mounted
@@ -398,11 +416,12 @@ const Game = () => {
                 id="genre-select"
                 value={selectedGenre}
                 label="Genre"
-                onChange={(e) => setSelectedGenre(e.target.value)}
+                onChange={handleGenreChange}
               >
                 <MenuItem value="Pop">Pop</MenuItem>
+                <MenuItem value="Rap">Rap</MenuItem>
                 <MenuItem value="Rock">Rock</MenuItem>
-                <MenuItem value="Jazz">Jazz</MenuItem>
+                <MenuItem value="Country">Country</MenuItem>
               </Select>
             </FormControl>
 
@@ -415,9 +434,11 @@ const Game = () => {
                 label="Market"
                 onChange={(e) => setSelectedMarket(e.target.value)}
               >
-                <MenuItem value="US">US</MenuItem>
-                <MenuItem value="Ca">CA</MenuItem>
-                <MenuItem value="BR">BR</MenuItem>
+                <MenuItem value="US">United States</MenuItem>
+                <MenuItem value="CA">Canada</MenuItem>
+                <MenuItem value="GB">United Kingdom</MenuItem>
+                <MenuItem value="AU">Australia</MenuItem>
+                <MenuItem value="DE">Germany</MenuItem>
               </Select>
             </FormControl>
 
@@ -430,11 +451,11 @@ const Game = () => {
                 label="Artist"
                 onChange={(e) => setSelectedArtist(e.target.value)}
               >
-                <MenuItem value="Maroon 5">Maroon 5</MenuItem>
-                <MenuItem value="Coldplay">Coldplay</MenuItem>
-                <MenuItem value="Justin Bieber">Justin Bieber</MenuItem>
-              </Select>
-            </FormControl>
+                {artistList.map(artist => (
+                <MenuItem key={artist} value={artist}>{artist}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
             {/* Buttons for confirmation and cancel */}
             <Button

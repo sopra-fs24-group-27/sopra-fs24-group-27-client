@@ -452,10 +452,10 @@ const Game = () => {
                 onChange={(e) => setSelectedArtist(e.target.value)}
               >
                 {artistList.map(artist => (
-                <MenuItem key={artist} value={artist}>{artist}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+                  <MenuItem key={artist} value={artist}>{artist}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
             {/* Buttons for confirmation and cancel */}
             <Button

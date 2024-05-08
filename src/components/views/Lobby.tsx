@@ -69,6 +69,7 @@ const Game = () => {
   const [roomIdInput, setRoomIdInput] = useState('');
   const [tempRoomId, setTempRoomId] = useState('');
   const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token") || "";
   const message = JSON.stringify({ userId: userId });
   const stomper = useWebSocket();
   const [artistList, setArtistList] = useState([]);
@@ -98,7 +99,7 @@ const Game = () => {
   const handleGenreChange = (event) => {
     const genre = event.target.value;
     setSelectedGenre(genre);
-  
+
     // Define artists by genre
     const genreArtists = {
       "Pop": ["Maroon 5", "Rihanna", "Taylor Swift", "Justin Bieber", "Ed Sheeran"],
@@ -106,11 +107,11 @@ const Game = () => {
       "Rock": ["Linkin Park", "Fall Out Boy", "Imagine Dragons", "Guns N' Roses", "Coldplay"],
       "Country": ["Jason Aldean", "Taylor Swift", "Hunter Hayes", "Morgan Wallen", "Brett Young"]
     };
-  
+
     // Set artists for the selected genre
     setArtistList(genreArtists[genre] || []);
   };
-  
+
 
   // the effect hook can be used to react to change in your component.
   // in this case, the effect hook is only run once, the first time the component is mounted
@@ -198,33 +199,33 @@ const Game = () => {
   };
 
 
-// Function to handle room creation
-const handleConfirmRoom = async () => {
-  handleCloseRoom();  // Ensure the room creation popover is closed after confirming
+  // Function to handle room creation
+  const handleConfirmRoom = async () => {
+    handleCloseRoom();  // Ensure the room creation popover is closed after confirming
 
-  try {
-    const settings = {
-      market: selectedMarket,
-      artist: selectedArtist,
-      genre: selectedGenre,
-    };
-    const roomData = {
-      hostId: userId,  // Assuming userId is stored and retrieved correctly
-      settings,
-      currentRound: 0,  // Assuming you start at round 0
-      players: []  // Initially, there are no players until they join
-    };
-    const response = await api.post('/games', roomData);
-    console.log("Room created successfully", response.data);
-    const gameId = response.data.gameId;
+    try {
+      const settings = {
+        market: selectedMarket,
+        artist: selectedArtist,
+        genre: selectedGenre,
+      };
+      const roomData = {
+        hostId: userId,  // Assuming userId is stored and retrieved correctly
+        settings,
+        currentRound: 0,  // Assuming you start at round 0
+        players: []  // Initially, there are no players until they join
+      };
+      const response = await api.post('/games', roomData);
+      console.log("Room created successfully", response.data);
+      const gameId = response.data.gameId;
 
-    // Navigate to the game's lobby or waiting room
-    navigate(`/games/${gameId}/waitingroom`);
-  } catch (error) {
-    console.error(`Something went wrong while creating the room: ${handleError(error)}`);
-    alert(`Something went wrong while creating the room: ${handleError(error)}`);
-  }
-};
+      // Navigate to the game's lobby or waiting room
+      navigate(`/games/${gameId}/waitingroom`);
+    } catch (error) {
+      console.error(`Something went wrong while creating the room: ${handleError(error)}`);
+      alert(`Something went wrong while creating the room: ${handleError(error)}`);
+    }
+  };
 
 
 
@@ -237,11 +238,11 @@ const handleConfirmRoom = async () => {
         alert("Please enter a room ID.");
         return;
       }
-    
+
       try {
         const response = await api.post(`/games/${tempRoomId}/join?userId=${userId}`);
         console.log("Joined room successfully", response.data);
-    
+
         // Navigate to the game's waiting room
         navigate(`/games/${tempRoomId}/waitingroom`);
       } catch (error) {
@@ -455,10 +456,10 @@ const handleConfirmRoom = async () => {
                 onChange={(e) => setSelectedArtist(e.target.value)}
               >
                 {artistList.map(artist => (
-                <MenuItem key={artist} value={artist}>{artist}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+                  <MenuItem key={artist} value={artist}>{artist}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
             {/* Buttons for confirmation and cancel */}
             <Button
@@ -484,11 +485,11 @@ const handleConfirmRoom = async () => {
       </p>
       {content}
       <Button
-            style={{ width: '100%', color: 'white', marginTop: '20px' }}
-            onClick={() => logout()}
-          >
-            Logout
-          </Button>
+        style={{ width: '100%', color: 'white', marginTop: '20px' }}
+        onClick={() => logout()}
+      >
+        Logout
+      </Button>
     </BaseContainer>
   );
 

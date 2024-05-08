@@ -5,10 +5,15 @@ import { getDomain } from './getDomain';
 
 class ApiClient {
 
+    token = localStorage.getItem("token");
+
     constructor() {
         this.client = axios.create({
             baseURL: getDomain(),
-            headers: { "Content-Type": "application/json" }
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": this.token
+            }
         });
     }
 

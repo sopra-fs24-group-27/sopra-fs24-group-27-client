@@ -39,7 +39,7 @@ const Player = ({ user }: { user: User }) => {
         ID: {user.id}<br />
         Username: {user.username}<br />
         Scores: {user.scores}<br />
-        Birthday: {formattedBirthday} <br />
+        Birthday: {user.birthDate} <br />
       </p>
       <Button
         variant="text"

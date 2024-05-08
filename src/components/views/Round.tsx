@@ -58,18 +58,6 @@ const Round = () => {
     }
   };
 
-  // const isCurrentUserTurn = () => {
-  //   // Ensure gameState is an array and currentUser is defined
-  //   if (!Array.isArray(gameState) || !currentUser) return false;
-  //
-  //   // Find the player object that matches the currentUser id
-  //   const currentPlayer = gameState.find(player => player.id.toString() === currentUser);
-  //
-  //   // Check if the currentPlayer exists and it is their turn
-  //   return currentPlayer ? currentPlayer.turn === currentTurn : false;
-  // };
-
-
   const renderPlayers = () => {
     if (!gameState) {
       return <div>Loading...</div>; // or any other loading indicator

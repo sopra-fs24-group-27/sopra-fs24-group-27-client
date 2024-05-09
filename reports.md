@@ -186,18 +186,36 @@
 - Changed the random RoomId to six digits.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/7eb9bc0d17c3aab0e177a0f8b67349bf8aa026ae)
 
 
+
 **Yating Pan**
+
 - Updated Principal Handshake to send private song info to each user. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/15c84eb25abc5ba7411055d06bfc8acc3356b0ef). Related task #67 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/67)
 - Refined the listen page, added timer and moving forward button. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/ea9e971052e62daec1f2df798e4dbe8e9a94c20f). Completed task 39 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/39) and task 40 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/40).
 
+
+
 **Hepeng Fan**
+
 - Updated Usercontroller and UserPostDTO
 - Added UserControllerTest. [Link to commit]([https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/15c84eb25abc5ba7411055d06bfc8acc3356b0ef](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2c987bc589b11e3476e6d5d06513b6ff28c58344)). Related task #3 and #5.
 - Design the frontend of music playing page. [Link to commit]([https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/15c84eb25abc5ba7411055d06bfc8acc3356b0ef](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2c987bc589b11e3476e6d5d06513b6ff28c58344)). Completed task #66 with Yating Pan. 
   
+
+
+
 **Qingcheng Wang**
+
 - Completed repository test. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/8fb3a3f44eb5bdc8600957187c9cb3eef1047580)
 - Complete the correlation logic between voting and room waiting. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6288ec9dffd9ca358f458e28bc05005137d177c6)
+
+
+
+**Yi Zhang**
+
+* Removed the socket config and set server endpoints and APIs to REST #80 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4be1dff4fb35bc2a44261a90cbddb46c3e62d15d)
+* Replaced Socket with REST and refine UI after M3 pre #81
+
+
 
 
 ## 03.5 - 09.5 
@@ -210,6 +228,16 @@
 - Created the End page for revealing the results of the games and Completed task #46[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/46). [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6bf61a68f84411d7833b24a5003a8331edf26dd6)
 - Added selectable avatars to the register page. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/4b2d7931d23176d62e9eb9f9d99fb3456c4523c0)
 
+
+
 **Qingcheng Wang**
+
 - Completed all tasks related to sending emojis and voting in the server. Calculated the winner and final score. #86 #52 #68 #50 #47 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/f7ead18715187fd28dd32325c82784456f7b68b0) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2d2ec919f776da428ed78c0f4af7a505602131bc) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/80af1a15f0f0ca479f87b743a6e3a157407c2de9)
 - Completed all tasks related to sending emojis and voting in the client. #34 #33 #26 #25 #24 #3 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/66cfe5ca07db5d42f97938667813f517198c8286) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/1a96b2881c6228baa1666f40827cb7c0d14fce46) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/b5e005b90e48bded6d7488696c54c8130ce78e59)
+
+
+
+**Yi Zhang**
+
+* Completed the room leaving logic #92 #93 #94 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/59785ae872a2ae62642bec30b4079f0e7f151275)
+* Completed the token-based authentication #96 #97 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/59785ae872a2ae62642bec30b4079f0e7f151275) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/ade72743c676b80f3dbca1221f949e9aa8534568)

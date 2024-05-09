@@ -102,13 +102,16 @@ const Vote = () => {
       </div>
     );
   };
-
+  const navigateToEndPage = () => {
+    navigate(`/games/${gameId}/end`);
+  };
   const renderScoresAndWinners = () => {
     if (!gameState) return <div>Loading scores...</div>;
 
     const winners = gameState.filter(player => player.winner);
     console.log("winners:",winners)
 
+  
     return (
       <div>
         <h3>Final Scores:</h3>
@@ -139,6 +142,13 @@ const Vote = () => {
       {error && <p className="error-message">{error}</p>}
       {renderPlayers()}
       {renderScoresAndWinners()}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={navigateToEndPage}
+        style={{ marginTop: "20px" }}>
+        Next
+      </Button>
     </BaseContainer>
   );
 };

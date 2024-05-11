@@ -228,6 +228,11 @@
 - Created the End page for revealing the results of the games and Completed task #46[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/46). [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6bf61a68f84411d7833b24a5003a8331edf26dd6)
 - Added selectable avatars to the register page. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/4b2d7931d23176d62e9eb9f9d99fb3456c4523c0)
 
+**Hepeng Fan**
+
+* Completed Beta test and report of M3-group-26
+* Completed bugs fixed [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/f6d7ee29b21859b1974d4125a796428e45937b81)
+* Completed #2 #51 and the End page of the game[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/dd63c650ed04dac0e1ff621c7a1b985359237d65)
 
 
 **Qingcheng Wang**

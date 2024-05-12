@@ -50,6 +50,7 @@ const Player = ({ user }: { user: User }) => {
       <p>
         <AvatarComponent
           style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }}
+          onClick={navigateToProfile}
         />
         ID: {user.id}<br />
         Username: {user.username}<br />
@@ -331,7 +332,7 @@ const Game = () => {
         aria-describedby={anchorEl ? 'game-rules-popover' : undefined}
         variant="text"
         onClick={handleOpenRules}
-        style={{ position: 'absolute', top: '100px', right: '10%', color: '#AFEEEE' }}
+        style={{ position: 'absolute', top: '110px', right: '20%', color: '#AFEEEE' }}
       >
         → Game Rules ←
       </Button>

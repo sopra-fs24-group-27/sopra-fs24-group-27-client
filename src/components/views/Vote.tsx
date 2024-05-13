@@ -5,6 +5,16 @@ import Button from "@mui/material/Button";
 import EmojiPicker from "emoji-picker-react";
 import { api, handleError } from 'helpers/api';
 import TextField from "@mui/material/TextField";
+import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
+import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
+import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
+import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
+import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
+import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
+import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
+
+const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
+
 
 const Vote = () => {
   const { gameId } = useParams();
@@ -57,8 +67,13 @@ const Vote = () => {
 
     return (
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", justifyContent: "center", alignItems: "center" }}>
-        {gameState.map((player, index) => (
+        {gameState.map((player, index) => {
+          const AvatarComponent = avatarComponents[player.user.avatar];
+          return (
           <div key={index} className={`player-wrapper ${currentUser === player.id && currentTurn === player.turn ? "current-player" : ""}`} style={{ margin: "10px", backgroundColor: "#7c83fd", borderRadius: "10px", boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)", width: "300px", padding: "20px", color: "white", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+            <AvatarComponent
+              style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }}
+            />
             <p>Username: {player.user.username}</p>
             <p>Emojis: {player.emojis.join(" ")}</p>
             <Button
@@ -70,7 +85,8 @@ const Vote = () => {
               {currentUser === player.id.toString() ? "You can't vote for yourself" : "Catch you now!"}
             </Button>
           </div>
-        ))}
+          );
+        })}
       </div>
     );
   };

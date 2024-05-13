@@ -5,6 +5,15 @@ import Button from "@mui/material/Button";
 import EmojiPicker from "emoji-picker-react";
 import { api, handleError } from 'helpers/api';
 import TextField from "@mui/material/TextField";
+import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
+import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
+import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
+import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
+import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
+import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
+import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
+
+const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
 
 const Round = () => {
   const { gameId } = useParams();
@@ -58,6 +67,7 @@ const Round = () => {
     }
   };
 
+
   const renderPlayers = () => {
     if (!gameState) {
       return <div>Loading...</div>; // or any other loading indicator
@@ -68,25 +78,46 @@ const Round = () => {
     console.log("Game State user id:", gameState[0].id);
 
     return (
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", justifyContent: "center", alignItems: "center" }}>
-        {gameState.map((player, index) => (
-          <div key={index} className={`player-wrapper ${currentUser === player.id && currentTurn === player.turn ? "current-player" : ""}`} style={{ margin: "10px", backgroundColor: "#7c83fd", borderRadius: "10px", boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)", width: "300px", padding: "20px", color: "white", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-            <p>Order of sending emojis: {player.turn}</p>
+      <div style={{ display: "flex",  gap: "10px", justifyContent: "center", alignItems: "center" }}>
+        {gameState.map((player, index) => {
+          const AvatarComponent = avatarComponents[player.user.avatar];
+          return (
+          <div
+            key={index}
+            className={`player-wrapper ${currentUser === player.id && currentTurn === player.turn ? "current-player" : ""}`}
+               style={{
+                 margin: "10px",
+                 backgroundColor: currentTurn === player.turn ? "#90ee90" : "#7c83fd",
+                 borderRadius: "10px",
+                 boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
+                 width: "300px",
+                 padding: "20px",
+                 color: "black",
+                 display: "flex",
+                 flexDirection: "column",
+                 justifyContent: "center",
+                 alignItems: "center" }}>
+            {/*<p>Order of sending emojis: {player.turn}</p>*/}
+            <AvatarComponent
+              style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }}
+            />
             <p>Username: {player.user.username}</p>
-            <p>Emojis: {player.emojis.join(" ")}</p>
+            <p>Round 1 Emojis: {player.emojis.join(" ")}</p>
             {player.id.toString() === currentUser && player.turn === currentTurn &&(
               <>
+                <p>This is your turn, please send emojis</p>
                 <TextField
                   onFocus={handleEmojiInputFocus}
                   onBlur={handleEmojiInputBlur}
                   value={chosenEmojis.join(' ')}
-                  placeholder="Click to add emojis"
+                  placeholder="Up to 5 emojis"
                   variant="outlined"
                   fullWidth
                   InputProps={{
                     readOnly: true,
                   }}
                 />
+                {renderChosenEmojis()}
                 {renderEmojiPicker()}
                 <Button variant="contained" color="primary" onClick={handleSubmitEmojis} disabled={chosenEmojis.length === 0}>
                   Submit Emojis
@@ -94,13 +125,38 @@ const Round = () => {
               </>
             )}
           </div>
-        ))}
+          );
+        })}
       </div>
     );
   };
 
   const handleEmojiInputBlur = () => {
     // setShowEmojiPicker(false);
+  };
+
+  const removeEmoji = (index) => {
+    setChosenEmojis(prevEmojis => prevEmojis.filter((_, i) => i !== index));
+  };
+
+  const renderChosenEmojis = () => {
+    return (
+      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '10px' }}>
+        {chosenEmojis.map((emoji, index) => (
+          <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+            <span>{emoji}</span>
+            <Button
+              onClick={() => removeEmoji(index)}
+              variant="contained"
+              color="secondary"
+              style={{ marginLeft: '5px', minWidth: '30px', padding: '5px' }}
+            >
+              X
+            </Button>
+          </div>
+        ))}
+      </div>
+    );
   };
 
   const handleSubmitEmojis = async () => {
@@ -152,9 +208,9 @@ const Round = () => {
           <Button variant="contained" color="primary" onClick={toVote} style={{ marginRight: "10px" }}>
             Vote
           </Button>
-          <Button variant="contained" color="secondary" onClick={toNextRound}>
-            Next Round
-          </Button>
+          {/*<Button variant="contained" color="secondary" onClick={toNextRound}>*/}
+          {/*  Next Round*/}
+          {/*</Button>*/}
         </>
       );
     } else if (round === 3) {
@@ -184,7 +240,7 @@ const Round = () => {
     <BaseContainer className="round-container">
       <div style={{ display: "flex", alignItems: "center" }}>
         <h1>{renderRoundDescription()}</h1>
-        {gameState && <p style={{ marginLeft: "10px" }}>Current turn: {gameState[currentTurn - 1].user.username}</p>}
+        {/*{gameState && <p style={{ marginLeft: "10px" }}>Current turn: {gameState[currentTurn - 1].user.username}</p>}*/}
       </div>
       {error && <p className="error-message">{error}</p>}
       {renderPlayers()}

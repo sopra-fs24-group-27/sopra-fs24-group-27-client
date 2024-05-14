@@ -69,18 +69,22 @@ const Vote = () => {
         {gameState.map((player, index) => {
           const AvatarComponent = avatarComponents[player.user.avatar];
           return (
-            <div key={index} className={`player-wrapper ${currentUser === player.id && currentTurn === player.turn ? "current-player" : ""}`} style={{ margin: "10px", backgroundColor: "#7c83fd", borderRadius: "10px", boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)", width: "300px", padding: "20px", color: "white", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+            <div key={index} className={`player-wrapper ${currentUser === player.id && currentTurn === player.turn ? "current-player" : ""}`} style={{ margin: "10px", backgroundColor: 'rgba(235, 200, 255, 0.7)', borderRadius: "10px", boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)", width: "350px", padding: "20px", color: "white", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", marginLeft: "auto", marginRight: "auto" }}>
               <AvatarComponent style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }} />
-              <p>Username: {player.user.username}</p>
-              <p>Round 1 Emojis: {player.emojis.join(" ")}</p>
-              <p>Round 2 Emojis: {player.emojis2.join(" ")}</p>
-              <p>Votes: {votes[player.id] || 0}</p>
+              <p style={{ lineHeight: '0.8' }}>Username: {player.user.username}</p>
+              <p style={{ lineHeight: '0.8' }}>Round 1 Emojis: {player.emojis.join(" ")}</p>
+              <p style={{ lineHeight: '0.8' }}>Round 2 Emojis: {player.emojis2.join(" ")}</p>
+              <p style={{ lineHeight: '0.8' }}>Votes: {votes[player.id] || 0}</p>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={() => toVote(player.id)}
                 disabled={votingDisabled || currentUser === player.id.toString()}
-                style={{ marginRight: "10px" }}>
+                style={{ marginRight: "10px",
+                ...(currentUser === player.id.toString() ? {} : {
+                    backgroundColor: '#AFEEEE',
+                    color: '#00008B' })
+                 }}>
                 {currentUser === player.id.toString() ? "You can't vote for yourself" : "Catch you now!"}
               </Button>
             </div>

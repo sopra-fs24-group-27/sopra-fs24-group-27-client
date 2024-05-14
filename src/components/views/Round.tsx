@@ -94,7 +94,7 @@ const Round = () => {
             className={`player-wrapper ${currentUser === player.id && currentTurn === player.turn ? "current-player" : ""}`}
                style={{
                  margin: "10px",
-                 backgroundColor: currentTurn === player.turn ? "#90ee90" : "#7c83fd",
+                 backgroundColor: currentTurn === player.turn ? "rgba(144, 238, 200, 0.8)" : "rgba(200, 131, 253, 0.8)",
                  borderRadius: "10px",
                  boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
                  width: "300px",
@@ -114,7 +114,7 @@ const Round = () => {
             <p>Round 2 Emojis: {player.emojis2.join(" ")}</p>
             {player.id.toString() === currentUser && player.turn === currentTurn &&(
               <>
-                <p>This is your turn, please send emojis</p>
+                <p>→ YOUR TURN ←</p>
                 <TextField
                   onFocus={handleEmojiInputFocus}
                   onBlur={handleEmojiInputBlur}
@@ -128,7 +128,8 @@ const Round = () => {
                 />
                 {renderChosenEmojis()}
                 {renderEmojiPicker()}
-                <Button variant="contained" color="primary" onClick={handleSubmitEmojis} disabled={chosenEmojis.length === 0}>
+                <Button variant="contained" color="primary" onClick={handleSubmitEmojis} disabled={chosenEmojis.length === 0}
+                style={{ marginTop: '20px', backgroundColor: '#DB70DB', color: '#00008B' }}>
                   Submit Emojis
                 </Button>
               </>
@@ -158,7 +159,7 @@ const Round = () => {
               onClick={() => removeEmoji(index)}
               variant="contained"
               color="secondary"
-              style={{ marginLeft: '5px', minWidth: '30px', padding: '5px' }}
+              style={{ marginLeft: '5px', minWidth: '30px', padding: '5px', backgroundColor: '#DB70DB', color: '#00008B'}}
             >
               X
             </Button>

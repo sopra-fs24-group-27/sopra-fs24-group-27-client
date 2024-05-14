@@ -387,7 +387,7 @@ const Game = () => {
             <p>Players discuss and guess who the spy is based on everyone&aposs emoji descriptions. Discussion is limited to 2 minutes, and then each player must vote on who they suspect is the spy in 10s.</p>
             <h4><strong>End of Game</strong></h4>
             <p>The game comes to an end when the true identity is revealed! (reveal the correct song to all players and show the different songs the undercover listened to.)</p>
-            <p>If the spy receives the most votes, the non-spy players win; if the spy does not receive the most votes, the spy wins.</p>
+            <p>If the spy receives two or more votes, the detective players win; otherwise, the spy wins.</p>
             <p>After the game ends, the system updates players&apos scores based on the results.</p>
             <p>For the spy player, he/she must take on hidden identities, they must ensure nobody else finds out. If you are a spy, are you able to fake it until you make it?</p>
             <h3><strong>Special Regulations</strong></h3>

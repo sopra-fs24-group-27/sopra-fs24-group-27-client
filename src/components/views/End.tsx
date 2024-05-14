@@ -61,7 +61,7 @@ const GameEndPage = ({ victory, players }) => {
 
     return (
       <div className="game-column">
-        <h3>Final Scores:</h3>
+        <h3>Scoreboard</h3>
         <ul>
           {gameState.map((player, index) => (
             <li key={index}>{player.user.username}: {player.score} {player.winner ? '(Winner)' : ''}</li>
@@ -88,11 +88,11 @@ const GameEndPage = ({ victory, players }) => {
       </div>
       <div className="game-details">
         <div className="game-column">
-          <h3>Spy And Spy_music:</h3>
+          <h3 style={{ color: '#AFEEEE', fontFamily: 'Comic Sans MS', textAlign: 'center' }}>SPY</h3>
           {gameState && gameState.filter(player => player.spy).map((spy, index) => (
             <div key={spy.user.id || index}>
-              <p>Spy:   {spy.user.username}</p>
-              <p>Spy_music:   {spy.songInfo.title} by {spy.songInfo.artist}</p>
+              <p> {spy.user.username}</p>
+              <p> {spy.songInfo.title} by {spy.songInfo.artist}</p>
               <img src={spy.songInfo.imageUrl} alt={`Cover of ${spy.songInfo.title}`} style={{ width: '100px' }} />
               <a href={spy.songInfo.playUrl} target="_blank" rel="noopener noreferrer">Listen to Song</a>
             </div>
@@ -100,7 +100,7 @@ const GameEndPage = ({ victory, players }) => {
         </div>
         {renderScoresAndWinners()}
         <div className="game-column">
-          <h3>Common Song for Others:</h3>
+          <h3 style={{ color: '#AFEEEE', fontFamily: 'Comic Sans MS', textAlign: 'center' }}>DETECTIVES</h3>
           {gameState && (
             <div>
               <p>{gameState[0].songInfo.title} by {gameState[0].songInfo.artist}</p>
@@ -111,7 +111,7 @@ const GameEndPage = ({ victory, players }) => {
         </div>
       </div>
       <div className="buttons">
-        <Button onClick={handleExitGame} style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#DB70DB', color: '#00008B' }}>Exit Game</Button>
+        <Button onClick={handleExitGame} style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#AFEEEE', color: '#00008B' }}>Exit Game</Button>
       </div>
     </BaseContainer>
   );

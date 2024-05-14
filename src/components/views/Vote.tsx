@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import Button from "@mui/material/Button";
-import EmojiPicker from "emoji-picker-react";
 import { api, handleError } from 'helpers/api';
-import TextField from "@mui/material/TextField";
 import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
 import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
 import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
@@ -15,7 +13,6 @@ import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
 
 const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
 
-
 const Vote = () => {
   const { gameId } = useParams();
   const navigate = useNavigate();
@@ -23,9 +20,7 @@ const Vote = () => {
   const [roomInfo, setRoomInfo] = useState(null);
   const [currentUser, setCurrentUser] = useState(localStorage.getItem("currentUserId"));
   const [currentTurn, setCurrentTurn] = useState(1);
-  const [playerEmojis, setPlayerEmojis] = useState({});
-  const [chosenEmojis, setChosenEmojis] = useState([]);
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [votes, setVotes] = useState({});
   const [error, setError] = useState(null);
   const [voteResult, setVoteResult] = useState(null);
   const [votingDisabled, setVotingDisabled] = useState(false);
@@ -33,14 +28,20 @@ const Vote = () => {
   useEffect(() => {
     if (!gameId) return;
 
-    // Function to fetch game state
     const fetchGameState = async () => {
       try {
         const response = await api.get(`/games/${gameId}`);
         setGameState(response.data.players);
         setRoomInfo(response.data);
         setCurrentTurn(response.data.currentTurn);
-        console.log("currentturn",currentTurn)
+
+        const votesData = response.data.players.reduce((acc, player) => {
+          acc[player.id] = player.votes || 0; // Assuming the server returns a 'votes' field for each player
+          return acc;
+        }, {});
+        setVotes(votesData);
+
+        console.log("currentturn", currentTurn);
       } catch (error) {
         console.error("Error fetching game state:", error);
         setError("Failed to load game state");
@@ -49,10 +50,8 @@ const Vote = () => {
 
     fetchGameState();
 
-    // Set up polling
     const intervalId = setInterval(fetchGameState, 2000); // Fetch every 2 seconds
 
-    // Clear interval on component unmount
     return () => clearInterval(intervalId);
   }, [gameId]);
 
@@ -63,28 +62,27 @@ const Vote = () => {
 
     console.log("Game State:", gameState);
     console.log("current user", currentUser);
-    console.log("Game State user id:", gameState[0].id);
 
     return (
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", justifyContent: "center", alignItems: "center" }}>
         {gameState.map((player, index) => {
           const AvatarComponent = avatarComponents[player.user.avatar];
           return (
-          <div key={index} className={`player-wrapper ${currentUser === player.id && currentTurn === player.turn ? "current-player" : ""}`} style={{ margin: "10px", backgroundColor: "#7c83fd", borderRadius: "10px", boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)", width: "300px", padding: "20px", color: "white", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-            <AvatarComponent
-              style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }}
-            />
-            <p>Username: {player.user.username}</p>
-            <p>Emojis: {player.emojis.join(" ")}</p>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => toVote(player.id)}
-              disabled={votingDisabled || currentUser === player.id.toString()}
-              style={{ marginRight: "10px" }}>
-              {currentUser === player.id.toString() ? "You can't vote for yourself" : "Catch you now!"}
-            </Button>
-          </div>
+            <div key={index} className={`player-wrapper ${currentUser === player.id && currentTurn === player.turn ? "current-player" : ""}`} style={{ margin: "10px", backgroundColor: "#7c83fd", borderRadius: "10px", boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)", width: "300px", padding: "20px", color: "white", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+              <AvatarComponent style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }} />
+              <p>Username: {player.user.username}</p>
+              <p>Round 1 Emojis: {player.emojis.join(" ")}</p>
+              <p>Round 2 Emojis: {player.emojis2.join(" ")}</p>
+              <p>Votes: {votes[player.id] || 0}</p>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => toVote(player.id)}
+                disabled={votingDisabled || currentUser === player.id.toString()}
+                style={{ marginRight: "10px" }}>
+                {currentUser === player.id.toString() ? "You can't vote for yourself" : "Catch you now!"}
+              </Button>
+            </div>
           );
         })}
       </div>
@@ -104,30 +102,12 @@ const Vote = () => {
     }
   };
 
-  const renderScores = () => {
-    if (!gameState) return <div>Loading scores...</div>;
-
-    return (
-      <div>
-        <h3>Final Scores:</h3>
-        <ul>
-          {gameState.map((player, index) => (
-            <li key={index}>{player.user.username}: {player.score}</li>
-          ))}
-        </ul>
-      </div>
-    );
-  };
-  const navigateToEndPage = () => {
-    navigate(`/games/${gameId}/end`);
-  };
   const renderScoresAndWinners = () => {
     if (!gameState) return <div>Loading scores...</div>;
 
     const winners = gameState.filter(player => player.winner);
-    console.log("winners:",winners)
+    console.log("winners:", winners);
 
-  
     return (
       <div>
         <h3>Final Scores:</h3>
@@ -150,14 +130,16 @@ const Vote = () => {
     );
   };
 
+  const navigateToEndPage = () => {
+    navigate(`/games/${gameId}/end`);
+  };
+
   return (
     <BaseContainer className="round-container">
-      <h1 className="page-title"
-          style={{ fontSize: "24px", color: "white", display: "flex", justifyContent: "center"}}>Who is spy?
-      </h1>
+      <h1 className="page-title" style={{ fontSize: "24px", color: "white", display: "flex", justifyContent: "center" }}>Who is spy?</h1>
       {error && <p className="error-message">{error}</p>}
       {renderPlayers()}
-      {renderScoresAndWinners()}
+      {/*{renderScoresAndWinners()}*/}
       <Button
         variant="contained"
         color="primary"
@@ -170,4 +152,3 @@ const Vote = () => {
 };
 
 export default Vote;
-

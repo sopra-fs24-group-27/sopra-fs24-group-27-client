@@ -55,6 +55,12 @@ const Round = () => {
     return () => clearInterval(intervalId);
   }, [gameId]);
 
+  useEffect(() => {
+    if (round === 3) {
+      navigate(`/games/${gameId}/vote`);
+    }
+  }, [round, navigate, gameId]);
+
   // Render the round description based on the current round state
   const renderRoundDescription = () => {
     switch (round) {
@@ -102,7 +108,9 @@ const Round = () => {
               style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }}
             />
             <p>Username: {player.user.username}</p>
+            {/*<p>Emojis: {player.emojis.join(" ")}</p>*/}
             <p>Round 1 Emojis: {player.emojis.join(" ")}</p>
+            <p>Round 2 Emojis: {player.emojis2.join(" ")}</p>
             {player.id.toString() === currentUser && player.turn === currentTurn &&(
               <>
                 <p>This is your turn, please send emojis</p>
@@ -163,7 +171,7 @@ const Round = () => {
     try {
       const requestBody = chosenEmojis;
 
-      await api.post(`/games/${gameId}/emojis?playerId=${currentUser}`, requestBody);
+      await api.post(`/games/${gameId}/emojis?playerId=${currentUser}&round=${round}`, requestBody);
 
       setChosenEmojis([]);
 

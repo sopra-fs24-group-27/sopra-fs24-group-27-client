@@ -19,7 +19,8 @@ const Waitingroom = () => {
     const [gameStarted, setGameStarted] = useState(false);  // State to track if the game has started
 
     useEffect(() => {
-        const userId = localStorage.getItem("userId");
+        // const userId = localStorage.getItem("userId");
+        const userId = sessionStorage.getItem("userId");
 
         const fetchGameRoomDetails = async () => {
             try {

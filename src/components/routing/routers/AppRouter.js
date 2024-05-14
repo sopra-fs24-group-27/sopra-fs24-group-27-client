@@ -13,6 +13,7 @@ import Listen from "../../views/Listen";
 import Vote from "../../views/Vote";
 import End from "../../views/End";
 import { WebSocketProvider } from "context/WebSocketContext";
+import { GameIdGuard } from "../routeProtectors/GameIdGuard";
 
 
 /**
@@ -31,9 +32,7 @@ const AppRouter = () => {
 
         <Route path="/lobby/*" element={<GameGuard />}>
           <Route path="/lobby/*" element={
-            <WebSocketProvider>
               <GameRouter base="/lobby" />
-            </WebSocketProvider>
           } />
         </Route>
 
@@ -44,21 +43,37 @@ const AppRouter = () => {
         </Route>
 
 
-        <Route path="/games/:gameId/waitingroom" element={
-          <WebSocketProvider>
-            <Waitingroom />
-          </WebSocketProvider>
-        } />
-        <Route path="/games/:gameId/listen/:playerId" element={<Listen />} />
-        <Route path="/games/:gameId/round" element={<Round />} />
-        <Route path="/games/:gameId/music" element={<Music />} />
-        <Route path="/games/:gameId/vote" element={<Vote />} />
-        <Route path="/games/:gameId/end" element={<End />} />
+        {/*<Route path="/games/:gameId/waitingroom" element={*/}
+        {/*    <Waitingroom />*/}
+        {/*} />*/}
+        {/*<Route path="/games/:gameId/listen/:playerId" element={<Listen />} />*/}
+        {/*<Route path="/games/:gameId/round" element={<Round />} />*/}
+        {/*<Route path="/games/:gameId/music" element={<Music />} />*/}
+        {/*<Route path="/games/:gameId/vote" element={<Vote />} />*/}
+        {/*<Route path="/games/:gameId/end" element={<End />} />*/}
+
+        <Route path="/games/:gameId/*" element={<GameGuard />}>
+          <Route element={<GameIdGuard />}>
+            <Route path="waitingroom" element={
+              <WebSocketProvider>
+                <Waitingroom />
+              </WebSocketProvider>
+            } />
+            <Route path="listen/:playerId" element={<Listen />} />
+            <Route path="round" element={<Round />} />
+            <Route path="music" element={<Music />} />
+            <Route path="vote" element={<Vote />} />
+            <Route path="end" element={<End />} />
+          </Route>
+        </Route>
 
 
         <Route path="/" element={
           <Navigate to="/login" replace />
         } />
+
+        {/* Catch-all route */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
 
       </Routes>
     </BrowserRouter >

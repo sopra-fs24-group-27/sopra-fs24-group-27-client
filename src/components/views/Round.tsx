@@ -20,7 +20,8 @@ const Round = () => {
   const navigate = useNavigate();
   const [gameState, setGameState] = useState(null);
   const [roomInfo, setRoomInfo] = useState(null);
-  const [currentUser, setCurrentUser] = useState(localStorage.getItem("currentUserId"));
+  // const [currentUser, setCurrentUser] = useState(localStorage.getItem("currentUserId"));
+  const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("currentUserId"));
   const [currentTurn, setCurrentTurn] = useState(1);
   const [playerEmojis, setPlayerEmojis] = useState({});
   const [chosenEmojis, setChosenEmojis] = useState([]);
@@ -214,7 +215,7 @@ const Round = () => {
       return (
         <>
           <Button variant="contained" color="primary" onClick={toVote} style={{ marginRight: "10px" }}>
-            Vote
+            直接跳转到vote，测试用
           </Button>
           {/*<Button variant="contained" color="secondary" onClick={toNextRound}>*/}
           {/*  Next Round*/}
@@ -224,7 +225,7 @@ const Round = () => {
     } else if (round === 3) {
       return (
         <Button variant="contained" color="primary" onClick={toVote}>
-          Vote
+          直接跳转到vote，测试用
         </Button>
       );
     }

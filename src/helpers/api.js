@@ -14,7 +14,8 @@ function newAxiosClient() {
   // Add a request interceptor
   client.interceptors.request.use((config) => {
     // Do something before request is sent
-    const token = localStorage.getItem("token") || "";
+    // const token = localStorage.getItem("token") || "";
+    const token = sessionStorage.getItem("token") || "";
     console.log(`request with token: ${token}`);
     config.headers.Authorization = token;
     return config;

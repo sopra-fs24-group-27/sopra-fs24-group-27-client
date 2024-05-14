@@ -12,7 +12,9 @@ import PropTypes from "prop-types";
  * @param props
  */
 export const GameGuard = () => {
-  if (localStorage.getItem("token")) {
+  // if (localStorage.getItem("token"))
+  if (sessionStorage.getItem("token"))
+  {
     
     return <Outlet />;
   }

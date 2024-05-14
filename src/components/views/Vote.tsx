@@ -18,7 +18,8 @@ const Vote = () => {
   const navigate = useNavigate();
   const [gameState, setGameState] = useState(null);
   const [roomInfo, setRoomInfo] = useState(null);
-  const [currentUser, setCurrentUser] = useState(localStorage.getItem("currentUserId"));
+  // const [currentUser, setCurrentUser] = useState(localStorage.getItem("currentUserId"));
+  const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("currentUserId"));
   const [currentTurn, setCurrentTurn] = useState(1);
   const [votes, setVotes] = useState({});
   const [error, setError] = useState(null);

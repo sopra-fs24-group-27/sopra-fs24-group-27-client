@@ -84,8 +84,10 @@ const Game = () => {
   const [joinRoomAnchorEl, setJoinRoomAnchorEl] = useState(null);
   const [roomIdInput, setRoomIdInput] = useState('');
   const [tempRoomId, setTempRoomId] = useState('');
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token") || "";
+  // const userId = localStorage.getItem("userId");
+  // const token = localStorage.getItem("token") || "";
+  const userId = sessionStorage.getItem("userId");
+  const token = sessionStorage.getItem("token") || "";
   const message = JSON.stringify({ userId: userId });
   const stomper = useWebSocket();
   const [artistList, setArtistList] = useState([]);
@@ -234,6 +236,8 @@ const Game = () => {
       const response = await api.post('/games', roomData);
       console.log("Room created successfully", response.data);
       const gameId = response.data.gameId;
+      localStorage.setItem('gameId', gameId);
+      sessionStorage.setItem('gameId', gameId);
 
       // Navigate to the game's lobby or waiting room
       navigate(`/games/${gameId}/waitingroom`);
@@ -258,7 +262,8 @@ const Game = () => {
       try {
         const response = await api.post(`/games/${tempRoomId}/join?userId=${userId}`);
         console.log("Joined room successfully", response.data);
-
+        localStorage.setItem('gameId', tempRoomId);
+        sessionStorage.setItem('gameId', tempRoomId);
         // Navigate to the game's waiting room
         navigate(`/games/${tempRoomId}/waitingroom`);
       } catch (error) {

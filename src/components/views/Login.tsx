@@ -48,6 +48,10 @@ export default function SignInSide() {
       localStorage.setItem('userId', user.id);
       localStorage.setItem('username', user.username);
       localStorage.setItem("currentUserId", user.id);
+      sessionStorage.setItem("token", user.token);
+      sessionStorage.setItem('userId', user.id);
+      sessionStorage.setItem('username', user.username);
+      sessionStorage.setItem("currentUserId", user.id);
       navigate("/lobby");
     } catch (error) {
       alert(`Invalid username or password : (`);

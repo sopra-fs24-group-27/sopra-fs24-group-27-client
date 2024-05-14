@@ -6,10 +6,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 const App = () => {
   useEffect(() => {
     const handleBeforeUnload = () => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('userId');
-      localStorage.removeItem('username');
-      localStorage.removeItem('currentUserId');
+      // localStorage.removeItem('token');
+      // localStorage.removeItem('userId');
+      // localStorage.removeItem('username');
+      // localStorage.removeItem('currentUserId');
+      localStorage.clear()
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);

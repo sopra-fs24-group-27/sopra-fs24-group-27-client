@@ -1,13 +1,14 @@
 import React from "react";
 import {Navigate, Outlet} from "react-router-dom";
 import PropTypes from "prop-types";
+import Profile from "../../views/Profile";
 
 /**
  *
  * Another way to export directly your functional component is to write 'export const'
  * instead of 'export default' at the end of the file.
  */
-export const RoomGuard = () => {
+export const ProfileGuard = () => {
   // if (localStorage.getItem("token"))
   if (sessionStorage.getItem("token"))
   {
@@ -15,9 +16,9 @@ export const RoomGuard = () => {
     return <Outlet />;
   }
 
-  return <Navigate to="/games" replace />;
+  return <Navigate to="/login" replace />;
 };
 
-RoomGuard.propTypes = {
+ProfileGuard.propTypes = {
   children: PropTypes.node
 }

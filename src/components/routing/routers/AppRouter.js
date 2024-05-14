@@ -14,6 +14,7 @@ import Vote from "../../views/Vote";
 import End from "../../views/End";
 import { WebSocketProvider } from "context/WebSocketContext";
 import { GameIdGuard } from "../routeProtectors/GameIdGuard";
+import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 
 
 /**
@@ -31,13 +32,15 @@ const AppRouter = () => {
       <Routes>
 
         <Route path="/lobby/*" element={<GameGuard />}>
-          <Route path="/lobby/*" element={
-              <GameRouter base="/lobby" />
-          } />
+          <Route path="/lobby/*" element={<GameRouter base="/lobby" />} />
         </Route>
 
         <Route path="/register" element={<Register />} />
-        <Route path="/profile/:userId" element={<Profile />} />
+
+        <Route path="/profile/:userId" element={<ProfileGuard />}>
+          <Route path="/profile/:userId" element={<Profile />} />
+        </Route>
+
         <Route path="/login" element={<LoginGuard />}>
           <Route path="/login" element={<Login />} />
         </Route>
@@ -54,11 +57,7 @@ const AppRouter = () => {
 
         <Route path="/games/:gameId/*" element={<GameGuard />}>
           <Route element={<GameIdGuard />}>
-            <Route path="waitingroom" element={
-              <WebSocketProvider>
-                <Waitingroom />
-              </WebSocketProvider>
-            } />
+            <Route path="waitingroom" element={<Waitingroom />} />
             <Route path="listen/:playerId" element={<Listen />} />
             <Route path="round" element={<Round />} />
             <Route path="music" element={<Music />} />

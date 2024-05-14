@@ -60,10 +60,10 @@ export default function Register() {
         const user = new User(userData);
 
         // Store the token into the local storage.
-        localStorage.setItem("token", user.token);
-        localStorage.setItem('userId', user.id);
-        localStorage.setItem('username', user.username);
-        localStorage.setItem('currentUserId', user.id);
+        // localStorage.setItem("token", user.token);
+        // localStorage.setItem('userId', user.id);
+        // localStorage.setItem('username', user.username);
+        // localStorage.setItem('currentUserId', user.id);
         sessionStorage.setItem("token", user.token);
         sessionStorage.setItem('userId', user.id);
         sessionStorage.setItem('username', user.username);

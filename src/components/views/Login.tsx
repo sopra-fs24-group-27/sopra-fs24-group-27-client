@@ -44,10 +44,10 @@ export default function SignInSide() {
       const requestBody = JSON.stringify({ username, password });
       const response = await api.post("/login", requestBody);
       const user = new User(response.data);
-      localStorage.setItem("token", user.token);
-      localStorage.setItem('userId', user.id);
-      localStorage.setItem('username', user.username);
-      localStorage.setItem("currentUserId", user.id);
+      // localStorage.setItem("token", user.token);
+      // localStorage.setItem('userId', user.id);
+      // localStorage.setItem('username', user.username);
+      // localStorage.setItem("currentUserId", user.id);
       sessionStorage.setItem("token", user.token);
       sessionStorage.setItem('userId', user.id);
       sessionStorage.setItem('username', user.username);

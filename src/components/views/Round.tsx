@@ -216,7 +216,7 @@ const Round = () => {
       return (
         <>
           <Button variant="contained" color="primary" onClick={toVote} style={{ marginRight: "10px" }}>
-            直接跳转到vote，测试用
+            skip sending emojis for testing
           </Button>
           {/*<Button variant="contained" color="secondary" onClick={toNextRound}>*/}
           {/*  Next Round*/}
@@ -226,7 +226,7 @@ const Round = () => {
     } else if (round === 3) {
       return (
         <Button variant="contained" color="primary" onClick={toVote}>
-          直接跳转到vote，测试用
+          skip sending emojis for testing
         </Button>
       );
     }

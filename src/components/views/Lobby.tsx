@@ -100,6 +100,7 @@ const Game = () => {
 
   const logout = (): void => {
     localStorage.clear();
+    sessionStorage.clear();
     navigate("/login");
   };
 

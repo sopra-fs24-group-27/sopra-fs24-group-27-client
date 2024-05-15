@@ -246,3 +246,12 @@
 
 * Completed the room leaving logic #92 #93 #94 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/59785ae872a2ae62642bec30b4079f0e7f151275)
 * Completed the token-based authentication #96 #97 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/59785ae872a2ae62642bec30b4079f0e7f151275) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/ade72743c676b80f3dbca1221f949e9aa8534568)
+
+
+## 10.5 - 16.5 
+
+**Yuying Zhong**
+- Completed tests for StartGame to GameControllerTest&GameServiceTest. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/ff29ac0c256bbee98aeef0ac4da66294a9c1be31)
+- Completed tests for GetGame to GameControllerTest&GameServiceTest. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/0d361fa8d90bde4ad38d237e80a19565f88b1bf6)
+- Adjusted the color of some pages on the client side to match the overall web style. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/b813af0cd2a64bc2111395ec455584e73476dd6f)&[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/c22a7953939e0915ee5fcbe868ff8427dc9e80cc)
+

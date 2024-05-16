@@ -1,11 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import BaseContainer from "components/ui/BaseContainer";
-import Button from "@mui/material/Button";
 import EmojiPicker from "emoji-picker-react";
-import { api, handleError } from 'helpers/api';
-import TextField from "@mui/material/TextField";
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import { api, handleError } from 'helpers/api';
+
+
+// TODO: configure default theme in an independent file and import it here
+const defaultTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#7e57c2',
+    },
+    secondary: {
+      main: '#ba68c8',
+    },
+  },
+  typography: {
+    fontFamily: 'Comic Sans MS',
+  },
+});
 
 const Round = () => {
   const { gameId } = useParams();
@@ -237,18 +260,21 @@ const Round = () => {
   }
 
   return (
-    <BaseContainer className="round-container">
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <h1>{renderRoundDescription()}</h1>
-        {/*{gameState && <p style={{ marginLeft: "10px" }}>Current turn: {gameState[currentTurn - 1].user.username}</p>}*/}
-      </div>
-      {error && <p className="error-message">{error}</p>}
-      {renderPlayers()}
+    <ThemeProvider theme={defaultTheme}>
+      <CssBaseline />
+      <Container component="main" maxWidth="md">
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <h1>{renderRoundDescription()}</h1>
+          {/*{gameState && <p style={{ marginLeft: "10px" }}>Current turn: {gameState[currentTurn - 1].user.username}</p>}*/}
+        </div>
+        {error && <p className="error-message">{error}</p>}
+        {renderPlayers()}
 
-      <div className="button-container">
-        {renderButtons()}
-      </div>
-    </BaseContainer>
+        <div className="button-container">
+          {renderButtons()}
+        </div>
+      </Container>
+    </ThemeProvider >
   );
 };
 

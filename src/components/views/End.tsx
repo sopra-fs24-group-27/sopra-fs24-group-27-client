@@ -1,12 +1,42 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import Button from '@mui/material/Button';
-import { api } from 'helpers/api';
 import { useNavigate, useParams } from "react-router-dom";
-import BaseContainer from "components/ui/BaseContainer";
-import Player from "./Player";
-import "styles/views/Game.scss";
+import PropTypes from "prop-types";
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import IconButton from '@mui/material/IconButton';
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import { api, handleError } from 'helpers/api';
+import Player from './Player';
+
+
+// TODO: configure default theme in an independent file and import it here
+const defaultTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#7e57c2',
+    },
+    secondary: {
+      main: '#ba68c8',
+    },
+  },
+  typography: {
+    fontFamily: 'Comic Sans MS',
+  },
+});
 
 const GameEndPage = ({ victory, players }) => {
   const { gameId } = useParams();
@@ -54,6 +84,45 @@ const GameEndPage = ({ victory, players }) => {
     }
   };
 
+  const MediaControlCard = ({ player }) => {
+
+    return (
+      <Card sx={{ display: 'flex' }}>
+        <Avatar alt="Avatar" src={player.user.avatar} sx={{ width: 100, height: 100 }} />
+        <Typography component="div" variant="h5">
+          @{player.user.username}
+        </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <CardContent sx={{ flex: '1 0 auto' }}>
+            <Typography component="div" variant="h5">
+              {player.songInfo.title}
+            </Typography>
+            <Typography variant="subtitle1" color="text.secondary" component="div">
+              {player.songInfo.artist}
+            </Typography>
+          </CardContent>
+          <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
+            <IconButton aria-label="previous">
+              {defaultTheme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
+            </IconButton>
+            <IconButton aria-label="play/pause">
+              <PlayArrowIcon sx={{ height: 38, width: 38 }} />
+            </IconButton>
+            <IconButton aria-label="next">
+              {defaultTheme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
+            </IconButton>
+          </Box>
+        </Box>
+        <CardMedia
+          component="img"
+          sx={{ width: 151 }}
+          image={player.songInfo.imageUrl}
+          alt={`Cover of ${player.songInfo.title}`}
+        />
+      </Card>
+    );
+  }
+
 
 
   const renderScoresAndWinners = () => {
@@ -79,42 +148,42 @@ const GameEndPage = ({ victory, players }) => {
   };
 
   return (
-    <BaseContainer className="game container">
-      {error && <div className="error">{error}</div>}
-      <h1>{victory ? 'Congratulations, you win!' : 'Do not give up, try again!'}</h1>
-      <div className="game user-list">
-        {players && players.map(player => (
-          <Player key={player.id} user={player} />
-        ))}
-      </div>
-      <div className="game-details">
-        <div className="game-column">
-          <h3 style={{ color: '#AFEEEE', fontFamily: 'Comic Sans MS', textAlign: 'center' }}>SPY</h3>
-          {gameState && gameState.filter(player => player.spy).map((spy, index) => (
-            <div key={spy.user.id || index}>
-              <p> {spy.user.username}</p>
-              <p> {spy.songInfo.title} by {spy.songInfo.artist}</p>
-              <img src={spy.songInfo.imageUrl} alt={`Cover of ${spy.songInfo.title}`} style={{ width: '100px' }} />
-              <a href={spy.songInfo.playUrl} target="_blank" rel="noopener noreferrer">Listen to Song</a>
-            </div>
+    <ThemeProvider theme={defaultTheme}>
+      <CssBaseline />
+      <Container component="main" maxWidth="md">
+        {error && <div className="error">{error}</div>}
+        <h1>{victory ? 'Congratulations, you win!' : 'Do not give up, try again!'}</h1>
+        <div className="game user-list">
+          {players && players.map(player => (
+            <Player key={player.id} user={player} />
           ))}
         </div>
-        {renderScoresAndWinners()}
-        <div className="game-column">
-          <h3 style={{ color: '#AFEEEE', fontFamily: 'Comic Sans MS', textAlign: 'center' }}>DETECTIVES</h3>
-          {gameState && (
-            <div>
-              <p>{gameState[0].songInfo.title} by {gameState[0].songInfo.artist}</p>
-              <img src={gameState[0].songInfo.imageUrl} alt={`Cover of ${gameState[0].songInfo.title}`} style={{ width: '100px' }} />
-              <a href={gameState[0].songInfo.playUrl} target="_blank" rel="noopener noreferrer">Listen to Song</a>
-            </div>
-          )}
+        <div className="game-details">
+          <div className="game-column">
+            <h3 style={{ color: '#AFEEEE', fontFamily: 'Comic Sans MS', textAlign: 'center' }}>SPY</h3>
+            {gameState && gameState.filter(player => player.spy).map((spy, index) => (
+              <div key={spy.user.id || index}>
+                <MediaControlCard player={{ ...spy }} />
+              </div>
+            ))}
+          </div>
+          {renderScoresAndWinners()}
+          <div className="game-column">
+            <h3 style={{ color: '#AFEEEE', fontFamily: 'Comic Sans MS', textAlign: 'center' }}>DETECTIVES</h3>
+            {gameState && (
+              <div>
+                <p>{gameState[0].songInfo.title} by {gameState[0].songInfo.artist}</p>
+                <img src={gameState[0].songInfo.imageUrl} alt={`Cover of ${gameState[0].songInfo.title}`} style={{ width: '100px' }} />
+                <a href={gameState[0].songInfo.playUrl} target="_blank" rel="noopener noreferrer">Listen to Song</a>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-      <div className="buttons">
-        <Button onClick={handleExitGame} style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#AFEEEE', color: '#00008B' }}>Exit Game</Button>
-      </div>
-    </BaseContainer>
+        <div className="buttons">
+          <Button onClick={handleExitGame} style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#AFEEEE', color: '#00008B' }}>Exit Game</Button>
+        </div>
+      </Container>
+    </ThemeProvider >
   );
 };
 

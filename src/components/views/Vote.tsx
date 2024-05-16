@@ -1,9 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import BaseContainer from "components/ui/BaseContainer";
-import Button from "@mui/material/Button";
-import { api, handleError } from 'helpers/api';
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import { api, handleError } from 'helpers/api';
+
+
+// TODO: configure default theme in an independent file and import it here
+const defaultTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#7e57c2',
+    },
+    secondary: {
+      main: '#ba68c8',
+    },
+  },
+  typography: {
+    fontFamily: 'Comic Sans MS',
+  },
+});
 
 const Vote = () => {
   const { gameId } = useParams();
@@ -138,19 +162,22 @@ const Vote = () => {
   };
 
   return (
-    <BaseContainer className="round-container">
-      <h1 className="page-title" style={{ fontSize: "24px", color: "white", display: "flex", justifyContent: "center" }}>Who is spy?</h1>
-      {error && <p className="error-message">{error}</p>}
-      {renderPlayers()}
-      {/*{renderScoresAndWinners()}*/}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={navigateToEndPage}
-        style={{ marginTop: "20px" }}>
-        Next
-      </Button>
-    </BaseContainer>
+    <ThemeProvider theme={defaultTheme}>
+      <CssBaseline />
+      <Container component="main" maxWidth="md">
+        <h1 className="page-title" style={{ fontSize: "24px", color: "white", display: "flex", justifyContent: "center" }}>Who is spy?</h1>
+        {error && <p className="error-message">{error}</p>}
+        {renderPlayers()}
+        {/*{renderScoresAndWinners()}*/}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={navigateToEndPage}
+          style={{ marginTop: "20px" }}>
+          Next
+        </Button>
+      </Container>
+    </ThemeProvider>
   );
 };
 

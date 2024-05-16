@@ -56,44 +56,42 @@ PlayerCard.propTypes = {
 };
 
 export default function Wait() {
-    const { gameId } = useParams();
     const navigate = useNavigate();
-    const [roomInfo, setRoomInfo] = useState({ players: [], hostId: null, settings: { artist: null, genre: '', market: '' } });
-    const [currentUser, setCurrentUser] = useState({ id: null });
-    const [hostUsername, setHostUsername] = useState('');
-    const [hostId, setHostId] = useState(null);
+    const { gameId } = useParams();
+    const [roomInfo, setRoomInfo] = useState({ hostId: null, settings: { artist: null, genre: '', market: '' }, players: [] });
+    const [currentUser, setCurrentUser] = useState({ id: null, username: null });
+    const [hostUser, setHostUser] = useState({ id: null, username: null });
+    const [gameStarted, setGameStarted] = useState(false);
     const [error, setError] = useState(null);
-    const [gameStarted, setGameStarted] = useState(false);  // State to track if the game has started
 
     useEffect(() => {
-        // const userId = localStorage.getItem("userId");
-        const userId = sessionStorage.getItem("userId");
+        const currentUserId = sessionStorage.getItem("userId");
 
-        const fetchGameRoomDetails = async () => {
+        const fetchGameData = async () => {
             try {
                 const response = await api.get(`/games/${gameId}`);
                 setRoomInfo(response.data);
-                const hostPlayer = response.data.players.find(p => p.id === response.data.hostId);
+                console.log("Room info:", response.data);
+                const hostPlayer = response.data.players.find(p => p.user.id === response.data.hostId);
                 if (hostPlayer) {
-                    setHostUsername(hostPlayer.user.username);
-                    setHostId(hostPlayer.user.id);
+                    setHostUser(hostPlayer.user);
                 }
-                const currentUserDetails = response.data.players.find(p => p.user.id === parseInt(userId, 10));
-                if (currentUserDetails) {
-                    setCurrentUser(currentUserDetails.user);  // Update to use user object
+                const currentPlayer = response.data.players.find(p => p.user.id === parseInt(currentUserId, 10));
+                if (currentPlayer) {
+                    setCurrentUser(currentPlayer.user);  // Update to use user object
                 }
                 // Check if game has started based on some condition or flag in the response
                 if (response.data.currentRound > 0) {  // Assuming 'currentRound' changes when the game starts
                     setGameStarted(true);
                 }
             } catch (error) {
-                console.error(`Failed to fetch game details: ${handleError(error)}`);
-                setError(`Failed to fetch game details: ${handleError(error)}`);
+                console.error(`Failed to fetch game data: ${handleError(error)}`);
             }
         };
 
-        const intervalId = setInterval(fetchGameRoomDetails, 2000); // Poll every 2 seconds
-        fetchGameRoomDetails();
+        const intervalId = setInterval(fetchGameData, 2000); // Poll every 2 seconds
+        fetchGameData();
+
         return () => {
             clearInterval(intervalId);
         };
@@ -106,18 +104,20 @@ export default function Wait() {
     }, [gameStarted, gameId, currentUser.id, navigate]);
 
     const startGame = async () => {
-        if (currentUser.id === hostId && roomInfo.players.length >= 4) {
+        console.log('Game started?', gameStarted, currentUser.id === hostUser.id, roomInfo.players.length === 4);
+        if (currentUser.id === hostUser.id && roomInfo.players.length === 4) {
             try {
                 await api.put(`/games/${gameId}`);
                 await api.post(`/games/${gameId}/sortTurnOrder`)
                 setGameStarted(true);  // Update game started state
+                console.log('Game started?', gameStarted);
             } catch (error) {
-                setError(`Failed to start the game: ${handleError(error)}`);
+                console.error(`Failed to start the game: ${handleError(error)}`);
             }
         }
     };
 
-    const handleCopyId = () => {
+    const handleGameIdCopy = () => {
         navigator.clipboard.writeText(gameId).then(() => {
             alert('Game ID copied to clipboard!');
         }, (err) => {
@@ -133,14 +133,14 @@ export default function Wait() {
                 <Box padding={4} display="flex" flexDirection="column" alignItems="center">
                     <Grid item>
                         <Typography variant="h4" component="h1">Room ID: {gameId}
-                            <IconButton onClick={handleCopyId}>
+                            <IconButton onClick={handleGameIdCopy}>
                                 <ContentCopyIcon />
                             </IconButton>
                         </Typography>
                         <Typography variant="h6" component="h2">Waiting for players to join...</Typography>
                     </Grid>
                     <Typography variant="subtitle1" component="h3">Artist {roomInfo.settings.artist}</Typography>
-                    <p>Host: {hostUsername}</p>
+                    <p>Host: {hostUser.username}</p>
                     {error && <p className="error-message">{error}</p>}
                     <Grid item>
                         {roomInfo?.players && roomInfo.players.map((player, index) => (
@@ -154,7 +154,7 @@ export default function Wait() {
                             variant="contained"
                             color="primary"
                             onClick={startGame}
-                            disabled={roomInfo.players.length !== 4}
+                            disabled={currentUser.id !== hostUser.id || roomInfo.players.length !== 4}
                         >
                             Start
                         </Button>

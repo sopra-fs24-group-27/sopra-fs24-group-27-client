@@ -27,7 +27,7 @@ const Listen = ({ mockSong, mockCurrentUser, mockCurrentUsername, isMock = false
   useEffect(() => {
     if (isMock) return;
 
-    const currentUserId = sessionStorage.getItem("currentUserId");
+    const currentUserId = sessionStorage.getItem("userId");
     if (currentUserId) {
       fetchCurrentUser(currentUserId);
     }

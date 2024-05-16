@@ -67,7 +67,7 @@ export default function Register() {
         sessionStorage.setItem("token", user.token);
         sessionStorage.setItem('userId', user.id);
         sessionStorage.setItem('username', user.username);
-        sessionStorage.setItem("currentUserId", user.id);
+        // sessionStorage.setItem("currentUserId", user.id);
 
         // Navigate to user overview page with necessary information
         navigate("/lobby", { state: { user } });

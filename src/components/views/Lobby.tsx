@@ -179,7 +179,13 @@ const Game = () => {
       }
     }
 
+    const intervalId = setInterval(fetchData, 2000); // Poll every 2 seconds
     fetchData();
+    return () => {
+      clearInterval(intervalId);
+    };
+
+    // fetchData();
   }, []);
 
   let content = <Spinner />;

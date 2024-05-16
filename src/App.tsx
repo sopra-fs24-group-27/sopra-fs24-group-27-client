@@ -1,4 +1,4 @@
-import React, { useEffect }  from "react";
+import React, { useEffect } from "react";
 import Header from "./components/views/Header";
 import AppRouter from "./components/routing/routers/AppRouter";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -10,7 +10,8 @@ const App = () => {
       // localStorage.removeItem('userId');
       // localStorage.removeItem('username');
       // localStorage.removeItem('currentUserId');
-      localStorage.clear()
+      localStorage.clear();
+      sessionStorage.clear();
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);

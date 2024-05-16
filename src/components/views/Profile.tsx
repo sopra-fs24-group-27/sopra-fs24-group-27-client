@@ -24,7 +24,7 @@ export default function Profile() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   // const [currentUserId, setCurrentUserId] = useState(localStorage.getItem('currentUserId'));
-  const [currentUserId, setCurrentUserId] = useState(sessionStorage.getItem('currentUserId'));
+  const [currentUserId, setCurrentUserId] = useState(sessionStorage.getItem('userId'));
   const [editableUser, setEditableUser] = useState({
     avatar: '',
     username: '',
@@ -38,7 +38,7 @@ export default function Profile() {
 
   useEffect(() => {
     // const currentUserId = localStorage.getItem('currentUserId');
-    const currentUserId = sessionStorage.getItem('currentUserId');
+    const currentUserId = sessionStorage.getItem('userId');
     setCurrentUserId(currentUserId);
 
     const fetchUserData = async () => {

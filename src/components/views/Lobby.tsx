@@ -100,7 +100,7 @@ const Game = () => {
   const [artistList, setArtistList] = useState([]);
 
   const [roomInfo, setRoomInfo] = useState({ players: [], hostId: null });
-  const [currentUser, setCurrentUser] = useState({ id: null, username: null });
+  const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("userId"));
   const [host, setHostUser] = useState({ id: null });
   const navigate = useNavigate();
 
@@ -250,8 +250,16 @@ const Game = () => {
       const response = await api.post('/games', roomData);
       console.log("Room created successfully", response.data);
       const gameId = response.data.gameId;
+      const players = response.data.players;
       // localStorage.setItem('gameId', gameId);
       sessionStorage.setItem('gameId', gameId);
+      console.log("players", players);
+      players.forEach(player => {
+        if (player.user.id.toString() === currentUser) {
+          sessionStorage.setItem('playerId', player.id);
+          console.log("playerid", player.id);
+        }
+      });
 
       // Navigate to the game's lobby or waiting room
       navigate(`/games/${gameId}/waitingroom`);
@@ -278,6 +286,18 @@ const Game = () => {
         console.log("Joined room successfully", response.data);
         // localStorage.setItem('gameId', tempRoomId);
         sessionStorage.setItem('gameId', tempRoomId);
+
+        const response2 = await api.get(`/games/${tempRoomId}`);
+        const players = response2.data.players;
+        console.log("players", players);
+        players.forEach(player => {
+          if (player.user.id.toString() === currentUser) {
+            sessionStorage.setItem('playerId', player.id);
+            console.log("playerid", player.id);
+          }
+        });
+
+
         // Navigate to the game's waiting room
         navigate(`/games/${tempRoomId}/waitingroom`);
       } catch (error) {

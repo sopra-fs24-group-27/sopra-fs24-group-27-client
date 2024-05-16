@@ -21,6 +21,7 @@ const Vote = () => {
   const [roomInfo, setRoomInfo] = useState(null);
   // const [currentUser, setCurrentUser] = useState(localStorage.getItem("currentUserId"));
   const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("userId"));
+  const [currentPlayerId, setCurrentPlayerId] = useState(sessionStorage.getItem("playerId"));
   const [currentTurn, setCurrentTurn] = useState(1);
   const [votes, setVotes] = useState({});
   const [error, setError] = useState(null);
@@ -39,7 +40,7 @@ const Vote = () => {
 
         console.log("roominfo:", roomInfo);
         const votesData = response.data.players.reduce((acc, player) => {
-          acc[player.id] = player.votes || 0; // Assuming the server returns a 'votes' field for each player
+          acc[player.user.id] = player.votes || 0; // Assuming the server returns a 'votes' field for each player
           return acc;
         }, {});
         setVotes(votesData);
@@ -75,26 +76,26 @@ const Vote = () => {
         {gameState.map((player, index) => {
           // const AvatarComponent = avatarComponents[player.user.avatar];
           return (
-            <div key={index} className={`player-wrapper ${currentUser === player.id && currentTurn === player.turn ? "current-player" : ""}`} style={{ margin: "10px", backgroundColor: 'rgba(235, 200, 255, 0.7)', borderRadius: "10px", boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)", width: "350px", padding: "20px", color: "white", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", marginLeft: "auto", marginRight: "auto" }}>
+            <div key={index} className={`player-wrapper ${currentUser === player.user.id && currentTurn === player.turn ? "current-player" : ""}`} style={{ margin: "10px", backgroundColor: 'rgba(235, 200, 255, 0.7)', borderRadius: "10px", boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)", width: "350px", padding: "20px", color: "white", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", marginLeft: "auto", marginRight: "auto" }}>
               <Avatar src={player.user.avatar} style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }} />
               {/* <AvatarComponent style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }} /> */}
               <p style={{ lineHeight: '0.8' }}>Username: {player.user.username}</p>
               <p style={{ lineHeight: '0.8' }}>Round 1 Emojis: {player.emojis.join(" ")}</p>
               <p style={{ lineHeight: '0.8' }}>Round 2 Emojis: {player.emojis2.join(" ")}</p>
-              <p style={{ lineHeight: '0.8' }}>Votes: {votes[player.id] || 0}</p>
+              <p style={{ lineHeight: '0.8' }}>Votes: {votes[player.user.id] || 0}</p>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={() => toVote(player.id)}
-                disabled={votingDisabled || currentUser === player.id.toString()}
+                disabled={votingDisabled || currentUser === player.user.id.toString()}
                 style={{
                   marginRight: "10px",
-                  ...(votingDisabled || currentUser === player.id.toString() ? {} : {
+                  ...(votingDisabled || currentUser === player.user.id.toString() ? {} : {
                     backgroundColor: '#AFEEEE',
                     color: '#00008B'
                   })
                 }}>
-                {currentUser === player.id.toString() ? "You can't vote for yourself" : "Catch you now!"}
+                {currentUser === player.user.id.toString() ? "You can't vote for yourself" : "Catch you now!"}
               </Button>
             </div>
           );
@@ -106,7 +107,7 @@ const Vote = () => {
   const toVote = async (votedPlayerId) => {
     try {
       const payload = votedPlayerId;
-      const response = await api.post(`/games/${gameId}/vote?voterId=${currentUser}`, payload);
+      const response = await api.post(`/games/${gameId}/vote?voterId=${currentPlayerId}`, payload);
       setVoteResult(response.data.message); // Assuming the server sends back some message
       console.log("Vote successful:", response.data);
       setVotingDisabled(true);

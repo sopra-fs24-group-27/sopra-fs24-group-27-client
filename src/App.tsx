@@ -11,7 +11,6 @@ const App = () => {
       // localStorage.removeItem('username');
       // localStorage.removeItem('currentUserId');
       localStorage.clear();
-      sessionStorage.clear();
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);

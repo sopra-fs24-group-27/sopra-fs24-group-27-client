@@ -23,6 +23,7 @@ const Round = () => {
   const [roomInfo, setRoomInfo] = useState(null);
   // const [currentUser, setCurrentUser] = useState(localStorage.getItem("currentUserId"));
   const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("userId"));
+  const [currentPlayerId, setCurrentPlayerId] = useState(sessionStorage.getItem("playerId"));
   const [currentTurn, setCurrentTurn] = useState(1);
   const [playerEmojis, setPlayerEmojis] = useState({});
   const [chosenEmojis, setChosenEmojis] = useState([]);
@@ -92,7 +93,7 @@ const Round = () => {
           return (
             <div
               key={index}
-              className={`player-wrapper ${currentUser === player.id && currentTurn === player.turn ? "current-player" : ""}`}
+              className={`player-wrapper ${currentUser === player.user.id && currentTurn === player.turn ? "current-player" : ""}`}
               style={{
                 margin: "10px",
                 backgroundColor: currentTurn === player.turn ? "rgba(144, 238, 200, 0.8)" : "rgba(200, 131, 253, 0.8)",
@@ -115,7 +116,7 @@ const Round = () => {
               {/*<p>Emojis: {player.emojis.join(" ")}</p>*/}
               <p>Round 1 Emojis: {player.emojis.join(" ")}</p>
               <p>Round 2 Emojis: {player.emojis2.join(" ")}</p>
-              {player.id.toString() === currentUser && player.turn === currentTurn && (
+              {player.user.id.toString() === currentUser && player.turn === currentTurn && (
                 <>
                   <p>→ YOUR TURN ←</p>
                   <TextField
@@ -176,7 +177,7 @@ const Round = () => {
     try {
       const requestBody = chosenEmojis;
 
-      await api.post(`/games/${gameId}/emojis?playerId=${currentUser}&round=${round}`, requestBody);
+      await api.post(`/games/${gameId}/emojis?playerId=${currentPlayerId}&round=${round}`, requestBody);
 
       setChosenEmojis([]);
 

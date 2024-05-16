@@ -37,7 +37,7 @@ const GameEndPage = ({ victory, players }) => {
 
   const handleExitGame = async () => {
     // const playerId = localStorage.getItem('userId');
-    const playerId = sessionStorage.getItem('userId');
+    const playerId = sessionStorage.getItem('playerId');
 
     try {
         const response = await api.post(`/games/${gameId}/quit`, null, {

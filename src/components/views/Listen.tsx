@@ -16,13 +16,14 @@ import { Avatar } from '@mui/material';
 // const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
 
 const Listen = ({ mockSong, mockCurrentUser, mockCurrentUsername, isMock = false }) => {
-  const { gameId, playerId } = useParams();
+  const { gameId } = useParams();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [song, setSong] = useState(isMock ? mockSong : null);
   const [currentUsername, setCurrentUsername] = useState(isMock ? mockCurrentUsername : sessionStorage.getItem("username"));
   const [currentUser, setCurrentUser] = useState(isMock ? mockCurrentUser : null);
   const [timeLeft, setTimeLeft] = useState(30);
+  const [playerId, setCurrentPlayerId] = useState(sessionStorage.getItem("playerId"));
 
   useEffect(() => {
     if (isMock) return;

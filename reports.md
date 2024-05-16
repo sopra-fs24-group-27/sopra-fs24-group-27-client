@@ -255,3 +255,8 @@
 - Completed tests for GetGame to GameControllerTest&GameServiceTest. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/0d361fa8d90bde4ad38d237e80a19565f88b1bf6)
 - Adjusted the color of some pages on the client side to match the overall web style. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/b813af0cd2a64bc2111395ec455584e73476dd6f)&[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/c22a7953939e0915ee5fcbe868ff8427dc9e80cc)
 
+**Yating Pan**
+- Refined listen page, added avatar and username[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/c93920128be9c6608b26268828b418366f18c7d1). Completed task #45[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/45)
+- Updated the listen page to auto-play the preview version of song for 30 seconds[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/9be1f8248355dce449863e7342ea25e5bf31c301). Completed task #37[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/37).
+
+  

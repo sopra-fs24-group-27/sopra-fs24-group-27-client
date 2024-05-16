@@ -372,7 +372,7 @@ export default function Lobby() {
         localStorage.setItem('gameId', tempRoomId);
         sessionStorage.setItem('gameId', tempRoomId);
         // Navigate to the game's waiting room
-        navigate(`/games/${tempRoomId}/waitingroom`);
+        navigate(`/games/${tempRoomId}/wait`);
       } catch (error) {
         console.error(`Failed to join room: ${handleError(error)}`);
         alert("Failed to join the room.");

@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import Player from "./Player";
 import "styles/views/Game.scss";
+import Avatar from '@mui/material/Avatar';
 
 const GameEndPage = ({ victory, players }) => {
   const { gameId } = useParams();
@@ -40,18 +41,18 @@ const GameEndPage = ({ victory, players }) => {
     const playerId = sessionStorage.getItem('userId');
 
     try {
-        const response = await api.post(`/games/${gameId}/quit`, null, {
-            params: {
-                playerId: playerId
-            }
-        });
-        console.log("Exit response:", response.data);
-        navigate("/lobby");
+      const response = await api.post(`/games/${gameId}/quit`, null, {
+        params: {
+          playerId: playerId
+        }
+      });
+      console.log("Exit response:", response.data);
+      navigate("/lobby");
     } catch (error) {
-        console.error("Failed to quit game:", error);
-        setError("Failed to exit game");
+      console.error("Failed to quit game:", error);
+      setError("Failed to exit game");
     }
-};
+  };
 
 
 

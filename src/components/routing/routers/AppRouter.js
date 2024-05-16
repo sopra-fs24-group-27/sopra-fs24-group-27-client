@@ -6,7 +6,7 @@ import { LoginGuard } from "../routeProtectors/LoginGuard";
 import Login from "../../views/Login";
 import Register from "../../views/Register";
 import Profile from "../../views/Profile";
-import Waitingroom from "../../views/Waitingroom";
+import Wait from "../../views/Wait";
 import Round from "../../views/Round";
 import Music from "../../views/Music"
 import Listen from "../../views/Listen";
@@ -57,7 +57,7 @@ const AppRouter = () => {
 
         <Route path="/games/:gameId/*" element={<GameGuard />}>
           <Route element={<GameIdGuard />}>
-            <Route path="waitingroom" element={<Waitingroom />} />
+            <Route path="wait" element={<Wait />} />
             <Route path="listen/:playerId" element={<Listen />} />
             <Route path="round" element={<Round />} />
             <Route path="music" element={<Music />} />

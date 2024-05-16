@@ -4,15 +4,16 @@ import BaseContainer from 'components/ui/BaseContainer';
 import ReactPlayer from 'react-player';
 import ReactCountdownClock from 'react-countdown-clock';
 import { api, handleError } from 'helpers/api';
-import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
-import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
-import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
-import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
-import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
-import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
-import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
+import { Avatar } from '@mui/material';
+// import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
+// import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
+// import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
+// import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
+// import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
+// import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
+// import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
 
-const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
+// const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
 
 const Listen = ({ mockSong, mockCurrentUser, mockCurrentUsername, isMock = false }) => {
   const { gameId, playerId } = useParams();
@@ -66,16 +67,17 @@ const Listen = ({ mockSong, mockCurrentUser, mockCurrentUsername, isMock = false
     navigate(`/games/${gameId}/round`);
   };
 
-  const avatarIndex = currentUser?.avatar ?? mockCurrentUser?.avatar;
-  const AvatarComponent = avatarComponents[avatarIndex];
+  const avatar = currentUser?.avatar ?? mockCurrentUser?.avatar;
+  // const avatarIndex = currentUser?.avatar ?? mockCurrentUser?.avatar;
+  // const AvatarComponent = avatarComponents[avatarIndex];
 
-  if (!AvatarComponent) {
-    console.error("AvatarComponent is not defined for avatar index:", avatarIndex);
-  }
+  // if (!AvatarComponent) {
+  //   console.error("AvatarComponent is not defined for avatar index:", avatarIndex);
+  // }
 
   console.log("currentUser:", currentUser);
-  console.log("avatarIndex:", avatarIndex);
-  console.log("AvatarComponent:", AvatarComponent);
+  // console.log("avatarIndex:", avatarIndex);
+  // console.log("AvatarComponent:", AvatarComponent);
 
   return (
     <BaseContainer className="music-player-container">
@@ -86,9 +88,10 @@ const Listen = ({ mockSong, mockCurrentUser, mockCurrentUsername, isMock = false
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <div style={{ position: 'relative', width: '100px', height: '100px' }}>
-                  <AvatarComponent
+                  <Avatar src={avatar} style={{ width: '100%', height: '100%', borderRadius: '50%', border: '5px solid white', boxShadow: '0 0 10px rgba(0,0,0,0.5)' }} />
+                  {/* <AvatarComponent
                     style={{ width: '100%', height: '100%', borderRadius: '50%', border: '5px solid white', boxShadow: '0 0 10px rgba(0,0,0,0.5)' }}
-                  />
+                  /> */}
                   <span style={{ position: 'absolute', bottom: '-20px', left: '50%', transform: 'translateX(-50%)', fontWeight: 'bold', fontSize: '18px' }}>{currentUsername}</span>
                 </div>
               </div>

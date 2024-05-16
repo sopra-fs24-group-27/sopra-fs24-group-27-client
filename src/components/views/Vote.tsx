@@ -3,15 +3,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import Button from "@mui/material/Button";
 import { api, handleError } from 'helpers/api';
-import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
-import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
-import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
-import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
-import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
-import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
-import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
+import { Avatar } from "@mui/material";
+// import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
+// import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
+// import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
+// import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
+// import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
+// import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
+// import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
 
-const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
+// const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
 
 const Vote = () => {
   const { gameId } = useParams();
@@ -36,7 +37,7 @@ const Vote = () => {
         setRoomInfo(response.data);
         setCurrentTurn(response.data.currentTurn);
 
-        console.log("roominfo:",roomInfo);
+        console.log("roominfo:", roomInfo);
         const votesData = response.data.players.reduce((acc, player) => {
           acc[player.id] = player.votes || 0; // Assuming the server returns a 'votes' field for each player
           return acc;
@@ -72,10 +73,11 @@ const Vote = () => {
     return (
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", justifyContent: "center", alignItems: "center" }}>
         {gameState.map((player, index) => {
-          const AvatarComponent = avatarComponents[player.user.avatar];
+          // const AvatarComponent = avatarComponents[player.user.avatar];
           return (
             <div key={index} className={`player-wrapper ${currentUser === player.id && currentTurn === player.turn ? "current-player" : ""}`} style={{ margin: "10px", backgroundColor: 'rgba(235, 200, 255, 0.7)', borderRadius: "10px", boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)", width: "350px", padding: "20px", color: "white", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", marginLeft: "auto", marginRight: "auto" }}>
-              <AvatarComponent style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }} />
+              <Avatar src={player.user.avatar} style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }} />
+              {/* <AvatarComponent style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }} /> */}
               <p style={{ lineHeight: '0.8' }}>Username: {player.user.username}</p>
               <p style={{ lineHeight: '0.8' }}>Round 1 Emojis: {player.emojis.join(" ")}</p>
               <p style={{ lineHeight: '0.8' }}>Round 2 Emojis: {player.emojis2.join(" ")}</p>
@@ -85,11 +87,13 @@ const Vote = () => {
                 color="primary"
                 onClick={() => toVote(player.id)}
                 disabled={votingDisabled || currentUser === player.id.toString()}
-                style={{ marginRight: "10px",
-                ...(votingDisabled || currentUser === player.id.toString() ? {} : {
+                style={{
+                  marginRight: "10px",
+                  ...(votingDisabled || currentUser === player.id.toString() ? {} : {
                     backgroundColor: '#AFEEEE',
-                    color: '#00008B' })
-                 }}>
+                    color: '#00008B'
+                  })
+                }}>
                 {currentUser === player.id.toString() ? "You can't vote for yourself" : "Catch you now!"}
               </Button>
             </div>

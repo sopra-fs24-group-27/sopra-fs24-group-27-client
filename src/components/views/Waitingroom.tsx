@@ -26,7 +26,7 @@ const Waitingroom = () => {
             try {
                 const response = await api.get(`/games/${gameId}`);
                 setRoomInfo(response.data);
-                const hostPlayer = response.data.players.find(p => p.id === response.data.hostId);
+                const hostPlayer = response.data.players.find(p => p.user.id === response.data.hostId);
                 if (hostPlayer) {
                     setHostUsername(hostPlayer.user.username);
                     setHostId(hostPlayer.user.id);
@@ -89,9 +89,9 @@ const Waitingroom = () => {
             </div>
             <p>Host: {hostUsername}</p>
             {error && <p className="error-message">{error}</p>}
-            <div className="player-list" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', width: '80%', margin: '0 auto'}}>
+            <div className="player-list" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', width: '80%', margin: '0 auto' }}>
                 {roomInfo?.players && roomInfo.players.map((player, index) => (
-                    <div key={index} className="player-wrapper" style={{ width: '40%', boxSizing: 'border-box', padding: '10px', margin: '0 40px 10px 0'}}>
+                    <div key={index} className="player-wrapper" style={{ width: '40%', boxSizing: 'border-box', padding: '10px', margin: '0 40px 10px 0' }}>
                         <Player user={{ ...player.user, scores: player.score ?? 0 }} />
                     </div>
                 ))}

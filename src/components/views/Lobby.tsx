@@ -18,17 +18,18 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
 import { useWebSocket } from 'context/WebSocketContext';  // Ensure the path is correct
 
-import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
-import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
-import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
-import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
-import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
-import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
-import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
+// import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
+// import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
+// import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
+// import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
+// import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
+// import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
+// import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
 
-const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
+// const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
 
 const Player = ({ user }: { user: User }) => {
   // Convert user's birthday string to date object
@@ -42,14 +43,20 @@ const Player = ({ user }: { user: User }) => {
     navigate(`/profile/${user.id}`);
   };
 
-  const AvatarComponent = avatarComponents[Number(user.avatar)];
+  // const AvatarComponent = avatarComponents[Number(user.avatar)];
 
   return (
     <div className="player container" style={{ width: '350px', height: '250px' }}>
 
       <p>
-        <AvatarComponent
+        {/* <AvatarComponent
           style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }}
+          onClick={navigateToProfile}
+        /> */}
+        <Avatar
+          alt="Avatar"
+          src={user.avatar}
+          sx={{ width: 100, height: 100, cursor: 'pointer' }}
           onClick={navigateToProfile}
         />
         ID: {user.id}<br />

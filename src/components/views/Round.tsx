@@ -5,15 +5,16 @@ import Button from "@mui/material/Button";
 import EmojiPicker from "emoji-picker-react";
 import { api, handleError } from 'helpers/api';
 import TextField from "@mui/material/TextField";
-import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
-import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
-import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
-import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
-import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
-import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
-import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
+import { Avatar } from "@mui/material";
+// import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
+// import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
+// import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
+// import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
+// import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
+// import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
+// import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
 
-const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
+// const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
 
 const Round = () => {
   const { gameId } = useParams();
@@ -40,7 +41,7 @@ const Round = () => {
         setRoomInfo(response.data);
         setCurrentTurn(response.data.currentTurn);
         setRound(response.data.currentRound);
-        console.log("currentturn",currentTurn)
+        console.log("currentturn", currentTurn)
       } catch (error) {
         console.error("Error fetching game state:", error);
         setError("Failed to load game state");
@@ -85,56 +86,58 @@ const Round = () => {
     console.log("Game State user id:", gameState[0].id);
 
     return (
-      <div style={{ display: "flex",  gap: "10px", justifyContent: "center", alignItems: "center" }}>
+      <div style={{ display: "flex", gap: "10px", justifyContent: "center", alignItems: "center" }}>
         {gameState.map((player, index) => {
-          const AvatarComponent = avatarComponents[player.user.avatar];
+          // const AvatarComponent = avatarComponents[player.user.avatar];
           return (
-          <div
-            key={index}
-            className={`player-wrapper ${currentUser === player.id && currentTurn === player.turn ? "current-player" : ""}`}
-               style={{
-                 margin: "10px",
-                 backgroundColor: currentTurn === player.turn ? "rgba(144, 238, 200, 0.8)" : "rgba(200, 131, 253, 0.8)",
-                 borderRadius: "10px",
-                 boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
-                 width: "300px",
-                 padding: "20px",
-                 color: "black",
-                 display: "flex",
-                 flexDirection: "column",
-                 justifyContent: "center",
-                 alignItems: "center" }}>
-            {/*<p>Order of sending emojis: {player.turn}</p>*/}
-            <AvatarComponent
-              style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }}
-            />
-            <p>Username: {player.user.username}</p>
-            {/*<p>Emojis: {player.emojis.join(" ")}</p>*/}
-            <p>Round 1 Emojis: {player.emojis.join(" ")}</p>
-            <p>Round 2 Emojis: {player.emojis2.join(" ")}</p>
-            {player.id.toString() === currentUser && player.turn === currentTurn &&(
-              <>
-                <p>→ YOUR TURN ←</p>
-                <TextField
-                  onFocus={handleEmojiInputFocus}
-                  onBlur={handleEmojiInputBlur}
-                  value={chosenEmojis.join(' ')}
-                  placeholder="Up to 5 emojis"
-                  variant="outlined"
-                  fullWidth
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-                {renderChosenEmojis()}
-                {renderEmojiPicker()}
-                <Button variant="contained" color="primary" onClick={handleSubmitEmojis} disabled={chosenEmojis.length === 0}
-                style={{ marginTop: '20px', backgroundColor: '#DB70DB', color: '#00008B' }}>
-                  Submit Emojis
-                </Button>
-              </>
-            )}
-          </div>
+            <div
+              key={index}
+              className={`player-wrapper ${currentUser === player.id && currentTurn === player.turn ? "current-player" : ""}`}
+              style={{
+                margin: "10px",
+                backgroundColor: currentTurn === player.turn ? "rgba(144, 238, 200, 0.8)" : "rgba(200, 131, 253, 0.8)",
+                borderRadius: "10px",
+                boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
+                width: "300px",
+                padding: "20px",
+                color: "black",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center"
+              }}>
+              {/*<p>Order of sending emojis: {player.turn}</p>*/}
+              <Avatar src={player.user.avatar} style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }} />
+              {/* <AvatarComponent
+                style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }}
+              /> */}
+              <p>Username: {player.user.username}</p>
+              {/*<p>Emojis: {player.emojis.join(" ")}</p>*/}
+              <p>Round 1 Emojis: {player.emojis.join(" ")}</p>
+              <p>Round 2 Emojis: {player.emojis2.join(" ")}</p>
+              {player.id.toString() === currentUser && player.turn === currentTurn && (
+                <>
+                  <p>→ YOUR TURN ←</p>
+                  <TextField
+                    onFocus={handleEmojiInputFocus}
+                    onBlur={handleEmojiInputBlur}
+                    value={chosenEmojis.join(' ')}
+                    placeholder="Up to 5 emojis"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                  {renderChosenEmojis()}
+                  {renderEmojiPicker()}
+                  <Button variant="contained" color="primary" onClick={handleSubmitEmojis} disabled={chosenEmojis.length === 0}
+                    style={{ marginTop: '20px', backgroundColor: '#DB70DB', color: '#00008B' }}>
+                    Submit Emojis
+                  </Button>
+                </>
+              )}
+            </div>
           );
         })}
       </div>
@@ -159,7 +162,7 @@ const Round = () => {
               onClick={() => removeEmoji(index)}
               variant="contained"
               color="secondary"
-              style={{ marginLeft: '5px', minWidth: '30px', padding: '5px', backgroundColor: '#DB70DB', color: '#00008B'}}
+              style={{ marginLeft: '5px', minWidth: '30px', padding: '5px', backgroundColor: '#DB70DB', color: '#00008B' }}
             >
               X
             </Button>
@@ -236,7 +239,7 @@ const Round = () => {
     navigate(`/games/${gameId}/vote`);
   }
 
-  const toNextRound = async () =>{
+  const toNextRound = async () => {
     try {
       const response = await api.get(`/games/${gameId}/`);
       setRound(response.data.currentRound);

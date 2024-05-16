@@ -16,15 +16,15 @@ import { api, handleError } from "helpers/api";
 import User from "models/User";
 import { useNavigate } from "react-router-dom";
 
-import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
-import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
-import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
-import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
-import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
-import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
-import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
+// import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
+// import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
+// import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
+// import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
+// import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
+// import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
+// import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
 
-const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
+// const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
 
 
 const defaultTheme = createTheme({
@@ -116,7 +116,7 @@ export default function Register() {
                   autoComplete="current-password"
                   onChange={(event) => setPassword(event.target.value)}
                 />
-                <Box sx={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', width: '100%', mb: 2 }}>
+                {/* <Box sx={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', width: '100%', mb: 2 }}>
                   {avatarComponents.map((AvatarComponent, index) => (
                     <AvatarComponent
                       key={index}
@@ -124,7 +124,7 @@ export default function Register() {
                       onClick={() => handleAvatarClick(index)}
                     />
                   ))}
-                </Box>
+                </Box> */}
                 <Button
                   type="button"
                   fullWidth

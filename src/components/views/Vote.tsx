@@ -36,11 +36,16 @@ const Vote = () => {
         setRoomInfo(response.data);
         setCurrentTurn(response.data.currentTurn);
 
+        console.log("roominfo:",roomInfo);
         const votesData = response.data.players.reduce((acc, player) => {
           acc[player.id] = player.votes || 0; // Assuming the server returns a 'votes' field for each player
           return acc;
         }, {});
         setVotes(votesData);
+
+        if (response.data.votedPlayers === 4) {
+          navigate(`/games/${gameId}/end`);
+        }
 
         console.log("currentturn", currentTurn);
       } catch (error) {
@@ -81,7 +86,7 @@ const Vote = () => {
                 onClick={() => toVote(player.id)}
                 disabled={votingDisabled || currentUser === player.id.toString()}
                 style={{ marginRight: "10px",
-                ...(currentUser === player.id.toString() ? {} : {
+                ...(votingDisabled || currentUser === player.id.toString() ? {} : {
                     backgroundColor: '#AFEEEE',
                     color: '#00008B' })
                  }}>

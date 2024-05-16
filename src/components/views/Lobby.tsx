@@ -179,7 +179,7 @@ const Game = () => {
       }
     }
 
-    const intervalId = setInterval(fetchData, 2000); // Poll every 2 seconds
+    const intervalId = setInterval(fetchData, 12000); // Poll every 12 seconds
     fetchData();
     return () => {
       clearInterval(intervalId);
@@ -250,7 +250,7 @@ const Game = () => {
       const response = await api.post('/games', roomData);
       console.log("Room created successfully", response.data);
       const gameId = response.data.gameId;
-      localStorage.setItem('gameId', gameId);
+      // localStorage.setItem('gameId', gameId);
       sessionStorage.setItem('gameId', gameId);
 
       // Navigate to the game's lobby or waiting room
@@ -276,7 +276,7 @@ const Game = () => {
       try {
         const response = await api.post(`/games/${tempRoomId}/join?userId=${userId}`);
         console.log("Joined room successfully", response.data);
-        localStorage.setItem('gameId', tempRoomId);
+        // localStorage.setItem('gameId', tempRoomId);
         sessionStorage.setItem('gameId', tempRoomId);
         // Navigate to the game's waiting room
         navigate(`/games/${tempRoomId}/waitingroom`);
@@ -342,8 +342,6 @@ const Game = () => {
       </Popover>
     );
   };
-
-
 
   return (
     <BaseContainer className="game container">

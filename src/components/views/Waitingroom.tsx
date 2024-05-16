@@ -96,19 +96,17 @@ const Waitingroom = () => {
                     </div>
                 ))}
             </div>
-            {parseInt(currentUser.id, 10) === roomInfo.hostId && roomInfo.players.length === 4 && (
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={startGame}
-                        style={{ marginTop: '20px', backgroundColor: '#AFEEEE', color: '#00008B' }}
-                        disabled={gameStarted}  // Disable if game has already started
-                    >
-                        Start Game
-                    </Button>
-                </div>
-            )}
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={startGame}
+                    style={{ marginTop: '20px', backgroundColor: '#AFEEEE', color: '#00008B' }}
+                    disabled={gameStarted || parseInt(currentUser.id, 10) !== roomInfo.hostId || roomInfo.players.length !== 4}  // Disable if game has already started
+                >
+                    Start Game
+                </Button>
+            </div>
         </BaseContainer>
     );
 };

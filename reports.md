@@ -52,7 +52,7 @@
 
 **Qingcheng Wang**
 
-- Completed #3, #22 and #25 on the server side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4acc4e68db0362fbd5b057066a7775090e676c19)
+- Completed #3 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/3), #22 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/22) and #25 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/25) on the server side. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4acc4e68db0362fbd5b057066a7775090e676c19)
 
 **Yi Zhang**
 
@@ -111,7 +111,7 @@
 **Qingcheng Wang**
 
 - Completed #55 & #57. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/55) &[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/57) 
-- Completed functions in GameServce: sortTurnOrder, startRound, sendEmojis, vote, endVoting, declareWinner, endRound.
+- Completed functions in GameServce: sortTurnOrder, startRound, sendEmojis, vote, endVoting, declareWinner, endRound. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/d8ff000f211caf83acb475f1247d05a6b86d1805)
 
 **Yating Pan**
 
@@ -161,7 +161,7 @@
 
 **Qingcheng Wang**
 
-- Completed the front-end and back-end of rounds control and sending emojis [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/58d75228dcb4486b4345bf7f3c9bf5d33e5de648), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/2eeea1f2f9b474c09f6076663bd46e307ea66be5)
+- Completed the front-end and back-end of rounds control and sending emojis [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/6ce73389348314730e019443a9d5dcf04e6a57d7), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4c296945517128bed9a6cad5e73bb8ae23367582), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/2eeea1f2f9b474c09f6076663bd46e307ea66be5)
 - Client-side tasks #32[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/32), #31[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/31) completed by the above work.
 - Server-side tasks #34[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/34), #37[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/37) completed by the above work.
 
@@ -205,8 +205,10 @@
 
 **Qingcheng Wang**
 
+- Improved client round control. Related task #3 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/3), #24 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/24), #34 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/34)
+- Improved client round control. Completed the correlation logic between voting and room waiting. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6288ec9dffd9ca358f458e28bc05005137d177c6)
 - Completed repository test. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/8fb3a3f44eb5bdc8600957187c9cb3eef1047580)
-- Complete the correlation logic between voting and room waiting. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6288ec9dffd9ca358f458e28bc05005137d177c6)
+- Changed REST for send and view emojis. #86 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/86)
 
 
 
@@ -237,8 +239,10 @@
 
 **Qingcheng Wang**
 
-- Completed all tasks related to sending emojis and voting in the server. Calculated the winner and final score. #86 #52 #68 #50 #47 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/f7ead18715187fd28dd32325c82784456f7b68b0) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2d2ec919f776da428ed78c0f4af7a505602131bc) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/80af1a15f0f0ca479f87b743a6e3a157407c2de9)
-- Completed all tasks related to sending emojis and voting in the client. #34 #33 #26 #25 #24 #3 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/66cfe5ca07db5d42f97938667813f517198c8286) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/1a96b2881c6228baa1666f40827cb7c0d14fce46) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/b5e005b90e48bded6d7488696c54c8130ce78e59)
+- Completed tasks related to sending emojis and voting in the server. #50[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/50) #47[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/47) #48[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/48)
+- [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/f7ead18715187fd28dd32325c82784456f7b68b0) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2d2ec919f776da428ed78c0f4af7a505602131bc) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/80af1a15f0f0ca479f87b743a6e3a157407c2de9)
+- Completed tasks related to sending emojis and voting in the client. #33 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/33) #25 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/25) #26[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/26)
+- [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/66cfe5ca07db5d42f97938667813f517198c8286) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/1a96b2881c6228baa1666f40827cb7c0d14fce46) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/b5e005b90e48bded6d7488696c54c8130ce78e59)
 
 
 
@@ -258,5 +262,11 @@
 **Yating Pan**
 - Refined listen page, added avatar and username[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/c93920128be9c6608b26268828b418366f18c7d1). Completed task #45[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/45)
 - Updated the listen page to auto-play the preview version of song for 30 seconds[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/9be1f8248355dce449863e7342ea25e5bf31c301). Completed task #37[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/37).
+
+**Qingcheng Wang**
+- Completed with scoring functionality and logic. #68 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/68) #52[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/52)  [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/757ca232754ba0a2ffa56a1518d08be1667c5630)
+- Add an emojis2list to the player so that emojis sent twice by the user can be sent to the client separately. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/88ba257866ec550b1668d26a96fe346913fe3d90)
+- Improved the send and view emojis page. #44 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/44)   [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/d6d1041dbfe4382203e632101483362412b84e4a)
+- Set up guard route and session. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/c8ffdf1dab4b60a2b8abf7ab0d89ebe6a4817812), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/3186635856f9d211ce96ff86789cb7707eceb4cf)
 
   

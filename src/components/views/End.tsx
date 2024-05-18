@@ -7,7 +7,7 @@ import BaseContainer from "components/ui/BaseContainer";
 import Player from "./Player";
 import "styles/views/Game.scss";
 
-const GameEndPage = ({ victory, players }) => {
+const GameEndPage = ({ players }) => {
   const { gameId } = useParams();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
@@ -36,8 +36,12 @@ const GameEndPage = ({ victory, players }) => {
   }, [gameId]);
 
   const handleExitGame = async () => {
+<<<<<<< Updated upstream
     // const playerId = localStorage.getItem('userId');
     const playerId = sessionStorage.getItem('playerId');
+=======
+    const playerId = sessionStorage.getItem('userId');
+>>>>>>> Stashed changes
 
     try {
         const response = await api.post(`/games/${gameId}/quit`, null, {
@@ -51,9 +55,7 @@ const GameEndPage = ({ victory, players }) => {
         console.error("Failed to quit game:", error);
         setError("Failed to exit game");
     }
-};
-
-
+  };
 
   const renderScoresAndWinners = () => {
     if (!gameState) return <div>Loading scores...</div>;
@@ -77,10 +79,17 @@ const GameEndPage = ({ victory, players }) => {
     );
   };
 
+  const currentUserIsWinner = () => {
+    const playerId = sessionStorage.getItem('userId');
+    if (!gameState || !playerId) return false;
+    const currentUser = gameState.find(player => player.user.id === playerId);
+    return currentUser ? currentUser.winner : false;
+  };
+
   return (
     <BaseContainer className="game container">
       {error && <div className="error">{error}</div>}
-      <h1>{victory ? 'Congratulations, you win!' : 'Do not give up, try again!'}</h1>
+      <h1>{currentUserIsWinner() ? 'Congratulations, you win!' : 'Do not give up, try again!'}</h1>
       <div className="game user-list">
         {players && players.map(player => (
           <Player key={player.id} user={player} />
@@ -118,7 +127,6 @@ const GameEndPage = ({ victory, players }) => {
 };
 
 GameEndPage.propTypes = {
-  victory: PropTypes.bool.isRequired,
   players: PropTypes.array.isRequired,
 };
 

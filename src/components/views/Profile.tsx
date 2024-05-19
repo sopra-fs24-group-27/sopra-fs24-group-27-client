@@ -6,6 +6,7 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'styles/views/Profile.scss';
 import "styles/views/Game.scss";
+import AvatarSelectionDialog from './AvatarSelectionDialog';
 
 
 const defaultTheme = createTheme({
@@ -34,6 +35,7 @@ export default function Profile() {
   });
   const [isEditing, setIsEditing] = useState(false);
   const [isAllowedToEdit, setIsAllowedToEdit] = useState(false);
+  const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false); 
 
 
   useEffect(() => {
@@ -75,6 +77,35 @@ export default function Profile() {
     }
   };
 
+  const handleAvatarClick = () => {
+    if (isEditing) { 
+      setIsAvatarDialogOpen(true);
+    }
+  };
+
+  const handleAvatarSelect = (avatar: string) => {
+    setEditableUser((prevState) => ({ ...prevState, avatar }));
+  };
+
+  const handleAvatarConfirm = async (avatar: string | null) => {
+    if (avatar) {
+      try {
+        const updatedUser = { ...editableUser, avatar };
+        console.log('Updating user with avatar:', updatedUser);
+        await api.put(`/users/${userId}`, JSON.stringify(updatedUser));
+        setUser(updatedUser);
+        setEditableUser(updatedUser);
+        setIsAvatarDialogOpen(false); 
+      } catch (error) {
+        console.error('Updating avatar failed', error);
+      }
+    }
+  };
+
+  const handleAvatarDialogClose = () => {
+    setIsAvatarDialogOpen(false); 
+  };
+
 
 
   if (!user) {
@@ -99,7 +130,7 @@ export default function Profile() {
               <Typography component="h1" variant="h5" style={{ marginTop: '25px', marginBottom: '20px', color: 'white' }}>
                 User Profile
               </Typography>
-              <Avatar alt="Avatar" src={editableUser.avatar} sx={{ width: 100, height: 100 }} />
+              <Avatar alt="Avatar" src={editableUser.avatar} sx={{ width: 100, height: 100, cursor: isEditing ? 'pointer' : 'default' }} onClick={handleAvatarClick} />
               <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                 <TextField
                   margin="normal"
@@ -202,6 +233,12 @@ export default function Profile() {
           </Paper>
         </Grid>
       </Grid>
+      <AvatarSelectionDialog
+        open={isAvatarDialogOpen}
+        onClose={handleAvatarDialogClose}
+        onSelect={handleAvatarSelect}
+        onConfirm={handleAvatarConfirm} 
+      />
     </ThemeProvider>
   );
 }

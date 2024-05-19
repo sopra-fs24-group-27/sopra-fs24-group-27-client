@@ -19,7 +19,7 @@ const Player = ({ user }) => {
           alt="Avatar"
           src={user.avatar}
           sx={{ width: 100, height: 100, cursor: 'pointer' }}
-          onClick={navigateToProfile}
+          //onClick={navigateToProfile}
         />
         ID: {user.id}<br />
         Username: {user.username}<br />

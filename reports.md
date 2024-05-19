@@ -258,6 +258,13 @@
 - Completed tests for StartGame to GameControllerTest&GameServiceTest. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/ff29ac0c256bbee98aeef0ac4da66294a9c1be31)
 - Completed tests for GetGame to GameControllerTest&GameServiceTest. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/0d361fa8d90bde4ad38d237e80a19565f88b1bf6)
 - Adjusted the color of some pages on the client side to match the overall web style. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/b813af0cd2a64bc2111395ec455584e73476dd6f)&[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/c22a7953939e0915ee5fcbe868ff8427dc9e80cc)
+- 
+**Hepeng Fan**
+*Refine endpage and bugs fixed [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/4a90a5ae6c7d8c2af1bda86a93d73837beba2e21)
+*Display the overall points on the frontend [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/d927246d375ed08e6875225b42d0cd11a41b323c)
+*Completed tests for DeleteGame to GameControllerTest&GameServiceTest
+*Completed tests for LeaveGame to GameControllerTest&GameServiceTest
+[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c617b4e79ee04894c2d7e026903ebf4f0d0ef064)
 
 **Yating Pan**
 - Refined listen page, added avatar and username[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/c93920128be9c6608b26268828b418366f18c7d1). Completed task #45[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/45)

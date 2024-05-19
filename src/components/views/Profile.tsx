@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { api, handleError } from 'helpers/api';
+import { api } from 'helpers/api';
 import { Avatar, Button, CssBaseline, TextField, Box, Typography, Grid, Paper } from '@mui/material';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import 'styles/views/Profile.scss';
 import "styles/views/Game.scss";
 import AvatarSelectionDialog from './AvatarSelectionDialog';
-
 
 const defaultTheme = createTheme({
   palette: {
@@ -24,7 +22,6 @@ export default function Profile() {
   const { userId } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  // const [currentUserId, setCurrentUserId] = useState(localStorage.getItem('currentUserId'));
   const [currentUserId, setCurrentUserId] = useState(sessionStorage.getItem('userId'));
   const [editableUser, setEditableUser] = useState({
     avatar: '',
@@ -35,19 +32,22 @@ export default function Profile() {
   });
   const [isEditing, setIsEditing] = useState(false);
   const [isAllowedToEdit, setIsAllowedToEdit] = useState(false);
-  const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false); 
-
+  const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false);
 
   useEffect(() => {
-    // const currentUserId = localStorage.getItem('currentUserId');
     const currentUserId = sessionStorage.getItem('userId');
     setCurrentUserId(currentUserId);
 
     const fetchUserData = async () => {
       try {
         const response = await api.get(`/users/${userId}`);
-        setUser(response.data);
-        setEditableUser(response.data);
+        const userData = response.data;
+        
+        // 将用户的 score 设置为 overallPoints
+        userData.overallPoints = userData.score;
+
+        setUser(userData);
+        setEditableUser(userData);
         setIsAllowedToEdit(currentUserId === userId);
       } catch (error) {
         console.error('Fetching user data failed', error);
@@ -58,9 +58,11 @@ export default function Profile() {
       fetchUserData();
     }
   }, [userId]);
+
   const handleBack = () => {
     navigate('/lobby');
   };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setEditableUser((prevState) => ({ ...prevState, [name]: value }));
@@ -78,16 +80,16 @@ export default function Profile() {
   };
 
   const handleAvatarClick = () => {
-    if (isEditing) { 
+    if (isEditing) {
       setIsAvatarDialogOpen(true);
     }
   };
 
-  const handleAvatarSelect = (avatar: string) => {
+  const handleAvatarSelect = (avatar) => {
     setEditableUser((prevState) => ({ ...prevState, avatar }));
   };
 
-  const handleAvatarConfirm = async (avatar: string | null) => {
+  const handleAvatarConfirm = async (avatar) => {
     if (avatar) {
       try {
         const updatedUser = { ...editableUser, avatar };
@@ -95,7 +97,7 @@ export default function Profile() {
         await api.put(`/users/${userId}`, JSON.stringify(updatedUser));
         setUser(updatedUser);
         setEditableUser(updatedUser);
-        setIsAvatarDialogOpen(false); 
+        setIsAvatarDialogOpen(false);
       } catch (error) {
         console.error('Updating avatar failed', error);
       }
@@ -103,10 +105,8 @@ export default function Profile() {
   };
 
   const handleAvatarDialogClose = () => {
-    setIsAvatarDialogOpen(false); 
+    setIsAvatarDialogOpen(false);
   };
-
-
 
   if (!user) {
     return <div>Loading user profile...</div>;
@@ -167,11 +167,9 @@ export default function Profile() {
                   value={editableUser.birthDate}
                   onChange={handleChange}
                   disabled={!isEditing}
-                  InputLabelProps={
-                    {
-                      shrink: true,
-                    }
-                  }
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
                 <TextField
                   margin="normal"
@@ -184,11 +182,9 @@ export default function Profile() {
                   value={editableUser.overallPoints}
                   onChange={handleChange}
                   disabled={true}
-                  InputLabelProps={
-                    {
-                      shrink: true,
-                    }
-                  }
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
                 {isEditing ? (
                   <Box sx={{ mt: 2 }}>
@@ -216,9 +212,7 @@ export default function Profile() {
                   >
                     Edit Profile
                   </Button>
-
                 )}
-
                 <Button
                   fullWidth
                   variant="contained"
@@ -237,7 +231,7 @@ export default function Profile() {
         open={isAvatarDialogOpen}
         onClose={handleAvatarDialogClose}
         onSelect={handleAvatarSelect}
-        onConfirm={handleAvatarConfirm} 
+        onConfirm={handleAvatarConfirm}
       />
     </ThemeProvider>
   );

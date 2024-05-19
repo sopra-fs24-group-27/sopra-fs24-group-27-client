@@ -23,7 +23,6 @@ import BaseContainer from "components/ui/BaseContainer";
 import { api, handleError } from 'helpers/api';
 import Player from './Player';
 
-
 // TODO: configure default theme in an independent file and import it here
 const defaultTheme = createTheme({
   palette: {
@@ -44,7 +43,8 @@ const GameEndPage = ({ players }) => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [gameState, setGameState] = useState(null);
-
+  const [userIds, setUserIds] = useState([]);
+  
   useEffect(() => {
     if (!gameId) return;
 
@@ -67,10 +67,16 @@ const GameEndPage = ({ players }) => {
     return () => clearInterval(intervalId);
   }, [gameId]);
 
-  const handleExitGame = async () => {
-    // const playerId = localStorage.getItem('userId');
-    const playerId = sessionStorage.getItem('playerId');
+  useEffect(() => {
+    if (gameState) {
+      const winners = gameState.filter(player => player.winner);
+      const ids = winners.map(winner => winner.user.id);
+      setUserIds(ids);
+    }
+  }, [gameState]);
 
+  const handleExitGame = async () => {
+    const playerId = sessionStorage.getItem('playerId');
 
     try {
       const response = await api.post(`/games/${gameId}/quit`, null, {
@@ -84,12 +90,11 @@ const GameEndPage = ({ players }) => {
       console.error("Failed to quit game:", error);
       setError("Failed to exit game");
     }
-};
+  };
 
   const renderScoresAndWinners = () => {
     if (!gameState) return <div>Loading scores...</div>;
     const winners = gameState.filter(player => player.winner);
-
     return (
       <div className="game-column">
         <h3>Scoreboard</h3>
@@ -109,11 +114,10 @@ const GameEndPage = ({ players }) => {
   };
 
   const currentUserIsWinner = () => {
-    const playerId = sessionStorage.getItem('userId');
-    if (!gameState || !playerId) return false;
-    const currentUser = gameState.find(player => player.user.id === playerId);
-    return currentUser ? currentUser.winner : false;
+    const playerId = Number(sessionStorage.getItem('userId'));
+    return userIds.includes(playerId);
   };
+  
 
   return (
     <BaseContainer className="game container">
@@ -129,8 +133,8 @@ const GameEndPage = ({ players }) => {
           <h3 style={{ color: '#AFEEEE', fontFamily: 'Comic Sans MS', textAlign: 'center' }}>SPY</h3>
           {gameState && gameState.filter(player => player.spy).map((spy, index) => (
             <div key={spy.user.id || index}>
-              <p> {spy.user.username}</p>
-              <p> {spy.songInfo.title} by {spy.songInfo.artist}</p>
+              <p>{spy.user.username}</p>
+              <p>{spy.songInfo.title} by {spy.songInfo.artist}</p>
               <img src={spy.songInfo.imageUrl} alt={`Cover of ${spy.songInfo.title}`} style={{ width: '100px' }} />
               <a href={spy.songInfo.playUrl} target="_blank" rel="noopener noreferrer">Listen to Song</a>
             </div>

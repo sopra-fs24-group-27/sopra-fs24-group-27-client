@@ -135,7 +135,7 @@ const GameEndPage = ({ players }) => {
             <div key={spy.user.id || index}>
               <p>{spy.user.username}</p>
               <p>{spy.songInfo.title} by {spy.songInfo.artist}</p>
-              <img src={spy.songInfo.imageUrl} alt={`Cover of ${spy.songInfo.title}`} style={{ width: '100px' }} />
+              <img src={spy.songInfo.imageUrl} alt={`Cover of ${spy.songInfo.title}`} style={{ width: '200px', display: 'block', margin: '0 auto' }} />
               <a href={spy.songInfo.playUrl} target="_blank" rel="noopener noreferrer">Listen to Song</a>
             </div>
           ))}
@@ -146,8 +146,8 @@ const GameEndPage = ({ players }) => {
           {gameState && (
             <div>
               <p>{gameState[0].songInfo.title} by {gameState[0].songInfo.artist}</p>
-              <img src={gameState[0].songInfo.imageUrl} alt={`Cover of ${gameState[0].songInfo.title}`} style={{ width: '100px' }} />
-              <a href={gameState[0].songInfo.playUrl} target="_blank" rel="noopener noreferrer">Listen to Song</a>
+              <img src={gameState[0].songInfo.imageUrl} alt={`Cover of ${gameState[0].songInfo.title}`} style={{ width: '200px', display: 'block', margin: '0 auto' }} />
+              <a href={gameState[0].songInfo.playUrl} target="_blank" rel="noopener noreferrer" >Listen to Song</a>
             </div>
           )}
         </div>

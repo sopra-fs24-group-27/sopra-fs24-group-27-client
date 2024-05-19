@@ -56,7 +56,7 @@ const Player = ({ user }: { user: User }) => {
         <Avatar
           alt="Avatar"
           src={user.avatar}
-          sx={{ width: 100, height: 100, cursor: 'pointer' }}
+          sx={{ width: 80, height: 80, cursor: 'pointer', marginBottom: 2, marginTop: -4}}
           onClick={navigateToProfile}
         />
         ID: {user.id}<br />

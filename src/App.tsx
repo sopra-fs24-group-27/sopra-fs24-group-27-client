@@ -1,4 +1,4 @@
-import React, { useEffect }  from "react";
+import React, { useEffect } from "react";
 import Header from "./components/views/Header";
 import AppRouter from "./components/routing/routers/AppRouter";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -6,10 +6,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 const App = () => {
   useEffect(() => {
     const handleBeforeUnload = () => {
-      localStorage.removeItem("token");
-      localStorage.removeItem("userId");
-      localStorage.removeItem("username");
-      localStorage.removeItem("currentUserId");
+      // localStorage.removeItem('token');
+      // localStorage.removeItem('userId');
+      // localStorage.removeItem('username');
+      // localStorage.removeItem('currentUserId');
+      localStorage.clear();
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);

@@ -1,35 +1,73 @@
 @import "../theme";
 
-/* The '&' is a shorthand for the containing element,
-  so for example a '&.user-list' inside .game will compile to
-  .game.user-list
-
-  for more information visit https://sass-lang.com/guide
- */
+/* Game container and related components styles */
 
 .game {
   &.container {
     background: $background;
-    background-image: url("./images/Background11.png"); 
+    background-image: url("./images/Background11.png");
     background-size: cover;
     padding: 1.5em;
     border-radius: $borderRadius;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; // Keep the original container as a column
     align-items: center;
     box-shadow: $dropShadow;
+    width: 100%; // Ensure the container takes the full width
+
+    // Flex container for the game details, adjusting for a row layout
+    .game-details {
+      display: flex;
+      width: 100%; // Stretch across the full width of the parent container
+      justify-content: space-between; // Space out the child columns
+      margin-top: 20px; // Add some space from the top content
+
+      .game-column {
+        flex: 1;  // Each column takes equal space
+        padding: 20px;
+        box-sizing: border-box; // Include padding in width calculations
+        min-width: 250px; // Minimum width for each column
+        background: rgba(244, 185, 244, 0.7); 
+        color: #efeaea;
+        border-radius: $borderRadius; // Use the theme's border radius
+        box-shadow: $dropShadow; // Use the theme's drop shadow
+
+        h3 {
+          color: #efeaea;
+          margin-bottom: 10px; // Space below the headers
+        }
+
+        ul {
+          list-style-type: none; // No bullets
+          padding: 0;
+        }
+
+        li {
+          padding: 5px 0;
+          border-bottom: 1px solid lighten($background, 10%);
+        }
+
+        a {
+          color: darken($accent, 10%);
+          text-decoration: none;
+        }
+      }
+    }
   }
+
   &.user-list {
     list-style: none;
     padding-left: 0;
   }
+
   &.user-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
-  & p,h2 {
+
+  & p, h2 {
     margin: 0.5em 0;
   }
 }
@@ -43,19 +81,19 @@
     display: flex;
     align-items: center;
     background: lighten($background, 5);
-    //background-image: url("./images/Background.png"); 
-    //background-color: #e5a7f1b7;
     background-color: rgba(236, 181, 234, 0.7);
-
   }
-  &.name {
+
+  &.name, &.username {
     font-weight: 300;
     margin-left: 5px;
   }
+
   &.username {
     font-weight: 500;
     color: $accent;
   }
+
   &.id {
     margin-left: auto;
     margin-right: 10px;

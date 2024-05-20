@@ -7,18 +7,29 @@ import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
 import User from "models/User";
-import Button from "@mui/material/Button";
-import Popover from "@mui/material/Popover";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import Input from "@mui/material/Input";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useWebSocket } from "context/WebSocketContext";  // Ensure the path is correct
+import Button from '@mui/material/Button';
+import Popover from '@mui/material/Popover';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+import Input from '@mui/material/Input';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
+import { useWebSocket } from 'context/WebSocketContext';  // Ensure the path is correct
 
+// import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
+// import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
+// import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
+// import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
+// import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
+// import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
+// import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
+
+// const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
 
 const Player = ({ user }: { user: User }) => {
   // Convert user's birthday string to date object
@@ -32,9 +43,22 @@ const Player = ({ user }: { user: User }) => {
     navigate(`/profile/${user.id}`);
   };
 
+  // const AvatarComponent = avatarComponents[Number(user.avatar)];
+
   return (
-    <div className="player container" style={{ width: "350px", height: "250px" }}>
+    <div className="player container" style={{ width: '350px', height: '250px' }}>
+
       <p>
+        {/* <AvatarComponent
+          style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }}
+          onClick={navigateToProfile}
+        /> */}
+        <Avatar
+          alt="Avatar"
+          src={user.avatar}
+          sx={{ width: 80, height: 80, cursor: 'pointer', marginBottom: 2, marginTop: -4}}
+          onClick={navigateToProfile}
+        />
         ID: {user.id}<br />
         Username: {user.username}<br />
         Scores: {user.scores}<br />
@@ -65,21 +89,25 @@ const Game = () => {
   const [selectedMarket, setSelectedMarket] = useState("");
   const [selectedArtist, setSelectedArtist] = useState("");
   const [joinRoomAnchorEl, setJoinRoomAnchorEl] = useState(null);
-  const [roomIdInput, setRoomIdInput] = useState("");
-  const [tempRoomId, setTempRoomId] = useState("");
-  const userId = localStorage.getItem("userId");
+  const [roomIdInput, setRoomIdInput] = useState('');
+  const [tempRoomId, setTempRoomId] = useState('');
+  // const userId = localStorage.getItem("userId");
+  // const token = localStorage.getItem("token") || "";
+  const userId = sessionStorage.getItem("userId");
+  const token = sessionStorage.getItem("token") || "";
   const message = JSON.stringify({ userId: userId });
   const stomper = useWebSocket();
   const [artistList, setArtistList] = useState([]);
 
   const [roomInfo, setRoomInfo] = useState({ players: [], hostId: null });
-  const [currentUser, setCurrentUser] = useState({ id: null, username: null });
+  const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("userId"));
   const [host, setHostUser] = useState({ id: null });
   const navigate = useNavigate();
 
 
   const logout = (): void => {
     localStorage.clear();
+    sessionStorage.clear();
     navigate("/login");
   };
 
@@ -97,7 +125,7 @@ const Game = () => {
   const handleGenreChange = (event) => {
     const genre = event.target.value;
     setSelectedGenre(genre);
-  
+
     // Define artists by genre
     const genreArtists = {
       "Pop": ["Maroon 5", "Rihanna", "Taylor Swift", "Justin Bieber", "Ed Sheeran"],
@@ -105,11 +133,11 @@ const Game = () => {
       "Rock": ["Linkin Park", "Fall Out Boy", "Imagine Dragons", "Guns N' Roses", "Coldplay"],
       "Country": ["Jason Aldean", "Taylor Swift", "Hunter Hayes", "Morgan Wallen", "Brett Young"]
     };
-  
+
     // Set artists for the selected genre
     setArtistList(genreArtists[genre] || []);
   };
-  
+
 
   // the effect hook can be used to react to change in your component.
   // in this case, the effect hook is only run once, the first time the component is mounted
@@ -151,7 +179,13 @@ const Game = () => {
       }
     }
 
+    const intervalId = setInterval(fetchData, 12000); // Poll every 12 seconds
     fetchData();
+    return () => {
+      clearInterval(intervalId);
+    };
+
+    // fetchData();
   }, []);
 
   let content = <Spinner />;
@@ -212,9 +246,19 @@ const Game = () => {
         currentRound: 0,  // Assuming you start at round 0
         players: []  // Initially, there are no players until they join
       };
-      const response = await api.post("/games", roomData);
+      const response = await api.post('/games', roomData);
       console.log("Room created successfully", response.data);
       const gameId = response.data.gameId;
+      const players = response.data.players;
+      // localStorage.setItem('gameId', gameId);
+      sessionStorage.setItem('gameId', gameId);
+      console.log("players", players);
+      players.forEach(player => {
+        if (player.user.id.toString() === currentUser) {
+          sessionStorage.setItem('playerId', player.id);
+          console.log("playerid", player.id);
+        }
+      });
 
       // Navigate to the game's lobby or waiting room
       navigate(`/games/${gameId}/waitingroom`);
@@ -235,11 +279,24 @@ const Game = () => {
 
         return;
       }
-    
+
       try {
         const response = await api.post(`/games/${tempRoomId}/join?userId=${userId}`);
         console.log("Joined room successfully", response.data);
-    
+        // localStorage.setItem('gameId', tempRoomId);
+        sessionStorage.setItem('gameId', tempRoomId);
+
+        const response2 = await api.get(`/games/${tempRoomId}`);
+        const players = response2.data.players;
+        console.log("players", players);
+        players.forEach(player => {
+          if (player.user.id.toString() === currentUser) {
+            sessionStorage.setItem('playerId', player.id);
+            console.log("playerid", player.id);
+          }
+        });
+
+
         // Navigate to the game's waiting room
         navigate(`/games/${tempRoomId}/waitingroom`);
       } catch (error) {
@@ -305,14 +362,13 @@ const Game = () => {
     );
   };
 
-
   return (
     <BaseContainer className="game container">
       <Button
         aria-describedby={anchorEl ? "game-rules-popover" : undefined}
         variant="text"
         onClick={handleOpenRules}
-        style={{ position: "absolute", top: "100px", right: "10%", color: "#AFEEEE" }}
+        style={{ position: 'absolute', top: '110px', right: '20%', color: '#AFEEEE' }}
       >
         → Game Rules ←
       </Button>
@@ -362,7 +418,7 @@ const Game = () => {
             <p>Players discuss and guess who the spy is based on everyone&aposs emoji descriptions. Discussion is limited to 2 minutes, and then each player must vote on who they suspect is the spy in 10s.</p>
             <h4><strong>End of Game</strong></h4>
             <p>The game comes to an end when the true identity is revealed! (reveal the correct song to all players and show the different songs the undercover listened to.)</p>
-            <p>If the spy receives the most votes, the non-spy players win; if the spy does not receive the most votes, the spy wins.</p>
+            <p>If the spy receives two or more votes, the detective players win; otherwise, the spy wins.</p>
             <p>After the game ends, the system updates players&apos scores based on the results.</p>
             <p>For the spy player, he/she must take on hidden identities, they must ensure nobody else finds out. If you are a spy, are you able to fake it until you make it?</p>
             <h3><strong>Special Regulations</strong></h3>
@@ -481,10 +537,10 @@ const Game = () => {
       </p>
       {content}
       <Button
-        style={{ width: "100%", color: "white", marginTop: "20px" }}
+        style={{ width: '100%', color: 'white', marginTop: '20px' }}
         onClick={() => logout()}
       >
-            Logout
+        Logout
       </Button>
     </BaseContainer>
   );
@@ -493,5 +549,4 @@ const Game = () => {
 };
 
 export default Game;
-
 

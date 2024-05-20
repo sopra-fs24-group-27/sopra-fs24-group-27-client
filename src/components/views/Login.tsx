@@ -16,7 +16,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import { api, handleError } from "helpers/api";
 import User from "models/User";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 
@@ -24,11 +24,11 @@ import PropTypes from "prop-types";
 const defaultTheme = createTheme({
   palette: {
     primary: {
-      main: "#7e57c2", 
+      main: '#7e57c2',
     },
   },
   typography: {
-    fontFamily: "Comic Sans MS", 
+    fontFamily: 'Comic Sans MS',
   },
 });
 
@@ -43,29 +43,34 @@ export default function SignInSide() {
       const requestBody = JSON.stringify({ username, password });
       const response = await api.post("/login", requestBody);
       const user = new User(response.data);
-      localStorage.setItem("token", user.token);
-      localStorage.setItem("userId", user.id);
-      localStorage.setItem("username", user.username);
-      localStorage.setItem("currentUserId", user.id);
+      // localStorage.setItem("token", user.token);
+      // localStorage.setItem('userId', user.id);
+      // localStorage.setItem('username', user.username);
+      // localStorage.setItem("currentUserId", user.id);
+      sessionStorage.setItem("token", user.token);
+      sessionStorage.setItem('userId', user.id);
+      sessionStorage.setItem('username', user.username);
+      // sessionStorage.setItem("currentUserId", user.id);
       navigate("/lobby");
     } catch (error) {
       alert("Invalid username or password : (");
     }
   };
-  
+
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <Grid container justifyContent="center" alignItems="center" style={{ minHeight: "100vh", marginTop: "-80px"  }}>
+      <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', marginTop: '-80px' }}>
         <Grid item xs={12} sm={8} md={4}>
           <Paper elevation={6} square sx={{ backgroundColor: "rgba(235, 200, 255, 0.7)", borderRadius: "10px 50px 10px 50px" }}>
             <Box p={4} display="flex" flexDirection="column" alignItems="center">
-              <Avatar sx={{ m: 1, bgcolor: "#ba68c8" }}>
+              <Avatar sx={{ m: 1, bgcolor: '#ba68c8' }}>
                 <LibraryMusicOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-              Sign in
+                Sign in
               </Typography>
               <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                 <TextField
@@ -81,7 +86,7 @@ export default function SignInSide() {
                   onChange={(event) => setUsername(event.target.value)}
                   InputLabelProps={{
                     style: {
-                      fontFamily: "Comic Sans MS",
+                      fontFamily: 'Comic Sans MS',
 
                     },
                   }}
@@ -98,7 +103,7 @@ export default function SignInSide() {
                   onChange={(event) => setPassword(event.target.value)}
                   InputLabelProps={{
                     style: {
-                      fontFamily: "Comic Sans MS",
+                      fontFamily: 'Comic Sans MS',
                     },
                   }}
                 />
@@ -106,10 +111,10 @@ export default function SignInSide() {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2, fontFamily: "Comic Sans MS",  }}
-                
+                  sx={{ mt: 3, mb: 2, fontFamily: 'Comic Sans MS', }}
+
                 >
-                Sign In
+                  Sign In
                 </Button>
                 <Grid container>
                   <Grid item>

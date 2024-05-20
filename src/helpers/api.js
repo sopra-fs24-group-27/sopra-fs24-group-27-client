@@ -2,7 +2,39 @@ import axios from "axios";
 import { getDomain } from "./getDomain";
 
 // Create Axios instance configured with base URL
-export const api = axios.create({
+function newAxiosClient() {
+  const client = axios.create({
+    baseURL: getDomain(),
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    }
+  });
+
+  // Add a request interceptor
+  client.interceptors.request.use((config) => {
+    // Do something before request is sent
+    // const token = localStorage.getItem("token") || "";
+    const token = sessionStorage.getItem("token") || "";
+    console.log(`request with token: ${token}`);
+    config.headers.Authorization = token;
+    return config;
+  }, (error) => {
+    // Do something with request error
+    return Promise.reject(error);
+  });
+
+  client.interceptors.request.use(request => {
+    console.log('request with headers', request.headers); // Log headers
+    return request;
+  });
+
+  return client;
+}
+
+export const api = newAxiosClient();
+
+export const deprecated_api = axios.create({
   baseURL: getDomain(),
   headers: { "Content-Type": "application/json" }
 });

@@ -245,11 +245,18 @@
 - [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/66cfe5ca07db5d42f97938667813f517198c8286) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/1a96b2881c6228baa1666f40827cb7c0d14fce46) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/b5e005b90e48bded6d7488696c54c8130ce78e59)
 
 
-
 **Yi Zhang**
 
 * Completed the room leaving logic #92 #93 #94 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/59785ae872a2ae62642bec30b4079f0e7f151275)
 * Completed the token-based authentication #96 #97 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/59785ae872a2ae62642bec30b4079f0e7f151275) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/ade72743c676b80f3dbca1221f949e9aa8534568)
+
+
+**Yating Pan**
+- Updated creating game, joining game and starting game with REST instead of socket. Recompleted task #82[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/82) #83[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/83) #84[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/84) with commit[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/078c2df504f87ab04f9d325960a8e200c9b9c20b)).
+- Updated SportifySerive to retrieve 30s preview-URL of each song for the user to listen, no need for Spotify Premium or Authentication. Finally completed task #67[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/67) and task #85 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/85) with commit[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/77e325b87665df3222614f9766dcda064a0ee7fd)
+- Retrieve 20 tracks for each game, randomly select 2 songs for spy and normal players and send to client. Finally completed task #98[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/98) and #99[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/99) with commit[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/5fa14efca48b234c7f6d149ab4521b0edf505b00).
+
+
 
 
 ## 10.5 - 16.5 

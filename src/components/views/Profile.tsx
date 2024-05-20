@@ -1,26 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import { api } from 'helpers/api';
+import { Avatar, Button, CssBaseline, TextField, Box, Typography, Grid, Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import 'styles/views/Profile.scss';
+import "styles/views/Game.scss";
+import AvatarSelectionDialog from './AvatarSelectionDialog';
 
-import { api, handleError } from 'helpers/api';
-
-
-// TODO: configure default theme in an independent file and import it here
 const defaultTheme = createTheme({
   palette: {
     primary: {
       main: '#7e57c2',
-    },
-    secondary: {
-      main: '#ba68c8',
     },
   },
   typography: {
@@ -28,31 +18,21 @@ const defaultTheme = createTheme({
   },
 });
 
-// TODO: define Copyright in an independent file and import it here
-const Copyright = (props: any) => {
-  return (
-    <Typography variant="body2" color="#fff" align="center" {...props} >
-      {'Copyright © LyricLies '}
-      {new Date().getFullYear()}
-    </Typography>
-  );
-};
-
-
 export default function Profile() {
-  const navigate = useNavigate();
   const { userId } = useParams();
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [currentUserId, setCurrentUserId] = useState(sessionStorage.getItem('userId'));
   const [editableUser, setEditableUser] = useState({
+    avatar: '',
     username: '',
     name: '',
     birthDate: '',
-    avatar: '',
+    overallPoints: '',
   });
-  const [isEditable, setIsEditable] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [isAllowedToEdit, setIsAllowedToEdit] = useState(false);
-
+  const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false);
 
   useEffect(() => {
     const currentUserId = sessionStorage.getItem('userId');
@@ -61,11 +41,16 @@ export default function Profile() {
     const fetchUserData = async () => {
       try {
         const response = await api.get(`/users/${userId}`);
-        setUser(response.data);
-        setEditableUser(response.data);
+        const userData = response.data;
+        
+        // 将用户的 score 设置为 overallPoints
+        userData.overallPoints = userData.score;
+
+        setUser(userData);
+        setEditableUser(userData);
         setIsAllowedToEdit(currentUserId === userId);
       } catch (error) {
-        console.error(`Failed to fetch user data :(\n\nError message: ${handleError(error)}`);
+        console.error('Fetching user data failed', error);
       }
     };
 
@@ -83,121 +68,171 @@ export default function Profile() {
     setEditableUser((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      console.log(editableUser);
       await api.put(`/users/${userId}`, JSON.stringify(editableUser));
       setUser(editableUser);
-      setIsEditable(false);
+      setIsEditing(false);
     } catch (error) {
-      console.error(`Failed to update user profile :(\n\nError message: ${handleError(error)}`);
+      console.error('Updating user failed', error);
     }
   };
 
+  const handleAvatarClick = () => {
+    if (isEditing) {
+      setIsAvatarDialogOpen(true);
+    }
+  };
+
+  const handleAvatarSelect = (avatar) => {
+    setEditableUser((prevState) => ({ ...prevState, avatar }));
+  };
+
+  const handleAvatarConfirm = async (avatar) => {
+    if (avatar) {
+      try {
+        const updatedUser = { ...editableUser, avatar };
+        console.log('Updating user with avatar:', updatedUser);
+        await api.put(`/users/${userId}`, JSON.stringify(updatedUser));
+        setUser(updatedUser);
+        setEditableUser(updatedUser);
+        setIsAvatarDialogOpen(false);
+      } catch (error) {
+        console.error('Updating avatar failed', error);
+      }
+    }
+  };
+
+  const handleAvatarDialogClose = () => {
+    setIsAvatarDialogOpen(false);
+  };
+
   if (!user) {
-    return <Typography component="h1" variant="h5">Loading user profile ...</Typography>;
+    return <div>Loading user profile...</div>;
   }
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <Container component="main" maxWidth="xs">
-        <Paper elevation={6} square sx={{ mt: 8, bgcolor: '#ebc8ffb3', borderRadius: '10px 10px 10px 10px' }}>
-          <Box padding={4} display="flex" flexDirection="column" alignItems="center">
-            <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
-              Profile
-            </Typography>
-            <Avatar alt="Avatar" src={editableUser.avatar} sx={{ width: 100, height: 100 }} />
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="username"
-                label="Username"
-                type="text"
-                id="username"
-                value={editableUser.username}
-                onChange={handleChange}
-                disabled={!isEditable}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="name"
-                label="Name"
-                type="text"
-                id="name"
-                value={editableUser.name}
-                onChange={handleChange}
-                disabled={!isEditable}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="birthDate"
-                label="Birthday"
-                type="date"
-                id="birthDate"
-                value={editableUser.birthDate}
-                onChange={handleChange}
-                disabled={!isEditable}
-                InputLabelProps={
-                  {
+      <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', marginTop: '-80px' }}>
+        <Grid item xs={12} sm={8} md={4}>
+          <Paper elevation={6} square sx={{ backgroundColor: 'rgba(235, 200, 255, 0.7)', borderRadius: '50px 50px 50px 50px' }}>
+            <Box
+              sx={{
+                my: 8,
+                mx: 10,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <Typography component="h1" variant="h5" style={{ marginTop: '25px', marginBottom: '20px', color: 'white' }}>
+                User Profile
+              </Typography>
+              <Avatar alt="Avatar" src={editableUser.avatar} sx={{ width: 100, height: 100, cursor: isEditing ? 'pointer' : 'default' }} onClick={handleAvatarClick} />
+              <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="username"
+                  label="Username"
+                  type="text"
+                  id="username"
+                  value={editableUser.username}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="name"
+                  label="Name"
+                  type="text"
+                  id="name"
+                  value={editableUser.name}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="birthDate"
+                  label="Birthdate"
+                  type="date"
+                  id="birthDate"
+                  value={editableUser.birthDate}
+                  onChange={handleChange}
+                  disabled={!isEditing}
+                  InputLabelProps={{
                     shrink: true,
-                  }
-                }
-              />
-              {isEditable ? (
-                <Box sx={{ mt: 2 }}>
+                  }}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="overallPoints"
+                  label="OverallPoints"
+                  type="text"
+                  id="overallPoints"
+                  value={editableUser.overallPoints}
+                  onChange={handleChange}
+                  disabled={true}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                {isEditing ? (
+                  <Box sx={{ mt: 2 }}>
+                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                      Save Changes
+                    </Button>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      onClick={() => setIsEditing(false)}
+                      sx={{ mt: 3, mb: 2 }}
+                    >
+                      Cancel
+                    </Button>
+                  </Box>
+                ) : (
                   <Button
-                    type="submit"
                     fullWidth
                     variant="contained"
-                    color="secondary"
+                    onClick={() => setIsEditing(true)}
+                    disabled={!isAllowedToEdit}
                     sx={{ mt: 3, mb: 2 }}
+                    style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#AFEEEE', color: '#00008B' }}
                   >
-                    Save
+                    Edit Profile
                   </Button>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    onClick={() => setIsEditable(false)}
-                    color="secondary"
-                    sx={{ mt: 3, mb: 2 }}
-                  >
-                    Cancel
-                  </Button>
-                </Box>
-              ) : (
+                )}
                 <Button
                   fullWidth
                   variant="contained"
-                  onClick={() => setIsEditable(true)}
-                  disabled={!isAllowedToEdit}
-                  color="secondary"
+                  style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#DB70DB', marginBottom: '50px' }}
+                  onClick={handleBack}
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Edit
+                  Back
                 </Button>
-
-              )}
-              <Button
-                fullWidth
-                variant="contained"
-                onClick={handleBack}
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Back
-              </Button>
+              </Box>
             </Box>
-          </Box>
-        </Paper>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
+          </Paper>
+        </Grid>
+      </Grid>
+      <AvatarSelectionDialog
+        open={isAvatarDialogOpen}
+        onClose={handleAvatarDialogClose}
+        onSelect={handleAvatarSelect}
+        onConfirm={handleAvatarConfirm}
+      />
     </ThemeProvider>
   );
 }

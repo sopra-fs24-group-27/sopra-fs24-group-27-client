@@ -18,10 +18,10 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import BaseContainer from "components/ui/BaseContainer";
 
 import { api, handleError } from 'helpers/api';
 import Player from './Player';
-
 
 // TODO: configure default theme in an independent file and import it here
 const defaultTheme = createTheme({
@@ -38,12 +38,13 @@ const defaultTheme = createTheme({
   },
 });
 
-const GameEndPage = ({ victory, players }) => {
+const GameEndPage = ({ players }) => {
   const { gameId } = useParams();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [gameState, setGameState] = useState(null);
-
+  const [userIds, setUserIds] = useState([]);
+  
   useEffect(() => {
     if (!gameId) return;
 
@@ -66,9 +67,16 @@ const GameEndPage = ({ victory, players }) => {
     return () => clearInterval(intervalId);
   }, [gameId]);
 
+  useEffect(() => {
+    if (gameState) {
+      const winners = gameState.filter(player => player.winner);
+      const ids = winners.map(winner => winner.user.id);
+      setUserIds(ids);
+    }
+  }, [gameState]);
+
   const handleExitGame = async () => {
-    // const playerId = localStorage.getItem('userId');
-    const playerId = sessionStorage.getItem('userId');
+    const playerId = sessionStorage.getItem('playerId');
 
     try {
       const response = await api.post(`/games/${gameId}/quit`, null, {
@@ -84,51 +92,9 @@ const GameEndPage = ({ victory, players }) => {
     }
   };
 
-  const MediaControlCard = ({ player }) => {
-
-    return (
-      <Card sx={{ display: 'flex' }}>
-        <Avatar alt="Avatar" src={player.user.avatar} sx={{ width: 100, height: 100 }} />
-        <Typography component="div" variant="h5">
-          @{player.user.username}
-        </Typography>
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <CardContent sx={{ flex: '1 0 auto' }}>
-            <Typography component="div" variant="h5">
-              {player.songInfo.title}
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary" component="div">
-              {player.songInfo.artist}
-            </Typography>
-          </CardContent>
-          <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-            <IconButton aria-label="previous">
-              {defaultTheme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
-            </IconButton>
-            <IconButton aria-label="play/pause">
-              <PlayArrowIcon sx={{ height: 38, width: 38 }} />
-            </IconButton>
-            <IconButton aria-label="next">
-              {defaultTheme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
-            </IconButton>
-          </Box>
-        </Box>
-        <CardMedia
-          component="img"
-          sx={{ width: 151 }}
-          image={player.songInfo.imageUrl}
-          alt={`Cover of ${player.songInfo.title}`}
-        />
-      </Card>
-    );
-  }
-
-
-
   const renderScoresAndWinners = () => {
     if (!gameState) return <div>Loading scores...</div>;
     const winners = gameState.filter(player => player.winner);
-
     return (
       <div className="game-column">
         <h3>Scoreboard</h3>
@@ -147,48 +113,53 @@ const GameEndPage = ({ victory, players }) => {
     );
   };
 
+  const currentUserIsWinner = () => {
+    const playerId = Number(sessionStorage.getItem('userId'));
+    return userIds.includes(playerId);
+  };
+  
+
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <CssBaseline />
-      <Container component="main" maxWidth="md">
-        {error && <div className="error">{error}</div>}
-        <h1>{victory ? 'Congratulations, you win!' : 'Do not give up, try again!'}</h1>
-        <div className="game user-list">
-          {players && players.map(player => (
-            <Player key={player.id} user={player} />
+    <BaseContainer className="game container">
+      {error && <div className="error">{error}</div>}
+      <h1>{currentUserIsWinner() ? 'Congratulations, you win!' : 'Do not give up, try again!'}</h1>
+      <div className="game user-list">
+        {players && players.map(player => (
+          <Player key={player.id} user={player} />
+        ))}
+      </div>
+      <div className="game-details">
+        <div className="game-column">
+          <h3 style={{ color: '#AFEEEE', fontFamily: 'Comic Sans MS', textAlign: 'center' }}>SPY</h3>
+          {gameState && gameState.filter(player => player.spy).map((spy, index) => (
+            <div key={spy.user.id || index}>
+              <p>{spy.user.username}</p>
+              <p>{spy.songInfo.title} by {spy.songInfo.artist}</p>
+              <img src={spy.songInfo.imageUrl} alt={`Cover of ${spy.songInfo.title}`} style={{ width: '200px', display: 'block', margin: '0 auto' }} />
+              <a href={spy.songInfo.playUrl} target="_blank" rel="noopener noreferrer">Listen to Song</a>
+            </div>
           ))}
         </div>
-        <div className="game-details">
-          <div className="game-column">
-            <h3 style={{ color: '#AFEEEE', fontFamily: 'Comic Sans MS', textAlign: 'center' }}>SPY</h3>
-            {gameState && gameState.filter(player => player.spy).map((spy, index) => (
-              <div key={spy.user.id || index}>
-                <MediaControlCard player={{ ...spy }} />
-              </div>
-            ))}
-          </div>
-          {renderScoresAndWinners()}
-          <div className="game-column">
-            <h3 style={{ color: '#AFEEEE', fontFamily: 'Comic Sans MS', textAlign: 'center' }}>DETECTIVES</h3>
-            {gameState && (
-              <div>
-                <p>{gameState[0].songInfo.title} by {gameState[0].songInfo.artist}</p>
-                <img src={gameState[0].songInfo.imageUrl} alt={`Cover of ${gameState[0].songInfo.title}`} style={{ width: '100px' }} />
-                <a href={gameState[0].songInfo.playUrl} target="_blank" rel="noopener noreferrer">Listen to Song</a>
-              </div>
-            )}
-          </div>
+        {renderScoresAndWinners()}
+        <div className="game-column">
+          <h3 style={{ color: '#AFEEEE', fontFamily: 'Comic Sans MS', textAlign: 'center' }}>DETECTIVES</h3>
+          {gameState && (
+            <div>
+              <p>{gameState[0].songInfo.title} by {gameState[0].songInfo.artist}</p>
+              <img src={gameState[0].songInfo.imageUrl} alt={`Cover of ${gameState[0].songInfo.title}`} style={{ width: '200px', display: 'block', margin: '0 auto' }} />
+              <a href={gameState[0].songInfo.playUrl} target="_blank" rel="noopener noreferrer" >Listen to Song</a>
+            </div>
+          )}
         </div>
-        <div className="buttons">
-          <Button onClick={handleExitGame} style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#AFEEEE', color: '#00008B' }}>Exit Game</Button>
-        </div>
-      </Container>
-    </ThemeProvider >
+      </div>
+      <div className="buttons">
+        <Button onClick={handleExitGame} style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#AFEEEE', color: '#00008B' }}>Exit Game</Button>
+      </div>
+    </BaseContainer>
   );
 };
 
 GameEndPage.propTypes = {
-  victory: PropTypes.bool.isRequired,
   players: PropTypes.array.isRequired,
 };
 

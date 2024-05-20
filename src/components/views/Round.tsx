@@ -1,34 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import BaseContainer from "components/ui/BaseContainer";
+import Button from "@mui/material/Button";
 import EmojiPicker from "emoji-picker-react";
-import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 import { api, handleError } from 'helpers/api';
+import TextField from "@mui/material/TextField";
+import { Avatar } from "@mui/material";
+// import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
+// import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
+// import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
+// import { ReactComponent as AvatarSvg4 } from 'styles/views/avatars/avatar4.svg';
+// import { ReactComponent as AvatarSvg5 } from 'styles/views/avatars/avatar5.svg';
+// import { ReactComponent as AvatarSvg6 } from 'styles/views/avatars/avatar6.svg';
+// import { ReactComponent as AvatarSvg7 } from 'styles/views/avatars/avatar7.svg';
 
-
-// TODO: configure default theme in an independent file and import it here
-const defaultTheme = createTheme({
-  palette: {
-    primary: {
-      main: '#7e57c2',
-    },
-    secondary: {
-      main: '#ba68c8',
-    },
-  },
-  typography: {
-    fontFamily: 'Comic Sans MS',
-  },
-});
+// const avatarComponents = [AvatarSvg1, AvatarSvg2, AvatarSvg3, AvatarSvg4, AvatarSvg5, AvatarSvg6, AvatarSvg7];
 
 const Round = () => {
   const { gameId } = useParams();
@@ -36,7 +22,8 @@ const Round = () => {
   const [gameState, setGameState] = useState(null);
   const [roomInfo, setRoomInfo] = useState(null);
   // const [currentUser, setCurrentUser] = useState(localStorage.getItem("currentUserId"));
-  const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("currentUserId"));
+  const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("userId"));
+  const [currentPlayerId, setCurrentPlayerId] = useState(sessionStorage.getItem("playerId"));
   const [currentTurn, setCurrentTurn] = useState(1);
   const [playerEmojis, setPlayerEmojis] = useState({});
   const [chosenEmojis, setChosenEmojis] = useState([]);
@@ -102,10 +89,11 @@ const Round = () => {
     return (
       <div style={{ display: "flex", gap: "10px", justifyContent: "center", alignItems: "center" }}>
         {gameState.map((player, index) => {
+          // const AvatarComponent = avatarComponents[player.user.avatar];
           return (
             <div
               key={index}
-              className={`player-wrapper ${currentUser === player.id && currentTurn === player.turn ? "current-player" : ""}`}
+              className={`player-wrapper ${currentUser === player.user.id && currentTurn === player.turn ? "current-player" : ""}`}
               style={{
                 margin: "10px",
                 backgroundColor: currentTurn === player.turn ? "rgba(144, 238, 200, 0.8)" : "rgba(200, 131, 253, 0.8)",
@@ -120,12 +108,15 @@ const Round = () => {
                 alignItems: "center"
               }}>
               {/*<p>Order of sending emojis: {player.turn}</p>*/}
-              <Avatar alt="Avatar" src={player.user.avatar} sx={{ width: 100, height: 100 }} />
+              <Avatar src={player.user.avatar} style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }} />
+              {/* <AvatarComponent
+                style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }}
+              /> */}
               <p>Username: {player.user.username}</p>
               {/*<p>Emojis: {player.emojis.join(" ")}</p>*/}
               <p>Round 1 Emojis: {player.emojis.join(" ")}</p>
               <p>Round 2 Emojis: {player.emojis2.join(" ")}</p>
-              {player.id.toString() === currentUser && player.turn === currentTurn && (
+              {player.user.id.toString() === currentUser && player.turn === currentTurn && (
                 <>
                   <p>→ YOUR TURN ←</p>
                   <TextField
@@ -186,7 +177,7 @@ const Round = () => {
     try {
       const requestBody = chosenEmojis;
 
-      await api.post(`/games/${gameId}/emojis?playerId=${currentUser}&round=${round}`, requestBody);
+      await api.post(`/games/${gameId}/emojis?playerId=${currentPlayerId}&round=${round}`, requestBody);
 
       setChosenEmojis([]);
 
@@ -260,23 +251,19 @@ const Round = () => {
   }
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <CssBaseline />
-      <Container component="main" maxWidth="md">
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <h1>{renderRoundDescription()}</h1>
-          {/*{gameState && <p style={{ marginLeft: "10px" }}>Current turn: {gameState[currentTurn - 1].user.username}</p>}*/}
-        </div>
-        {error && <p className="error-message">{error}</p>}
-        {renderPlayers()}
+    <BaseContainer className="round-container">
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <h1>{renderRoundDescription()}</h1>
+        {/*{gameState && <p style={{ marginLeft: "10px" }}>Current turn: {gameState[currentTurn - 1].user.username}</p>}*/}
+      </div>
+      {error && <p className="error-message">{error}</p>}
+      {renderPlayers()}
 
-        <div className="button-container">
-          {renderButtons()}
-        </div>
-      </Container>
-    </ThemeProvider >
+      <div className="button-container">
+        {renderButtons()}
+      </div>
+    </BaseContainer>
   );
 };
 
 export default Round;
-

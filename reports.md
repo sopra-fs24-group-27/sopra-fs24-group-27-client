@@ -10,9 +10,13 @@
 - Scrum setup on Github Project. [Link to task](https://github.com/orgs/sopra-fs24-group-27/projects/3)
 - Assigned first-week tasks for each member.
 
+
+
 **Hepeng Fan**
 
 - Finish the design of Rest Documentation
+
+
 
 **Yuying Zhong**
 
@@ -20,9 +24,12 @@
 - Prepare the presentation for M2.
 
 
+
 **Qingcheng Wang**
 
 - UML Design. Includes class diagram, component diagram, activity diagram.
+
+
 
 **Yi Zhang**
 
@@ -42,17 +49,24 @@
 - Completed #69[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/69), #70[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/70), and the backend part for user story #1[Link to user story](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/1): new user registration on the server side and wrote related tests. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/80ae5c8bbeb11d1a4843d25b4de672d7ed408d9f)
 
 
+
 **Hepeng Fan**
 
 - Completed #8 and #18 on the client side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/cf83c9211ba3f89a2c33fdf58c93b60357ce680f)
+
+
 
 **Yuying Zhong**
 
 - Completed #17 and #19 on the client side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/9781848a0b6e6b96a0c9585363b348d409a85b22)
 
+
+
 **Qingcheng Wang**
 
 - Completed #3 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/3), #22 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/22) and #25 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/25) on the server side. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4acc4e68db0362fbd5b057066a7775090e676c19)
+
+
 
 **Yi Zhang**
 
@@ -74,9 +88,8 @@
 
 - Changed ui on client side.
 
-- Completed #3 and #16.
+- Completed #3 and #16.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/d2b02a3c487eeda93d0415445836f7881dc4e4da)
 
-[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/d2b02a3c487eeda93d0415445836f7881dc4e4da)
 
 
 **Yuying Zhong**
@@ -84,13 +97,19 @@
 - Changed the whole style of the login page and register page.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/a0dede92d746978343eb03eaa996114031efeffa)
 - Completed #1 and #2.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6a8389f4197cb8749fb0f58ba041496d7dfbafe5)&[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/6b125f9619cbd78e501277268f72d52a8ad54335)
 
+
+
 **Yi Zhang**
 
 - Completed #6, #43 on server side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/97203f17a8a64920a90b42c47e654f7daa0450b7)
 
+
+
 **Qingcheng Wang**
 
 - Complete database design and draw ER diagrams.
+
+
 
 ## 12.4 - 18.4 
 
@@ -101,6 +120,7 @@
 - Completed #38 on the client side.[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/3f61c5f8febb716e7f89a6b9209b36b9ca6eb113)
 
 
+
 **Hepeng Fan**
 
 - Changed the whole style of the Profile page.
@@ -108,16 +128,21 @@
 - Complete #15 and #22 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/d2b02a3c487eeda93d0415445836f7881dc4e4da)
 
 
+
 **Qingcheng Wang**
 
 - Completed #55 & #57. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/55) &[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/57) 
 - Completed functions in GameServce: sortTurnOrder, startRound, sendEmojis, vote, endVoting, declareWinner, endRound. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/d8ff000f211caf83acb475f1247d05a6b86d1805)
+
+
 
 **Yating Pan**
 
 - Solved bugs related to entities and repository in server side. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2cdd9f914da21ab8684dbd6f296a06fa22206d1b)
 - Completed #66[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/66) and #67[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/67) and the server part of user story #65[Link to user story](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/65): Completed assign 2 songs to the spy player and 3 normal players in server side, tested successfully [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/b1f35bd1f09dc578c41a31885628a4d8ff020f7e).
 - Included development branch into Sonar cloud analysis [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/ca9406ef9cc70d1151f4058cd1078410adb68723)
+
+
 
 **Yi Zhang**
 
@@ -232,11 +257,14 @@
 - Created the End page for revealing the results of the games and Completed task #46[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/46). [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/6bf61a68f84411d7833b24a5003a8331edf26dd6)
 - Added selectable avatars to the register page. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/4b2d7931d23176d62e9eb9f9d99fb3456c4523c0)
 
+
+
 **Hepeng Fan**
 
 * Completed Beta test and report of M3-group-26
 * Completed bugs fixed [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/f6d7ee29b21859b1974d4125a796428e45937b81)
 * Completed #2 #51 and the End page of the game[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/dd63c650ed04dac0e1ff621c7a1b985359237d65)
+
 
 
 **Qingcheng Wang**
@@ -247,13 +275,17 @@
 - [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/66cfe5ca07db5d42f97938667813f517198c8286) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/1a96b2881c6228baa1666f40827cb7c0d14fce46) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/b5e005b90e48bded6d7488696c54c8130ce78e59)
 
 
+
 **Yi Zhang**
 
 * Completed the room leaving logic #92 #93 #94 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/59785ae872a2ae62642bec30b4079f0e7f151275)
 * Completed the token-based authentication #96 #97 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/59785ae872a2ae62642bec30b4079f0e7f151275) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/ade72743c676b80f3dbca1221f949e9aa8534568)
+* Supported lobby page to display avatar [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/564532c1557d152c55c1fd9ffd65f2235c6bd87f)
+
 
 
 **Yating Pan**
+
 - Updated creating game, joining game and starting game with REST instead of socket. Recompleted task #82 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/82) #83 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/83) #84 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/84) with commit[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/078c2df504f87ab04f9d325960a8e200c9b9c20b).
 - Updated SportifySerive to retrieve 30s preview-URL of each song for the user to listen, no need for Spotify Premium or Authentication. Finally completed task #67 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/67) and task #85 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/85) with commit [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/77e325b87665df3222614f9766dcda064a0ee7fd)
 - Retrieve 20 tracks for each game, randomly select 2 songs for spy and normal players and send to client. Finally completed task #98 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/98) and #99 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/99) with commit [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/5fa14efca48b234c7f6d149ab4521b0edf505b00).
@@ -267,22 +299,52 @@
 - Completed tests for StartGame to GameControllerTest&GameServiceTest. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/ff29ac0c256bbee98aeef0ac4da66294a9c1be31)
 - Completed tests for GetGame to GameControllerTest&GameServiceTest. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/0d361fa8d90bde4ad38d237e80a19565f88b1bf6)
 - Adjusted the color of some pages on the client side to match the overall web style. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/b813af0cd2a64bc2111395ec455584e73476dd6f)&[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/c22a7953939e0915ee5fcbe868ff8427dc9e80cc)
-- 
+
+
+
 **Hepeng Fan**
+
 - Refine endpage and bugs fixed [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/4a90a5ae6c7d8c2af1bda86a93d73837beba2e21)
 - Display the overall points on the frontend [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/d927246d375ed08e6875225b42d0cd11a41b323c)
 - Completed tests for DeleteGame to GameControllerTest&GameServiceTest
 - Completed tests for LeaveGame to GameControllerTest&GameServiceTest
-[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c617b4e79ee04894c2d7e026903ebf4f0d0ef064)
+  [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c617b4e79ee04894c2d7e026903ebf4f0d0ef064)
+
+
+
+**Yi Zhang**
+
+* Refined lobby, waiting room page [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/832b15e4ff27e40ed9ae1cc79e0feb2dcc4794d8)
+* Identified and fixed the bug for starting game [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/c0af73d1b20ff0ff5de539c739ad5c6cfc259f9c)
+* Refined avatar support during register [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/fbc7ce7be812d9a09f130473a52f49fc283eb577), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/f9102d5091a81fcf08b64df7ce2018e141859b10)
+* Supported long polling for waiting room page [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/7c44088e5fab8696143580c8ebc38c591365733b)
+* Cleaned the session storage [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/b3c45d651343435727501a48ab09c30be1873756)
+
+
 
 **Yating Pan**
+
 - Refined listen page, added avatar and username[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/c93920128be9c6608b26268828b418366f18c7d1). Completed task #45[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/45)
 - Updated the listen page to auto-play the preview version of song for 30 seconds[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/9be1f8248355dce449863e7342ea25e5bf31c301). Completed task #37[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/37).
 
+
+
 **Qingcheng Wang**
+
 - Completed with scoring functionality and logic. #68 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/68) #52[Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/issues/52)  [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/757ca232754ba0a2ffa56a1518d08be1667c5630)
 - Add an emojis2list to the player so that emojis sent twice by the user can be sent to the client separately. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/88ba257866ec550b1668d26a96fe346913fe3d90)
 - Improved the send and view emojis page. #44 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/44)   [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/d6d1041dbfe4382203e632101483362412b84e4a)
 - Set up guard route and session. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/c8ffdf1dab4b60a2b8abf7ab0d89ebe6a4817812), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/3186635856f9d211ce96ff86789cb7707eceb4cf)
 
-  
+
+
+
+## 17.5 - 23.5 
+
+**Yi Zhang**
+
+* Fixed the testing errors for userController methods by adding Authorization header [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/f4ef42630d8c209772b9ad216fac2fa0ac684075), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/cc2bf40f6bc7cba513d4e1ba1e719a16785904dc)
+* Added the tests for gameController methods joinRoom, leaveRoom, getGame  [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/81622c28485b3060c14260aa039c8fba98225078)
+* Commented unused gameService methods and added the tests for gameService methods getSongs, getPlayerById [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/3533a6dcc70e90bb1eb373b03d938077b992f58d)
+* Added the tests for gameController methods deleteGame, sortTurnOrder [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/8ef7de1a619216f0ec2cc9479dc898a252a9968d), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2cadb0033f65fbb685c7436446a21706536d14db)
+

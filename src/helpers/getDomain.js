@@ -1,4 +1,4 @@
-import { isProduction } from "./isProduction";
+import { isProduction } from "./isProduction"
 
 /**
  * This helper function returns the current domain of the API.
@@ -8,14 +8,12 @@ import { isProduction } from "./isProduction";
  */
 
 export const getDomain = () => {
-  const prodUrl = "https://sopra-fs24-group-27-server.oa.r.appspot.com";
+  const prodUrl = "https://sopra-fs24-group-27-server.oa.r.appspot.com"; 
   const devUrl = "http://localhost:8080";
-
   return isProduction() ? prodUrl : devUrl;
 };
 
 export const getWS = (gameId) => {
-  const httpUrl = getDomain(); // This should return 'http://...' or 'https://...'
-
-  return `${httpUrl}/ws/games/${gameId}`; // No need to replace with 'ws://' or 'wss://', SockJS will handle it
+  const httpUrl = getDomain();  // This should return 'http://...' or 'https://...'
+  return `${httpUrl}/ws/games/${gameId}`;  // No need to replace with 'ws://' or 'wss://', SockJS will handle it
 };

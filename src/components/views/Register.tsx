@@ -53,7 +53,9 @@ export default function Register() {
       const avatar = selectedAvatarIndex;
       const requestBody = JSON.stringify({ username, password, avatar });
       const response = await api.post("/register", requestBody);
+      console.log("sending request to register user...: ", requestBody);
       const userData = response.data;
+      console.log("response data: ", userData);
 
       // Check if registration was successful
       if (userData && userData.id) {
@@ -76,6 +78,7 @@ export default function Register() {
       }
     } catch (error) {
       alert(`The user name already exists. Try another one :D`);
+      console.error(`Error: ${error}`);
     }
   };
 

@@ -23,6 +23,7 @@
     "serve": "^14.2.1",
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
+    "twemoji": "^14.0.2",
     "typescript": "^3.2.1",
     "ws": "^8.16.0"
   },

@@ -7,7 +7,11 @@ const SongPlayer = ({ song }) => {
 
   return (
     <div className="song-container">
-      <img src={song.imageUrl} alt={`Cover for ${song.songTitle}`} style={{ width: "100%", height: "auto" }} />
+      <img
+        src={song.imageUrl}
+        alt={`Cover for ${song.songTitle}`}
+        style={{ width: "100%", height: "auto" }}
+      />
       <div className="song-details">
         <h3>{song.songTitle}</h3>
         <p>Artist: {song.songArtist}</p>
@@ -23,7 +27,7 @@ SongPlayer.propTypes = {
     songTitle: PropTypes.string.isRequired,
     songArtist: PropTypes.string.isRequired,
     playUrl: PropTypes.string.isRequired,
-  })
+  }),
 };
 
 export default SongPlayer;

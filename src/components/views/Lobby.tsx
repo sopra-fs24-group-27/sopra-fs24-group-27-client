@@ -7,19 +7,19 @@ import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
 import User from "models/User";
-import Button from '@mui/material/Button';
-import Popover from '@mui/material/Popover';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import FormControl from '@mui/material/FormControl';
-import Input from '@mui/material/Input';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import { useWebSocket } from 'context/WebSocketContext';  // Ensure the path is correct
+import Button from "@mui/material/Button";
+import Popover from "@mui/material/Popover";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import Input from "@mui/material/Input";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import { useWebSocket } from "context/WebSocketContext"; // Ensure the path is correct
 
 // import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
 // import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
@@ -39,15 +39,16 @@ const Player = ({ user }: { user: User }) => {
 
   const navigate = useNavigate();
   const navigateToProfile = () => {
-
     navigate(`/profile/${user.id}`);
   };
 
   // const AvatarComponent = avatarComponents[Number(user.avatar)];
 
   return (
-    <div className="player container" style={{ width: '350px', height: '250px' }}>
-
+    <div
+      className="player container"
+      style={{ width: "350px", height: "250px" }}
+    >
       <p>
         {/* <AvatarComponent
           style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }}
@@ -56,12 +57,21 @@ const Player = ({ user }: { user: User }) => {
         <Avatar
           alt="Avatar"
           src={user.avatar}
-          sx={{ width: 80, height: 80, cursor: 'pointer', marginBottom: 2, marginTop: -4}}
+          sx={{
+            width: 80,
+            height: 80,
+            cursor: "pointer",
+            marginBottom: 2,
+            marginTop: -4,
+          }}
           onClick={navigateToProfile}
         />
-        ID: {user.id}<br />
-        Username: {user.username}<br />
-        Scores: {user.scores}<br />
+        ID: {user.id}
+        <br />
+        Username: {user.username}
+        <br />
+        Scores: {user.scores}
+        <br />
         Birthday: {user.birthDate} <br />
       </p>
       <Button
@@ -73,7 +83,6 @@ const Player = ({ user }: { user: User }) => {
       </Button>
     </div>
   );
-
 };
 
 Player.propTypes = {
@@ -81,7 +90,7 @@ Player.propTypes = {
 };
 
 const Game = () => {
-  // use react-router-dom's hook to access navigation, more info: https://reactrouter.com/en/main/hooks/use-navigate 
+  // use react-router-dom's hook to access navigation, more info: https://reactrouter.com/en/main/hooks/use-navigate
   const [anchorEl, setAnchorEl] = useState(null);
   const [users, setUsers] = useState<User[]>([]);
   const [roomAnchorEl, setRoomAnchorEl] = useState(null);
@@ -89,8 +98,8 @@ const Game = () => {
   const [selectedMarket, setSelectedMarket] = useState("");
   const [selectedArtist, setSelectedArtist] = useState("");
   const [joinRoomAnchorEl, setJoinRoomAnchorEl] = useState(null);
-  const [roomIdInput, setRoomIdInput] = useState('');
-  const [tempRoomId, setTempRoomId] = useState('');
+  const [roomIdInput, setRoomIdInput] = useState("");
+  const [tempRoomId, setTempRoomId] = useState("");
   // const userId = localStorage.getItem("userId");
   // const token = localStorage.getItem("token") || "";
   const userId = sessionStorage.getItem("userId");
@@ -100,10 +109,11 @@ const Game = () => {
   const [artistList, setArtistList] = useState([]);
 
   const [roomInfo, setRoomInfo] = useState({ players: [], hostId: null });
-  const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("userId"));
+  const [currentUser, setCurrentUser] = useState(
+    sessionStorage.getItem("userId")
+  );
   const [host, setHostUser] = useState({ id: null });
   const navigate = useNavigate();
-
 
   const logout = (): void => {
     localStorage.clear();
@@ -128,21 +138,38 @@ const Game = () => {
 
     // Define artists by genre
     const genreArtists = {
-      "Pop": ["Maroon 5", "Rihanna", "Taylor Swift", "Justin Bieber", "Ed Sheeran"],
-      "Rap": ["Drake", "Nicki Minaj", "Eminem", "Doja Cat", "Kanye West"],
-      "Rock": ["Linkin Park", "Fall Out Boy", "Imagine Dragons", "Guns N' Roses", "Coldplay"],
-      "Country": ["Jason Aldean", "Taylor Swift", "Hunter Hayes", "Morgan Wallen", "Brett Young"]
+      Pop: [
+        "Maroon 5",
+        "Rihanna",
+        "Taylor Swift",
+        "Justin Bieber",
+        "Ed Sheeran",
+      ],
+      Rap: ["Drake", "Nicki Minaj", "Eminem", "Doja Cat", "Kanye West"],
+      Rock: [
+        "Linkin Park",
+        "Fall Out Boy",
+        "Imagine Dragons",
+        "Guns N' Roses",
+        "Coldplay",
+      ],
+      Country: [
+        "Jason Aldean",
+        "Taylor Swift",
+        "Hunter Hayes",
+        "Morgan Wallen",
+        "Brett Young",
+      ],
     };
 
     // Set artists for the selected genre
     setArtistList(genreArtists[genre] || []);
   };
 
-
   // the effect hook can be used to react to change in your component.
   // in this case, the effect hook is only run once, the first time the component is mounted
   // this can be achieved by leaving the second argument an empty array.
-  // for more information on the effect hook, please see https://react.dev/reference/react/useEffect 
+  // for more information on the effect hook, please see https://react.dev/reference/react/useEffect
   useEffect(() => {
     // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
     async function fetchData() {
@@ -181,6 +208,7 @@ const Game = () => {
 
     const intervalId = setInterval(fetchData, 12000); // Poll every 12 seconds
     fetchData();
+
     return () => {
       clearInterval(intervalId);
     };
@@ -197,7 +225,10 @@ const Game = () => {
     const usersColumn2 = sortedUsers.slice(usersPerColumn);
 
     content = (
-      <div className="game" style={{ maxHeight: "50vh", overflowY: "auto", display: "flex" }}>
+      <div
+        className="game"
+        style={{ maxHeight: "50vh", overflowY: "auto", display: "flex" }}
+      >
         <ul className="game user-list" style={{ marginRight: "10px" }}>
           {usersColumn1.map((user: User) => (
             <li key={user.id}>
@@ -224,15 +255,13 @@ const Game = () => {
     setJoinRoomAnchorEl(event.currentTarget);
   };
 
-
   const handleCloseRoom = () => {
     setRoomAnchorEl(null);
   };
 
-
   // Function to handle room creation
   const handleConfirmRoom = async () => {
-    handleCloseRoom();  // Ensure the room creation popover is closed after confirming
+    handleCloseRoom(); // Ensure the room creation popover is closed after confirming
 
     try {
       const settings = {
@@ -241,21 +270,21 @@ const Game = () => {
         genre: selectedGenre,
       };
       const roomData = {
-        hostId: userId,  // Assuming userId is stored and retrieved correctly
+        hostId: userId, // Assuming userId is stored and retrieved correctly
         settings,
-        currentRound: 0,  // Assuming you start at round 0
-        players: []  // Initially, there are no players until they join
+        currentRound: 0, // Assuming you start at round 0
+        players: [], // Initially, there are no players until they join
       };
-      const response = await api.post('/games', roomData);
+      const response = await api.post("/games", roomData);
       console.log("Room created successfully", response.data);
       const gameId = response.data.gameId;
       const players = response.data.players;
       // localStorage.setItem('gameId', gameId);
-      sessionStorage.setItem('gameId', gameId);
+      sessionStorage.setItem("gameId", gameId);
       console.log("players", players);
-      players.forEach(player => {
+      players.forEach((player) => {
         if (player.user.id.toString() === currentUser) {
-          sessionStorage.setItem('playerId', player.id);
+          sessionStorage.setItem("playerId", player.id);
           console.log("playerid", player.id);
         }
       });
@@ -263,14 +292,17 @@ const Game = () => {
       // Navigate to the game's lobby or waiting room
       navigate(`/games/${gameId}/waitingroom`);
     } catch (error) {
-      console.error(`Something went wrong while creating the room: ${handleError(error)}`);
-      alert(`Something went wrong while creating the room: ${handleError(error)}`);
+      console.error(
+        `Something went wrong while creating the room: ${handleError(error)}`
+      );
+      alert(
+        `Something went wrong while creating the room: ${handleError(error)}`
+      );
     }
   };
 
-
   const JoinRoomPopover = () => {
-    const [tempRoomId, setTempRoomId] = useState("");  // To hold the room ID input by the user
+    const [tempRoomId, setTempRoomId] = useState(""); // To hold the room ID input by the user
     const navigate = useNavigate();
 
     const handleJoinRoom = async () => {
@@ -281,21 +313,22 @@ const Game = () => {
       }
 
       try {
-        const response = await api.post(`/games/${tempRoomId}/join?userId=${userId}`);
+        const response = await api.post(
+          `/games/${tempRoomId}/join?userId=${userId}`
+        );
         console.log("Joined room successfully", response.data);
         // localStorage.setItem('gameId', tempRoomId);
-        sessionStorage.setItem('gameId', tempRoomId);
+        sessionStorage.setItem("gameId", tempRoomId);
 
         const response2 = await api.get(`/games/${tempRoomId}`);
         const players = response2.data.players;
         console.log("players", players);
-        players.forEach(player => {
+        players.forEach((player) => {
           if (player.user.id.toString() === currentUser) {
-            sessionStorage.setItem('playerId', player.id);
+            sessionStorage.setItem("playerId", player.id);
             console.log("playerid", player.id);
           }
         });
-
 
         // Navigate to the game's waiting room
         navigate(`/games/${tempRoomId}/waitingroom`);
@@ -303,9 +336,9 @@ const Game = () => {
         console.error(`Failed to join room: ${handleError(error)}`);
         alert("Failed to join the room.");
       } finally {
-        handleCloseJoinRoom();  // Close the join room popover regardless of outcome
+        handleCloseJoinRoom(); // Close the join room popover regardless of outcome
       }
-    }
+    };
 
     const handleRoomIdChange = (event) => {
       setTempRoomId(event.target.value);
@@ -338,7 +371,7 @@ const Game = () => {
             <Input
               id="room-id-input"
               value={tempRoomId}
-              onChange={e => setTempRoomId(e.target.value)}
+              onChange={(e) => setTempRoomId(e.target.value)}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton onClick={handleJoinRoom} edge="end">
@@ -368,11 +401,19 @@ const Game = () => {
         aria-describedby={anchorEl ? "game-rules-popover" : undefined}
         variant="text"
         onClick={handleOpenRules}
-        style={{ position: 'absolute', top: '110px', right: '20%', color: '#AFEEEE' }}
+        style={{
+          position: "absolute",
+          top: "110px",
+          right: "20%",
+          color: "#AFEEEE",
+        }}
       >
         → Game Rules ←
       </Button>
-      <div className="popover-container" style={{ maxHeight: "50vh", overflowY: "auto", scrollbarWidth: "thin" }}>
+      <div
+        className="popover-container"
+        style={{ maxHeight: "50vh", overflowY: "auto", scrollbarWidth: "thin" }}
+      >
         <Popover
           id="game-rules-popover"
           open={Boolean(anchorEl)}
@@ -398,34 +439,115 @@ const Game = () => {
             },
           }}
         >
-
           <div style={{ padding: "20px" }}>
-            <h2><strong>Game Rules</strong></h2>
-            <h3><strong>Overview of LyricLies</strong></h3>
-            <p>Objective of LyricLies: The objective of LyricLies is to find out the spy who is listening to a different song by using emojis to describe the song they are listening to.</p>
+            <h2>
+              <strong>Game Rules</strong>
+            </h2>
+            <h3>
+              <strong>Overview of LyricLies</strong>
+            </h3>
+            <p>
+              Objective of LyricLies: The objective of LyricLies is to find out
+              the spy who is listening to a different song by using emojis to
+              describe the song they are listening to.
+            </p>
             <p>Number of players: 4 Players</p>
-            <p>Material: Songs(by Spotify API) to assign identity for each players</p>
+            <p>
+              Material: Songs(by Spotify API) to assign identity for each
+              players
+            </p>
             <p>Audience: Ages 10+</p>
-            <p>At the beginning of the game, each player will be assigned a song and only one player’s song is different from others. As the game progresses, each player must describe the song they are listening to with limited emojis. After two rounds of describing, every player must vote on a spy they guessed. If the spy receives the most votes, then non-spies players win! On the other hand, if they fail to find the spy, then the spy player wins!</p>
-            <h3><strong>How to play LyricLies</strong></h3>
-            <h4><strong>Game Set Up</strong></h4>
-            <p>After registering and logging in, players can create or join a game room. Once the room has four players, the room owner can start the game. Players should ensure that nobody else can see their screen or hear the voices of each other devices.</p>
-            <h4><strong>Identity Assignment</strong></h4>
-            <p>To begin gameplay, the system randomly selects a song through the Spotify API and plays the same song for three players while playing a different song for the fourth player (the spy). Then all players listen to the song simultaneously with a playback duration limited to 30 seconds.</p>
-            <h4><strong>Emoji Description</strong></h4>
-            <p>After listening, each player has 60 seconds to choose up to 5 emojis to describe the song they heard in turns. Descriptions can be based on the song&aposs emotions, style, lyrics, or overall vibe. You cannot know whether you are the spy, so vague description or not, it is your choice. Each player&aposs emoji descriptions are displayed to all players. The description takes two rounds.</p>
-            <h4><strong>Guessing and Voting</strong></h4>
-            <p>Players discuss and guess who the spy is based on everyone&aposs emoji descriptions. Discussion is limited to 2 minutes, and then each player must vote on who they suspect is the spy in 10s.</p>
-            <h4><strong>End of Game</strong></h4>
-            <p>The game comes to an end when the true identity is revealed! (reveal the correct song to all players and show the different songs the undercover listened to.)</p>
-            <p>If the spy receives two or more votes, the detective players win; otherwise, the spy wins.</p>
-            <p>After the game ends, the system updates players&apos scores based on the results.</p>
-            <p>For the spy player, he/she must take on hidden identities, they must ensure nobody else finds out. If you are a spy, are you able to fake it until you make it?</p>
-            <h3><strong>Special Regulations</strong></h3>
-            <p>Using Spotify API: Ensure all players can access the Spotify API to retrieve songs.</p>
-            <p>Emoji Limitation: Encourage players to creatively use emojis for descriptions, but limit to a maximum of 5 emojis.</p>
-            <p>Game Interface: Design a user-friendly interface showcasing the song player, emoji selector, and voting system.</p>
-            <p>Game Feedback: Provide interactive feedback and score updates among players.</p>
+            <p>
+              At the beginning of the game, each player will be assigned a song
+              and only one player’s song is different from others. As the game
+              progresses, each player must describe the song they are listening
+              to with limited emojis. After two rounds of describing, every
+              player must vote on a spy they guessed. If the spy receives the
+              most votes, then non-spies players win! On the other hand, if they
+              fail to find the spy, then the spy player wins!
+            </p>
+            <h3>
+              <strong>How to play LyricLies</strong>
+            </h3>
+            <h4>
+              <strong>Game Set Up</strong>
+            </h4>
+            <p>
+              After registering and logging in, players can create or join a
+              game room. Once the room has four players, the room owner can
+              start the game. Players should ensure that nobody else can see
+              their screen or hear the voices of each other devices.
+            </p>
+            <h4>
+              <strong>Identity Assignment</strong>
+            </h4>
+            <p>
+              To begin gameplay, the system randomly selects a song through the
+              Spotify API and plays the same song for three players while
+              playing a different song for the fourth player (the spy). Then all
+              players listen to the song simultaneously with a playback duration
+              limited to 30 seconds.
+            </p>
+            <h4>
+              <strong>Emoji Description</strong>
+            </h4>
+            <p>
+              After listening, each player has 60 seconds to choose up to 5
+              emojis to describe the song they heard in turns. Descriptions can
+              be based on the song&aposs emotions, style, lyrics, or overall
+              vibe. You cannot know whether you are the spy, so vague
+              description or not, it is your choice. Each player&aposs emoji
+              descriptions are displayed to all players. The description takes
+              two rounds.
+            </p>
+            <h4>
+              <strong>Guessing and Voting</strong>
+            </h4>
+            <p>
+              Players discuss and guess who the spy is based on everyone&aposs
+              emoji descriptions. Discussion is limited to 2 minutes, and then
+              each player must vote on who they suspect is the spy in 10s.
+            </p>
+            <h4>
+              <strong>End of Game</strong>
+            </h4>
+            <p>
+              The game comes to an end when the true identity is revealed!
+              (reveal the correct song to all players and show the different
+              songs the undercover listened to.)
+            </p>
+            <p>
+              If the spy receives two or more votes, the detective players win;
+              otherwise, the spy wins.
+            </p>
+            <p>
+              After the game ends, the system updates players&apos scores based
+              on the results.
+            </p>
+            <p>
+              For the spy player, he/she must take on hidden identities, they
+              must ensure nobody else finds out. If you are a spy, are you able
+              to fake it until you make it?
+            </p>
+            <h3>
+              <strong>Special Regulations</strong>
+            </h3>
+            <p>
+              Using Spotify API: Ensure all players can access the Spotify API
+              to retrieve songs.
+            </p>
+            <p>
+              Emoji Limitation: Encourage players to creatively use emojis for
+              descriptions, but limit to a maximum of 5 emojis.
+            </p>
+            <p>
+              Game Interface: Design a user-friendly interface showcasing the
+              song player, emoji selector, and voting system.
+            </p>
+            <p>
+              Game Feedback: Provide interactive feedback and score updates
+              among players.
+            </p>
           </div>
         </Popover>
       </div>
@@ -433,14 +555,22 @@ const Game = () => {
       <h2 style={{ fontFamily: "Comic Sans MS" }}>Welcome to LyricLies!</h2>
       <Button
         variant="contained"
-        style={{ marginTop: "20px", backgroundColor: "#DB70DB", color: "#00008B" }}
+        style={{
+          marginTop: "20px",
+          backgroundColor: "#DB70DB",
+          color: "#00008B",
+        }}
         onClick={handleClickCreateRoom} // Call handleClickCreateRoom when button is clicked
       >
         Create a new Room
       </Button>
       <Button
         variant="contained"
-        style={{ marginTop: "20px", backgroundColor: "#AFEEEE", color: "#00008B" }}
+        style={{
+          marginTop: "20px",
+          backgroundColor: "#AFEEEE",
+          color: "#00008B",
+        }}
         onClick={handleClickJoinRoom}
       >
         Join a Room
@@ -507,8 +637,10 @@ const Game = () => {
                 label="Artist"
                 onChange={(e) => setSelectedArtist(e.target.value)}
               >
-                {artistList.map(artist => (
-                  <MenuItem key={artist} value={artist}>{artist}</MenuItem>
+                {artistList.map((artist) => (
+                  <MenuItem key={artist} value={artist}>
+                    {artist}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -516,7 +648,11 @@ const Game = () => {
             {/* Buttons for confirmation and cancel */}
             <Button
               variant="contained"
-              style={{ marginTop: "20px", marginRight: "10px", backgroundColor: "#DB70DB" }}
+              style={{
+                marginTop: "20px",
+                marginRight: "10px",
+                backgroundColor: "#DB70DB",
+              }}
               onClick={handleConfirmRoom}
             >
               Confirm
@@ -532,21 +668,16 @@ const Game = () => {
         </Popover>
       </div>
 
-      <p className="game paragraph">
-        All Players:
-      </p>
+      <p className="game paragraph">All Players:</p>
       {content}
       <Button
-        style={{ width: '100%', color: 'white', marginTop: '20px' }}
+        style={{ width: "100%", color: "white", marginTop: "20px" }}
         onClick={() => logout()}
       >
         Logout
       </Button>
     </BaseContainer>
   );
-
-
 };
 
 export default Game;
-

@@ -20,15 +20,14 @@ import { useNavigate } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 
-
 const defaultTheme = createTheme({
   palette: {
     primary: {
-      main: '#7e57c2',
+      main: "#7e57c2",
     },
   },
   typography: {
-    fontFamily: 'Comic Sans MS',
+    fontFamily: "Comic Sans MS",
   },
 });
 
@@ -48,8 +47,8 @@ export default function SignInSide() {
       // localStorage.setItem('username', user.username);
       // localStorage.setItem("currentUserId", user.id);
       sessionStorage.setItem("token", user.token);
-      sessionStorage.setItem('userId', user.id);
-      sessionStorage.setItem('username', user.username);
+      sessionStorage.setItem("userId", user.id);
+      sessionStorage.setItem("username", user.username);
       // sessionStorage.setItem("currentUserId", user.id);
       navigate("/lobby");
     } catch (error) {
@@ -57,22 +56,42 @@ export default function SignInSide() {
     }
   };
 
-
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', marginTop: '-80px' }}>
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        style={{ minHeight: "100vh", marginTop: "-80px" }}
+      >
         <Grid item xs={12} sm={8} md={4}>
-          <Paper elevation={6} square sx={{ backgroundColor: "rgba(235, 200, 255, 0.7)", borderRadius: "10px 50px 10px 50px" }}>
-            <Box p={4} display="flex" flexDirection="column" alignItems="center">
-              <Avatar sx={{ m: 1, bgcolor: '#ba68c8' }}>
+          <Paper
+            elevation={6}
+            square
+            sx={{
+              backgroundColor: "rgba(235, 200, 255, 0.7)",
+              borderRadius: "10px 50px 10px 50px",
+            }}
+          >
+            <Box
+              p={4}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+            >
+              <Avatar sx={{ m: 1, bgcolor: "#ba68c8" }}>
                 <LibraryMusicOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
-              <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <Box
+                component="form"
+                noValidate
+                onSubmit={handleSubmit}
+                sx={{ mt: 1 }}
+              >
                 <TextField
                   margin="normal"
                   required
@@ -86,8 +105,7 @@ export default function SignInSide() {
                   onChange={(event) => setUsername(event.target.value)}
                   InputLabelProps={{
                     style: {
-                      fontFamily: 'Comic Sans MS',
-
+                      fontFamily: "Comic Sans MS",
                     },
                   }}
                 />
@@ -103,7 +121,7 @@ export default function SignInSide() {
                   onChange={(event) => setPassword(event.target.value)}
                   InputLabelProps={{
                     style: {
-                      fontFamily: 'Comic Sans MS',
+                      fontFamily: "Comic Sans MS",
                     },
                   }}
                 />
@@ -111,8 +129,7 @@ export default function SignInSide() {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2, fontFamily: 'Comic Sans MS', }}
-
+                  sx={{ mt: 3, mb: 2, fontFamily: "Comic Sans MS" }}
                 >
                   Sign In
                 </Button>
@@ -126,7 +143,6 @@ export default function SignInSide() {
               </Box>
             </Box>
           </Paper>
-
         </Grid>
       </Grid>
     </ThemeProvider>

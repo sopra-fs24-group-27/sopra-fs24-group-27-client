@@ -33,7 +33,19 @@ jobs:
         with:
           node-version: "20.x"
       - run: npm install
-      - run: npm run build
+
+      - name: Run ESLint
+        run: npm run lint
+      
+      - name: Fix ESLint errors
+        run: npm run lint:fix
+        
+      - name: Run Prettier
+        run: npm run format
+
+      - name: Build Project
+        run: npm run build
+
 
       - name: Get the current date and time for version
         run: echo "VERSION_ID=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV

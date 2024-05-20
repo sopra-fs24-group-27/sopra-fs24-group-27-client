@@ -19,7 +19,7 @@ const Player = ({ src }) => {
 
   useEffect(() => {
     const audio = audioRef.current;
-    
+
     const setAudioData = () => {
       setDuration(audio.duration);
       setCurrentTime(audio.currentTime);
@@ -48,17 +48,16 @@ const Player = ({ src }) => {
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-    
+
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
   return (
     <div className="player">
-      <button onClick={togglePlayPause}>
-        {isPlaying ? "Pause" : "Play"}
-      </button>
+      <button onClick={togglePlayPause}>{isPlaying ? "Pause" : "Play"}</button>
       <div className="time">
-        <span>{formatTime(currentTime)}</span> / <span>{formatTime(duration)}</span>
+        <span>{formatTime(currentTime)}</span> /{" "}
+        <span>{formatTime(duration)}</span>
       </div>
     </div>
   );

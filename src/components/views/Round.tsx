@@ -22,8 +22,12 @@ const Round = () => {
   const [gameState, setGameState] = useState(null);
   const [roomInfo, setRoomInfo] = useState(null);
   // const [currentUser, setCurrentUser] = useState(localStorage.getItem("currentUserId"));
-  const [currentUser, setCurrentUser] = useState(sessionStorage.getItem("userId"));
-  const [currentPlayerId, setCurrentPlayerId] = useState(sessionStorage.getItem("playerId"));
+  const [currentUser, setCurrentUser] = useState(
+    sessionStorage.getItem("userId")
+  );
+  const [currentPlayerId, setCurrentPlayerId] = useState(
+    sessionStorage.getItem("playerId")
+  );
   const [currentTurn, setCurrentTurn] = useState(1);
   const [playerEmojis, setPlayerEmojis] = useState({});
   const [chosenEmojis, setChosenEmojis] = useState([]);
@@ -42,7 +46,7 @@ const Round = () => {
         setRoomInfo(response.data);
         setCurrentTurn(response.data.currentTurn);
         setRound(response.data.currentRound);
-        console.log("currentturn", currentTurn)
+        console.log("currentturn", currentTurn);
       } catch (error) {
         console.error("Error fetching game state:", error);
         setError("Failed to load game state");
@@ -67,15 +71,14 @@ const Round = () => {
   // Render the round description based on the current round state
   const renderRoundDescription = () => {
     switch (round) {
-    case 1:
-      return "Round 1 Description";
-    case 2:
-      return "Round 2 Description";
-    default:
-      return "Please click on vote";
+      case 1:
+        return "Round 1 Description";
+      case 2:
+        return "Round 2 Description";
+      default:
+        return "Please click on vote";
     }
   };
-
 
   const renderPlayers = () => {
     if (!gameState) {
@@ -87,7 +90,14 @@ const Round = () => {
     console.log("Game State user id:", gameState[0].id);
 
     return (
-      <div style={{ display: "flex", gap: "10px", justifyContent: "center", alignItems: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         {gameState.map((player, index) => {
           // const AvatarComponent = avatarComponents[player.user.avatar];
           return (
@@ -96,7 +106,10 @@ const Round = () => {
               className={`player-wrapper ${currentUser === player.user.id && currentTurn === player.turn ? "current-player" : ""}`}
               style={{
                 margin: "10px",
-                backgroundColor: currentTurn === player.turn ? "rgba(144, 238, 200, 0.8)" : "rgba(200, 131, 253, 0.8)",
+                backgroundColor:
+                  currentTurn === player.turn
+                    ? "rgba(144, 238, 200, 0.8)"
+                    : "rgba(200, 131, 253, 0.8)",
                 borderRadius: "10px",
                 boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
                 width: "300px",
@@ -105,10 +118,19 @@ const Round = () => {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
-                alignItems: "center"
-              }}>
+                alignItems: "center",
+              }}
+            >
               {/*<p>Order of sending emojis: {player.turn}</p>*/}
-              <Avatar src={player.user.avatar} style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }} />
+              <Avatar
+                src={player.user.avatar}
+                style={{
+                  width: 60,
+                  height: 60,
+                  marginTop: "15px",
+                  cursor: "pointer",
+                }}
+              />
               {/* <AvatarComponent
                 style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }}
               /> */}
@@ -116,28 +138,38 @@ const Round = () => {
               {/*<p>Emojis: {player.emojis.join(" ")}</p>*/}
               <p>Round 1 Emojis: {player.emojis.join(" ")}</p>
               <p>Round 2 Emojis: {player.emojis2.join(" ")}</p>
-              {player.user.id.toString() === currentUser && player.turn === currentTurn && (
-                <>
-                  <p>→ YOUR TURN ←</p>
-                  <TextField
-                    onFocus={handleEmojiInputFocus}
-                    onBlur={handleEmojiInputBlur}
-                    value={chosenEmojis.join(' ')}
-                    placeholder="Up to 5 emojis"
-                    variant="outlined"
-                    fullWidth
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                  {renderChosenEmojis()}
-                  {renderEmojiPicker()}
-                  <Button variant="contained" color="primary" onClick={handleSubmitEmojis} disabled={chosenEmojis.length === 0}
-                    style={{ marginTop: '20px', backgroundColor: '#DB70DB', color: '#00008B' }}>
-                    Submit Emojis
-                  </Button>
-                </>
-              )}
+              {player.user.id.toString() === currentUser &&
+                player.turn === currentTurn && (
+                  <>
+                    <p>→ YOUR TURN ←</p>
+                    <TextField
+                      onFocus={handleEmojiInputFocus}
+                      onBlur={handleEmojiInputBlur}
+                      value={chosenEmojis.join(" ")}
+                      placeholder="Up to 5 emojis"
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                    {renderChosenEmojis()}
+                    {renderEmojiPicker()}
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleSubmitEmojis}
+                      disabled={chosenEmojis.length === 0}
+                      style={{
+                        marginTop: "20px",
+                        backgroundColor: "#DB70DB",
+                        color: "#00008B",
+                      }}
+                    >
+                      Submit Emojis
+                    </Button>
+                  </>
+                )}
             </div>
           );
         })}
@@ -150,20 +182,33 @@ const Round = () => {
   };
 
   const removeEmoji = (index) => {
-    setChosenEmojis(prevEmojis => prevEmojis.filter((_, i) => i !== index));
+    setChosenEmojis((prevEmojis) => prevEmojis.filter((_, i) => i !== index));
   };
 
   const renderChosenEmojis = () => {
     return (
-      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '10px' }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+          flexWrap: "wrap",
+          marginTop: "10px",
+        }}
+      >
         {chosenEmojis.map((emoji, index) => (
-          <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+          <div key={index} style={{ display: "flex", alignItems: "center" }}>
             <span>{emoji}</span>
             <Button
               onClick={() => removeEmoji(index)}
               variant="contained"
               color="secondary"
-              style={{ marginLeft: '5px', minWidth: '30px', padding: '5px', backgroundColor: '#DB70DB', color: '#00008B' }}
+              style={{
+                marginLeft: "5px",
+                minWidth: "30px",
+                padding: "5px",
+                backgroundColor: "#DB70DB",
+                color: "#00008B",
+              }}
             >
               X
             </Button>
@@ -177,7 +222,10 @@ const Round = () => {
     try {
       const requestBody = chosenEmojis;
 
-      await api.post(`/games/${gameId}/emojis?playerId=${currentPlayerId}&round=${round}`, requestBody);
+      await api.post(
+        `/games/${gameId}/emojis?playerId=${currentPlayerId}&round=${round}`,
+        requestBody
+      );
 
       setChosenEmojis([]);
 
@@ -193,25 +241,22 @@ const Round = () => {
     }
   };
 
-
   const handleEmojiInputFocus = () => {
     setShowEmojiPicker(true);
   };
 
   const renderEmojiPicker = () => {
     if (showEmojiPicker) {
-      return (
-        <EmojiPicker onEmojiClick={onEmojiClick} />
-      );
+      return <EmojiPicker onEmojiClick={onEmojiClick} />;
     }
   };
 
   const onEmojiClick = (event, emojiObject) => {
     console.log(emojiObject);
-    setChosenEmojis(prevEmojis => {
+    setChosenEmojis((prevEmojis) => {
       const newEmojis = [...prevEmojis, emojiObject.emoji];
       console.log("Updated Chosen Emojis:", newEmojis);
-      
+
       return newEmojis;
     });
   };
@@ -220,7 +265,12 @@ const Round = () => {
     if (round === 1 || round === 2) {
       return (
         <>
-          <Button variant="contained" color="primary" onClick={toVote} style={{ marginRight: "10px" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={toVote}
+            style={{ marginRight: "10px" }}
+          >
             skip sending emojis for testing
           </Button>
           {/*<Button variant="contained" color="secondary" onClick={toNextRound}>*/}
@@ -249,7 +299,7 @@ const Round = () => {
       console.error("Error Nest Round:", error);
       setError("Failed to nest round");
     }
-  }
+  };
 
   return (
     <BaseContainer className="round-container">
@@ -260,9 +310,7 @@ const Round = () => {
       {error && <p className="error-message">{error}</p>}
       {renderPlayers()}
 
-      <div className="button-container">
-        {renderButtons()}
-      </div>
+      <div className="button-container">{renderButtons()}</div>
     </BaseContainer>
   );
 };

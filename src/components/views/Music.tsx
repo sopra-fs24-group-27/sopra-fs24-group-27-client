@@ -12,8 +12,10 @@ const MusicPlayerPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [imageSrc, setImageSrc] = useState(null);
   const navigate = useNavigate();
-  const defaultAudioSrc = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
-  const defaultImageSrc = "https://upload.wikimedia.org/wikipedia/commons/c/cf/Pendulum_clock_by_Jacob_Kock%2C_antique_furniture_photography%2C_IMG_0931_edit.jpg";
+  const defaultAudioSrc =
+    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+  const defaultImageSrc =
+    "https://upload.wikimedia.org/wikipedia/commons/c/cf/Pendulum_clock_by_Jacob_Kock%2C_antique_furniture_photography%2C_IMG_0931_edit.jpg";
   const audioSrc = track && track.audioSrc ? track.audioSrc : defaultAudioSrc;
 
   const stomper = useWebSocket();
@@ -43,11 +45,14 @@ const MusicPlayerPage = () => {
     const subscriptions = [];
 
     if (stomper) {
-      const songUpdateSub = stomper.subscribe("/user/queue/listen", (message) => {
-        const songInfo = JSON.parse(message.body);
-        setTrack(songInfo);
-        setImageSrc(songInfo.imageSrc || defaultImageSrc);
-      });
+      const songUpdateSub = stomper.subscribe(
+        "/user/queue/listen",
+        (message) => {
+          const songInfo = JSON.parse(message.body);
+          setTrack(songInfo);
+          setImageSrc(songInfo.imageSrc || defaultImageSrc);
+        }
+      );
 
       subscriptions.push(songUpdateSub);
     }
@@ -71,7 +76,6 @@ const MusicPlayerPage = () => {
             marginBottom: "20px",
           }}
         />
-
       )}
 
       <ReactPlayer
@@ -87,17 +91,11 @@ const MusicPlayerPage = () => {
       )}
 
       <div className="button-container">
-        <Button
-          variant="contained"
-          onClick={() => navigate("/")}
-        >
+        <Button variant="contained" onClick={() => navigate("/")}>
           Back
         </Button>
 
-        <Button
-          variant="contained"
-          onClick={() => navigate("/round")}
-        >
+        <Button variant="contained" onClick={() => navigate("/round")}>
           Go Next
         </Button>
       </div>

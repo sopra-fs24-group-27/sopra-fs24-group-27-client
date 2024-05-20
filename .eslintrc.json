@@ -1,45 +1,44 @@
 {
     "env": {
-        "browser": true,
-        "es2021": true,
-        "node": true,   // For Node.js global variables and scope.
-        "jest": true    // For testing globals like `describe` and `it`.
+      "browser": true,
+      "es2021": true,
+      "node": true,
+      "jest": true
     },
-
     "extends": ["plugin:react/recommended"],
-    "overrides": [],
     "parser": "@babel/eslint-parser",
     "parserOptions": {
-        "ecmaVersion": "latest",
-        "ecmaFeatures": { "jsx": true },
-        "sourceType": "module",
-        "babelOptions": {
-            "presets": ["@babel/preset-react"]
-        }
+      "ecmaVersion": "latest",
+      "ecmaFeatures": { "jsx": true },
+      "sourceType": "module",
+      "babelOptions": {
+        "presets": ["@babel/preset-react"]
+      }
     },
     "plugins": ["react"],
     "settings": {
-        "react": {
-            "version": "detect"
-        }
+      "react": {
+        "version": "detect"
+      }
     },
     "globals": {
-        "process": "readonly"
+      "process": "readonly"
     },
     "rules": {
-        "react/prop-types": "off",
-        "no-undef": "warn",
-        "eqeqeq": "error",
-        "no-unreachable": "error",
-        "no-duplicate-imports": "error",
-        "no-multiple-empty-lines": "warn",
-        "indent": ["warn", 2],
-        "quotes": ["warn", "double"],
-        "newline-before-return": "warn",
-        "padding-line-between-statements": [
-            "warn",
-            { "blankLine": "always", "prev": "*", "next": "export" }
-        ]
+      "react/prop-types": "off",
+      "no-undef": "warn",
+      "eqeqeq": "error",
+      "no-unreachable": "error",
+      "no-duplicate-imports": "error",
+      "no-multiple-empty-lines": ["warn", { "max": 1 }],
+      "indent": ["warn", 2],
+      "quotes": ["warn", "double"],
+      "newline-before-return": "warn",
+      "padding-line-between-statements": [
+        "warn",
+        { "blankLine": "always", "prev": "*", "next": "export" }
+      ]
     },
     "ignorePatterns": ["node_modules", "build", "dist", "public"]
-}
+  }
+  

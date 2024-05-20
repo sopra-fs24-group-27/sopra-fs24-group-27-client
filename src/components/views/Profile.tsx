@@ -1,20 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { api } from 'helpers/api';
-import { Avatar, Button, CssBaseline, TextField, Box, Typography, Grid, Paper } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import 'styles/views/Profile.scss';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { api } from "helpers/api";
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  Box,
+  Typography,
+  Grid,
+  Paper,
+} from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import "styles/views/Profile.scss";
 import "styles/views/Game.scss";
-import AvatarSelectionDialog from './AvatarSelectionDialog';
+import AvatarSelectionDialog from "./AvatarSelectionDialog";
 
 const defaultTheme = createTheme({
   palette: {
     primary: {
-      main: '#7e57c2',
+      main: "#7e57c2",
     },
   },
   typography: {
-    fontFamily: 'Comic Sans MS',
+    fontFamily: "Comic Sans MS",
   },
 });
 
@@ -22,27 +31,29 @@ export default function Profile() {
   const { userId } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [currentUserId, setCurrentUserId] = useState(sessionStorage.getItem('userId'));
+  const [currentUserId, setCurrentUserId] = useState(
+    sessionStorage.getItem("userId")
+  );
   const [editableUser, setEditableUser] = useState({
-    avatar: '',
-    username: '',
-    name: '',
-    birthDate: '',
-    overallPoints: '',
+    avatar: "",
+    username: "",
+    name: "",
+    birthDate: "",
+    overallPoints: "",
   });
   const [isEditing, setIsEditing] = useState(false);
   const [isAllowedToEdit, setIsAllowedToEdit] = useState(false);
   const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false);
 
   useEffect(() => {
-    const currentUserId = sessionStorage.getItem('userId');
+    const currentUserId = sessionStorage.getItem("userId");
     setCurrentUserId(currentUserId);
 
     const fetchUserData = async () => {
       try {
         const response = await api.get(`/users/${userId}`);
         const userData = response.data;
-        
+
         // 将用户的 score 设置为 overallPoints
         userData.overallPoints = userData.score;
 
@@ -60,7 +71,7 @@ export default function Profile() {
   }, [userId]);
 
   const handleBack = () => {
-    navigate('/lobby');
+    navigate("/lobby");
   };
 
   const handleChange = (event) => {
@@ -93,13 +104,13 @@ export default function Profile() {
     if (avatar) {
       try {
         const updatedUser = { ...editableUser, avatar };
-        console.log('Updating user with avatar:', updatedUser);
+        console.log("Updating user with avatar:", updatedUser);
         await api.put(`/users/${userId}`, JSON.stringify(updatedUser));
         setUser(updatedUser);
         setEditableUser(updatedUser);
         setIsAvatarDialogOpen(false);
       } catch (error) {
-        console.error('Updating avatar failed', error);
+        console.error("Updating avatar failed", error);
       }
     }
   };
@@ -115,23 +126,57 @@ export default function Profile() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
-      <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', marginTop: '-80px' }}>
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        style={{ minHeight: "100vh", marginTop: "-80px" }}
+      >
         <Grid item xs={12} sm={8} md={4}>
-          <Paper elevation={6} square sx={{ backgroundColor: 'rgba(235, 200, 255, 0.7)', borderRadius: '50px 50px 50px 50px' }}>
+          <Paper
+            elevation={6}
+            square
+            sx={{
+              backgroundColor: "rgba(235, 200, 255, 0.7)",
+              borderRadius: "50px 50px 50px 50px",
+            }}
+          >
             <Box
               sx={{
                 my: 8,
                 mx: 10,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
               }}
             >
-              <Typography component="h1" variant="h5" style={{ marginTop: '25px', marginBottom: '20px', color: 'white' }}>
+              <Typography
+                component="h1"
+                variant="h5"
+                style={{
+                  marginTop: "25px",
+                  marginBottom: "20px",
+                  color: "white",
+                }}
+              >
                 User Profile
               </Typography>
-              <Avatar alt="Avatar" src={editableUser.avatar} sx={{ width: 100, height: 100, cursor: isEditing ? 'pointer' : 'default' }} onClick={handleAvatarClick} />
-              <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <Avatar
+                alt="Avatar"
+                src={editableUser.avatar}
+                sx={{
+                  width: 100,
+                  height: 100,
+                  cursor: isEditing ? "pointer" : "default",
+                }}
+                onClick={handleAvatarClick}
+              />
+              <Box
+                component="form"
+                noValidate
+                onSubmit={handleSubmit}
+                sx={{ mt: 1 }}
+              >
                 <TextField
                   margin="normal"
                   required
@@ -188,7 +233,12 @@ export default function Profile() {
                 />
                 {isEditing ? (
                   <Box sx={{ mt: 2 }}>
-                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2 }}
+                    >
                       Save Changes
                     </Button>
                     <Button
@@ -208,7 +258,12 @@ export default function Profile() {
                     onClick={() => setIsEditing(true)}
                     disabled={!isAllowedToEdit}
                     sx={{ mt: 3, mb: 2 }}
-                    style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#AFEEEE', color: '#00008B' }}
+                    style={{
+                      marginTop: "20px",
+                      marginRight: "10px",
+                      backgroundColor: "#AFEEEE",
+                      color: "#00008B",
+                    }}
                   >
                     Edit Profile
                   </Button>
@@ -216,7 +271,12 @@ export default function Profile() {
                 <Button
                   fullWidth
                   variant="contained"
-                  style={{ marginTop: '20px', marginRight: '10px', backgroundColor: '#DB70DB', marginBottom: '50px' }}
+                  style={{
+                    marginTop: "20px",
+                    marginRight: "10px",
+                    backgroundColor: "#DB70DB",
+                    marginBottom: "50px",
+                  }}
                   onClick={handleBack}
                   sx={{ mt: 3, mb: 2 }}
                 >

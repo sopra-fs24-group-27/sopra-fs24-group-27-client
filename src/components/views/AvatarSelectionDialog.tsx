@@ -13,19 +13,17 @@ const avatars = [
   "https://cdn.jsdelivr.net/gh/alohe/avatars/png/vibrent_1.png",
   "https://cdn.jsdelivr.net/gh/alohe/avatars/png/vibrent_2.png",
   "https://cdn.jsdelivr.net/gh/alohe/avatars/png/vibrent_3.png",
-
   "https://cdn.jsdelivr.net/gh/alohe/avatars/png/vibrent_4.png",
   "https://cdn.jsdelivr.net/gh/alohe/avatars/png/vibrent_26.png",
   "https://cdn.jsdelivr.net/gh/alohe/avatars/png/vibrent_19.png",
-
   "https://cdn.jsdelivr.net/gh/alohe/avatars/png/vibrent_12.png",
   "https://cdn.jsdelivr.net/gh/alohe/avatars/png/vibrent_13.png",
   "https://cdn.jsdelivr.net/gh/alohe/avatars/png/vibrent_21.png",
-
   "https://cdn.jsdelivr.net/gh/alohe/avatars/png/vibrent_17.png",
   "https://cdn.jsdelivr.net/gh/alohe/avatars/png/vibrent_15.png",
   "https://cdn.jsdelivr.net/gh/alohe/avatars/png/vibrent_16.png",
 ];
+
 interface AvatarSelectionDialogProps {
   open: boolean;
   onClose: () => void;
@@ -41,9 +39,9 @@ const AvatarSelectionDialog: React.FC<AvatarSelectionDialogProps> = ({
 }) => {
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
 
-  const handleAvatarClick = (avatar) => {
+  const handleAvatarClick = (avatar: string) => {
     setSelectedAvatar(avatar);
-    //onSelect(avatar);
+    onSelect(avatar);
   };
 
   const handleConfirm = () => {
@@ -71,12 +69,7 @@ const AvatarSelectionDialog: React.FC<AvatarSelectionDialogProps> = ({
         Select an Avatar
       </DialogTitle>
       <DialogContent>
-        <Grid
-          container
-          spacing={3}
-          justifyContent="center"
-          sx={{ paddingLeft: 8 }}
-        >
+        <Grid container spacing={3} justifyContent="center" sx={{ paddingLeft: 8 }}>
           {avatars.map((avatar) => (
             <Grid item xs={4} key={avatar}>
               <Avatar

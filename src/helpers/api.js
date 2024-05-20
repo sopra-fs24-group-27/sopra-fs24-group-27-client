@@ -16,7 +16,7 @@ function newAxiosClient() {
     (config) => {
       // Do something before request is sent
       // const token = localStorage.getItem("token") || "";
-      const token = sessionStorage.getItem("token") || "";
+      const token = sessionStorage.getItem("token") ||
       console.log(`request with token: ${token}`);
       config.headers.Authorization = token;
 

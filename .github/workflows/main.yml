@@ -55,8 +55,5 @@ jobs:
           version: ${{ env.VERSION_ID }}
           credentials: ${{ secrets.GCP_SERVICE_CREDENTIALS }}
       
-      - name: Set Deployed URL
-        run: echo "DEPLOYED_URL=https://${{ secrets.GCP_PROJECT_ID }}.REGION_ID.r.appspot.com" >> $GITHUB_ENV
-        
       - name: Test
-        run: curl "${{ env.DEPLOYED_URL }}"
+        run: curl "${{ steps.deploy.outputs.version_url }}" --output result.txt

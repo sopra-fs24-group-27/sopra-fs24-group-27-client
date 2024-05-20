@@ -262,7 +262,13 @@ const Game = () => {
   // Function to handle room creation
   const handleConfirmRoom = async () => {
     handleCloseRoom(); // Ensure the room creation popover is closed after confirming
-
+  
+    // Check if all required fields are selected
+    if (!selectedMarket || !selectedArtist || !selectedGenre) {
+      alert("Please select a market, artist, and genre before creating the room.");
+      return; // Exit the function if any field is not selected
+    }
+  
     try {
       const settings = {
         market: selectedMarket,
@@ -288,7 +294,7 @@ const Game = () => {
           console.log("playerid", player.id);
         }
       });
-
+  
       // Navigate to the game's lobby or waiting room
       navigate(`/games/${gameId}/waitingroom`);
     } catch (error) {
@@ -300,6 +306,7 @@ const Game = () => {
       );
     }
   };
+  
 
   const JoinRoomPopover = () => {
     const [tempRoomId, setTempRoomId] = useState(""); // To hold the room ID input by the user

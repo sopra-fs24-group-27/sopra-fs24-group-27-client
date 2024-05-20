@@ -6,7 +6,7 @@ import EmojiPicker from "emoji-picker-react";
 import { api, handleError } from 'helpers/api';
 import TextField from "@mui/material/TextField";
 import { Avatar } from "@mui/material";
-import twemoji from 'twemoji';
+
 // import { ReactComponent as AvatarSvg1 } from 'styles/views/avatars/avatar1.svg';
 // import { ReactComponent as AvatarSvg2 } from 'styles/views/avatars/avatar2.svg';
 // import { ReactComponent as AvatarSvg3 } from 'styles/views/avatars/avatar3.svg';
@@ -64,15 +64,6 @@ const Round = () => {
       navigate(`/games/${gameId}/vote`);
     }
   }, [round, navigate, gameId]);
-
-  useEffect(() => {
-    // Initialize Twemoji
-    twemoji.parse(document.body, {
-      folder: 'svg',
-      ext: '.svg'
-    });
-  }, [chosenEmojis]);
-
 
   // Render the round description based on the current round state
   const renderRoundDescription = () => {

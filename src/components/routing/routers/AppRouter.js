@@ -8,14 +8,13 @@ import Register from "../../views/Register";
 import Profile from "../../views/Profile";
 import Waitingroom from "../../views/Waitingroom";
 import Round from "../../views/Round";
-import Music from "../../views/Music"
+import Music from "../../views/Music";
 import Listen from "../../views/Listen";
 import Vote from "../../views/Vote";
 import End from "../../views/End";
 import { WebSocketProvider } from "context/WebSocketContext";
 import { GameIdGuard } from "../routeProtectors/GameIdGuard";
 import { ProfileGuard } from "../routeProtectors/ProfileGuard";
-
 
 /**
  * Main router of your application.
@@ -30,7 +29,6 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-
         <Route path="/lobby/*" element={<GameGuard />}>
           <Route path="/lobby/*" element={<GameRouter base="/lobby" />} />
         </Route>
@@ -44,7 +42,6 @@ const AppRouter = () => {
         <Route path="/login" element={<LoginGuard />}>
           <Route path="/login" element={<Login />} />
         </Route>
-
 
         {/*<Route path="/games/:gameId/waitingroom" element={*/}
         {/*    <Waitingroom />*/}
@@ -66,20 +63,16 @@ const AppRouter = () => {
           </Route>
         </Route>
 
-
-        <Route path="/" element={
-          <Navigate to="/login" replace />
-        } />
+        <Route path="/" element={<Navigate to="/login" replace />} />
 
         {/* Catch-all route */}
         <Route path="*" element={<Navigate to="/login" replace />} />
-
       </Routes>
-    </BrowserRouter >
+    </BrowserRouter>
   );
 };
 
 /*
-* Don't forget to export your component!
+ * Don't forget to export your component!
  */
 export default AppRouter;

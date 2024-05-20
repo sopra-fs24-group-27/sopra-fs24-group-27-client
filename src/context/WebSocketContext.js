@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types"; // Import PropTypes
-import Stomper from "../helpers/Stomper";  // Adjust the import path as necessary
+import Stomper from "../helpers/Stomper"; // Adjust the import path as necessary
 
 const WebSocketContext = createContext(null);
 
@@ -27,7 +27,7 @@ export const WebSocketProvider = ({ children }) => {
 
 // Define prop types for WebSocketProvider
 WebSocketProvider.propTypes = {
-  children: PropTypes.node.isRequired  // Specifies that children should be any renderable elements
+  children: PropTypes.node.isRequired, // Specifies that children should be any renderable elements
 };
 
 // Custom hook to use the WebSocket context

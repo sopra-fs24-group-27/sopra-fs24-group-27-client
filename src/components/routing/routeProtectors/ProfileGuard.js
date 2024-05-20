@@ -1,5 +1,5 @@
 import React from "react";
-import {Navigate, Outlet} from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import PropTypes from "prop-types";
 import Profile from "../../views/Profile";
 
@@ -10,9 +10,7 @@ import Profile from "../../views/Profile";
  */
 export const ProfileGuard = () => {
   // if (localStorage.getItem("token"))
-  if (sessionStorage.getItem("token"))
-  {
-
+  if (sessionStorage.getItem("token")) {
     return <Outlet />;
   }
 
@@ -20,5 +18,5 @@ export const ProfileGuard = () => {
 };
 
 ProfileGuard.propTypes = {
-  children: PropTypes.node
-}
+  children: PropTypes.node,
+};

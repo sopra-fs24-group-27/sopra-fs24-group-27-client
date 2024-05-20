@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Outlet, useParams} from "react-router-dom";
+import { Navigate, Outlet, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
 /**
@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
  * @param props
  */
 export const GameIdGuard = () => {
-// Get gameId from sessionStorage
+  // Get gameId from sessionStorage
   const storedGameId = sessionStorage.getItem("gameId");
 
   // Get gameId from URL params
@@ -23,5 +23,5 @@ export const GameIdGuard = () => {
 };
 
 GameIdGuard.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };

@@ -27,6 +27,8 @@ const Vote = () => {
   const [error, setError] = useState(null);
   const [voteResult, setVoteResult] = useState(null);
   const [votingDisabled, setVotingDisabled] = useState(false);
+  const [votedUsers, setVotedUsers] = useState([]);
+  const [pendingUsers, setPendingUsers] = useState([]);
 
   useEffect(() => {
     if (!gameId) return;
@@ -44,6 +46,26 @@ const Vote = () => {
           return acc;
         }, {});
         setVotes(votesData);
+
+        // Determine voted and pending users
+        const voted = response.data.players.filter(player => player.hasVoted).map(player => ({
+          userid: player.user.id,
+          username: player.user.username,
+          avatar: player.user.avatar,
+          player
+        }));
+        const pending = response.data.players.filter(player => !player.hasVoted).map(player => ({
+          userid: player.user.id,
+          username: player.user.username,
+          avatar: player.user.avatar,
+          player
+        }));
+
+        setVotedUsers(voted);
+        setPendingUsers(pending);
+
+        console.log("Voted Users:", voted);
+        console.log("Pending Users:", pending);
 
         if (response.data.votedPlayers === 4) {
           navigate(`/games/${gameId}/end`);
@@ -63,6 +85,48 @@ const Vote = () => {
     return () => clearInterval(intervalId);
   }, [gameId]);
 
+  // const renderVotingStatus = () => {
+  //   return (
+  //     <div>
+  //       <h3>Voting Status</h3>
+  //       <p><strong>Users who have voted:</strong> {votedUsers.join(", ")}</p>
+  //       <p><strong>Waiting for votes from:</strong> {pendingUsers.join(", ")}</p>
+  //     </div>
+  //   );
+  // };
+
+  const renderVotingStatus = () => {
+    return (
+      <div>
+        {/*<h3 style={{ fontSize: "18px", color: "white" }}>Voting Status</h3>*/}
+        <div style={{ display: "flex", justifyContent: "space-around", marginBottom: "20px" }}>
+          <div>
+            <h4 style={{ fontSize: "16px", color: "white" }}>Users who have voted</h4>
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
+              {votedUsers.map((user, index) => (
+                <div key={index} style={{ margin: "5px", padding: "10px", backgroundColor: 'rgba(0, 128, 0, 0.7)', borderRadius: "5px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <Avatar src={user.avatar} style={{ width: 30, height: 30, marginBottom: '5px' }} />
+                  <p style={{ fontSize: '12px', color: 'white' }}>{user.username}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h4 style={{ fontSize: "16px", color: "white" }}>Waiting for votes from</h4>
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
+              {pendingUsers.map((user, index) => (
+                <div key={index} style={{ margin: "5px", padding: "10px", backgroundColor: 'rgba(255, 0, 0, 0.7)', borderRadius: "5px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <Avatar src={user.avatar} style={{ width: 30, height: 30, marginBottom: '5px' }} />
+                  <p style={{ fontSize: '12px', color: 'white' }}>{user.username}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const renderPlayers = () => {
     if (!gameState) {
       return <div>Loading...</div>; // or any other loading indicator
@@ -70,6 +134,9 @@ const Vote = () => {
 
     console.log("Game State:", gameState);
     console.log("current user", currentUser);
+
+    const currentUserHasVoted = gameState.some(player => player.user.id === parseInt(currentUser) && player.hasVoted);
+
 
     return (
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "10px", justifyContent: "center", alignItems: "center" }}>
@@ -87,10 +154,10 @@ const Vote = () => {
                 variant="contained"
                 color="primary"
                 onClick={() => toVote(player.id)}
-                disabled={votingDisabled || currentUser === player.user.id.toString()}
+                disabled={votingDisabled || currentUserHasVoted || currentUser === player.user.id.toString()}
                 style={{
                   marginRight: "10px",
-                  ...(votingDisabled || currentUser === player.user.id.toString() ? {} : {
+                  ...(votingDisabled || currentUserHasVoted || currentUser === player.user.id.toString() ? {} : {
                     backgroundColor: '#AFEEEE',
                     color: '#00008B'
                   })
@@ -153,15 +220,16 @@ const Vote = () => {
     <BaseContainer className="round-container">
       <h1 className="page-title" style={{ fontSize: "24px", color: "white", display: "flex", justifyContent: "center" }}>Who is spy?</h1>
       {error && <p className="error-message">{error}</p>}
+      {renderVotingStatus()}
       {renderPlayers()}
       {/*{renderScoresAndWinners()}*/}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={navigateToEndPage}
-        style={{ marginTop: "20px" }}>
-        Next
-      </Button>
+      {/*<Button*/}
+      {/*  variant="contained"*/}
+      {/*  color="primary"*/}
+      {/*  onClick={navigateToEndPage}*/}
+      {/*  style={{ marginTop: "20px" }}>*/}
+      {/*  Next*/}
+      {/*</Button>*/}
     </BaseContainer>
   );
 };

@@ -208,6 +208,10 @@ const Round = () => {
   };
 
   const onEmojiClick = (event, emojiObject) => {
+    if (chosenEmojis.length >= 5) {
+      alert("Please do not select more than 5 emojis");
+      return;
+    }
     console.log(emojiObject);
     setChosenEmojis(prevEmojis => {
       const newEmojis = [...prevEmojis, emojiObject.emoji];
@@ -260,9 +264,9 @@ const Round = () => {
       {error && <p className="error-message">{error}</p>}
       {renderPlayers()}
 
-      <div className="button-container">
-        {renderButtons()}
-      </div>
+      {/*<div className="button-container">*/}
+      {/*  {renderButtons()}*/}
+      {/*</div>*/}
     </BaseContainer>
   );
 };

@@ -70,7 +70,7 @@ const Player = ({ user }: { user: User }) => {
         <br />
         Username: {user.username}
         <br />
-        Scores: {user.scores}
+        Scores: {user.score}
         <br />
         Birthday: {user.birthDate} <br />
       </p>

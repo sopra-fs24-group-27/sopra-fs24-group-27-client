@@ -354,3 +354,7 @@
 - Added test for PlayerInfoDTO. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/3d1ec1f1ea6b78e68fb2050846248684c6b6ee78)
 - Added test for VotePostDTO. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c04d9528db76f616dfbef418c2d5f37fbb6f426b)
 - Fix failure tests. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/a184f95cfd2697ddcd2461b9bd2504e859a504e7)
+- Updated README in the client repository and modified new game rules. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/59b3b077be28b37e5183e9f540acfa460d4786ac)&[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/cc36ebfbc0fdb253773c5f94c4eb5de9432e8c6b)
+- Added tests for createPlayerSongInfoDTO. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c6b9536c35ea7e084474999f86a3ebb7f801466b)
+
+

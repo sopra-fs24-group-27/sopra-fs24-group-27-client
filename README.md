@@ -1,5 +1,47 @@
 # SoPra FS24 Group 27 Project - LyricLies🎵
 
+## Project Description
+This group project from Group 27 in the Software Engineering Lab FS24 at UZH aims to develop "LyricLies," a multiplayer online game that combines music and emojis. Players use their knowledge of music and non-literal expression skills to identify the "lyric spy" among them. This entertaining social platform promotes the exploration of musical perception and non-verbal communication, thereby enriching the social gaming landscape with educational and fun elements.
+
+## LyricLies🎵
+
+Overview of LyricLies
+
+Number of players: 4 Players
+
+Material: Songs(by [Spotify API](https://developer.spotify.com/documentation/web-api))
+
+At the start of the game, roles are randomly assigned: three players become detectives and one becomes the spy. The spy listens to a different song than the detectives. During the game, each player must describe their song using a limited number of emojis. After two rounds of emoji descriptions, players vote on who they think the spy is. Detectives need to use the emoji clues to identify the spy, while the spy must disguise their true identity. Each player's role is revealed only after the voting ends. If the spy gets 2 or 3 votes, the detectives win! If not, the spy wins!
+
+### Game Setup
+After registering and logging in, players can create or join a game room. When creating a new game room, players can customize game preferences, including music genre, artist, and country. After creating the room, the Game ID can be shared with other players to join. Once the room has four players, the room owner can hit the start button, and the fun begins! Just keep your screens and device audio a secret—no peeking or eavesdropping allowed!
+
+### Identity Assignment
+To kick off the game, the system uses the Spotify API to randomly select songs. Three players will hear the same song, while the fourth player, the spy, gets a different tune. All players listen to their assigned songs simultaneously for 30 seconds.
+
+### Emoji Description
+After listening, each player chooses up to 5 emojis to describe the song they heard, for two rounds. These emojis can reflect the emotions, style, lyrics, or overall vibe. Since no one knows if they are the spy, you can choose to be as vague or detailed as you like.
+
+### Guessing and Voting
+Players guess who the spy is based on the emoji descriptions. If the spy gets 2 or 3 votes, the detectives win! If not, the spy wins!
+
+### End of Game
+The game comes to an end when the true identity is revealed! (reveal the song of all detective players and show the different song the spy listened to.)
+
+If the spy receives two or more votes, the detective players win; otherwise, the spy wins.
+
+After the game ends, the system updates the scoreboard based on the results.
+
+As the spy, your mission is to blend in and hide your true identity. Can you keep your cover and outsmart the others to claim victory? 🤔
+
+### Emoji Limitation
+Due to system limitations, some flag emojis may not display correctly on Windows systems.
+
+## Roadmap
+Future Features
+1. Expanded Song Library: Integrate more diverse music genres and languages to enhance gameplay variety. In the future, we aim to support users in selecting songs from their Spotify playlists.
+2. New Gameplay Mechanics: Introduce new skills and abilities for spy and detective players to add more strategic depth and excitement to the game.
+
 ## Authors
 - Yating Pan - [GitHub](https://github.com/YatingPan)
 - Hepeng Fan - [GitHub](https://github.com/HepengFan)
@@ -7,26 +49,25 @@
 - Yuying Zhong - [GitHub](https://github.com/YuyingZhong)
 - Yi Zhang - [GitHub](https://github.com/imyizhang)
 
-## Project Description
-This group project from Group 27 in the Software Engineering Lab FS24 at UZH aims to develop "LyricLies," a multiplayer online game that combines music and emojis. Players use their knowledge of music and non-literal expression skills to identify the "lyric spy" among them. This entertaining social platform promotes the exploration of musical perception and non-verbal communication, thereby enriching the social gaming landscape with educational and fun elements.
+## License
+MIT License
 
-## LyricLies🎵
+Copyright (c) [2024] [SoPra FS24 Group 27]
 
-The objective of LyricLies is to identify the spy who listens to a different song, using emojis to describe their song. The game supports 4 players and utilizes songs from the [Spotify API](https://developer.spotify.com/documentation/web-api) to assign identities to each player. Suitable for audiences aged 10 and up, the game begins with each player assigned a song, but only one player receives a different track. Throughout two rounds of emoji descriptions, players must then vote to guess the spy. If the spy is correctly identified, the non-spy players win; otherwise, the spy claims victory.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-### Game Setup
-After registration and login, players can create or join a game room. The game starts once four players are present, initiated by the room owner. Privacy during gameplay is crucial to ensure fair play.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-### Identity Assignment
-The system randomly selects songs through the Spotify API, assigning the same song to three players and a different one to the spy. All players listen to their song for 30 seconds simultaneously.
-
-### Emoji Description
-Post-listening, players have 60 seconds to select up to five emojis to describe their song, taking turns. The choice of emojis can reflect the song's mood, style, lyrics, or vibe. Players must be strategic in their descriptions, as the spy's identity is unknown.
-
-### Guessing and Voting
-After two rounds of description, a two-minute discussion phase allows players to speculate on the spy's identity, followed by a voting phase.
-
-### End of Game
-The game concludes by revealing the true identities and songs, determining the winning side based on the votes. Players' scores are updated accordingly, rewarding strategic deception and deduction.
-
-Embark on a journey of musical espionage - can you outsmart your friends and win the game of LyricLies? 🤔
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

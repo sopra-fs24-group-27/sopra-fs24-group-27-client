@@ -453,11 +453,6 @@ const Game = () => {
             <h3>
               <strong>Overview of LyricLies</strong>
             </h3>
-            <p>
-              Objective of LyricLies: The objective of LyricLies is to find out
-              the spy who is listening to a different song by using emojis to
-              describe the song they are listening to.
-            </p>
             <p>Number of players: 4 Players</p>
             <p>
               Material: Songs(by Spotify API) to assign identity for each
@@ -465,13 +460,16 @@ const Game = () => {
             </p>
             <p>Audience: Ages 10+</p>
             <p>
-              At the beginning of the game, each player will be assigned a song
-              and only one player’s song is different from others. As the game
-              progresses, each player must describe the song they are listening
-              to with limited emojis. After two rounds of describing, every
-              player must vote on a spy they guessed. If the spy receives the
-              most votes, then non-spies players win! On the other hand, if they
-              fail to find the spy, then the spy player wins!
+            At the start of the game, roles are randomly assigned: 
+            three players become detectives and one becomes the spy. 
+            The spy listens to a different song than the detectives. 
+            During the game, each player must describe their song using a limited 
+            number of emojis. After two rounds of emoji descriptions, 
+            players vote on who they think the spy is. 
+            Detectives need to use the emoji clues to identify the spy, 
+            while the spy must disguise their true identity. Each player's role 
+            is revealed only after the voting ends. 
+            If the spy gets 2 or 3 votes, the detectives win! If not, the spy wins!
             </p>
             <h3>
               <strong>How to play LyricLies</strong>
@@ -482,59 +480,53 @@ const Game = () => {
             <p>
               After registering and logging in, players can create or join a
               game room. Once the room has four players, the room owner can
-              start the game. Players should ensure that nobody else can see
-              their screen or hear the voices of each other devices.
+              hits the start button, and the fun begins! Just make sure to 
+              keep your screens and device audio a secret—no peeking or eavesdropping allowed!
             </p>
             <h4>
               <strong>Identity Assignment</strong>
             </h4>
             <p>
-              To begin gameplay, the system randomly selects a song through the
-              Spotify API and plays the same song for three players while
-              playing a different song for the fourth player (the spy). Then all
-              players listen to the song simultaneously with a playback duration
-              limited to 30 seconds.
+              To kick off the game, the system uses the Spotify API to randomly select songs. 
+              Three players will hear the same song, while the fourth player, the spy, 
+              gets a different tune. 
+              All players listen to their assigned songs simultaneously for 30 seconds.
             </p>
             <h4>
               <strong>Emoji Description</strong>
             </h4>
             <p>
-              After listening, each player has 60 seconds to choose up to 5
-              emojis to describe the song they heard in turns. Descriptions can
-              be based on the song&aposs emotions, style, lyrics, or overall
-              vibe. You cannot know whether you are the spy, so vague
-              description or not, it is your choice. Each player&aposs emoji
-              descriptions are displayed to all players. The description takes
-              two rounds.
+              After listening, each player chooses up to 5
+              emojis to describe the song they heard, for two rounds. These emojis can reflect the emotions, 
+              style, lyrics, or overall vibe.Since no one knows if they are the spy, 
+              you can choose to be as vague or detailed as you like. 
             </p>
             <h4>
               <strong>Guessing and Voting</strong>
             </h4>
             <p>
-              Players discuss and guess who the spy is based on everyone&aposs
-              emoji descriptions. Discussion is limited to 2 minutes, and then
-              each player must vote on who they suspect is the spy in 10s.
+              Players guess who the spy is based on the emoji descriptions. 
+              If the spy gets 2 or 3 votes, the detectives win! If not, the spy wins!
             </p>
             <h4>
               <strong>End of Game</strong>
             </h4>
             <p>
               The game comes to an end when the true identity is revealed!
-              (reveal the correct song to all players and show the different
-              songs the undercover listened to.)
+              (reveal the song of all detective players and show the different
+              song the spy listened to.)
             </p>
             <p>
               If the spy receives two or more votes, the detective players win;
               otherwise, the spy wins.
             </p>
             <p>
-              After the game ends, the system updates players&apos scores based
+              After the game ends, the system updates the scoreboard based
               on the results.
             </p>
             <p>
-              For the spy player, he/she must take on hidden identities, they
-              must ensure nobody else finds out. If you are a spy, are you able
-              to fake it until you make it?
+              As the spy, your mission is to blend in and hide your true identity. 
+              Can you keep your cover and outsmart the others to claim victory?
             </p>
             <h3>
               <strong>Special Regulations</strong>
@@ -545,15 +537,9 @@ const Game = () => {
             </p>
             <p>
               Emoji Limitation: Encourage players to creatively use emojis for
-              descriptions, but limit to a maximum of 5 emojis.
-            </p>
-            <p>
-              Game Interface: Design a user-friendly interface showcasing the
-              song player, emoji selector, and voting system.
-            </p>
-            <p>
-              Game Feedback: Provide interactive feedback and score updates
-              among players.
+              descriptions, but limit to a maximum of 5 emojis per round. 
+              Due to system limitations, some flag emojis may not display 
+              correctly on Windows systems.
             </p>
           </div>
         </Popover>

@@ -99,25 +99,25 @@ const Vote = () => {
     return (
       <div>
         {/*<h3 style={{ fontSize: "18px", color: "white" }}>Voting Status</h3>*/}
-        <div style={{ display: "flex", justifyContent: "space-around", marginBottom: "20px" }}>
+        <div style={{ display: "flex", justifyContent: "space-around", marginBottom: "5px"}}>
           <div>
-            <h4 style={{ fontSize: "16px", color: "white" }}>Users who have voted</h4>
+            <h4 style={{ fontSize: "16px", color: "white", marginBottom: "5px"}}>Users who have voted</h4>
             <div style={{ display: "flex", flexWrap: "wrap" }}>
               {votedUsers.map((user, index) => (
-                <div key={index} style={{ margin: "5px", padding: "10px", backgroundColor: 'rgba(0, 128, 0, 0.7)', borderRadius: "5px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <div key={index} style={{ margin: "5px", padding: "3px", backgroundColor: 'rgba(175, 238, 238, 0.7)', borderRadius: "5px", display: "flex", flexDirection: "row", alignItems: "center", height: "40px"}}>
                   <Avatar src={user.avatar} style={{ width: 30, height: 30, marginBottom: '5px' }} />
-                  <p style={{ fontSize: '12px', color: 'white' }}>{user.username}</p>
+                  <p style={{ fontSize: '12px', color: 'white', fontFamily: "Comic Sans MS" }}>{user.username}</p>
                 </div>
               ))}
             </div>
           </div>
           <div>
-            <h4 style={{ fontSize: "16px", color: "white" }}>Waiting for votes from</h4>
+            <h4 style={{ fontSize: "16px", color: "white", marginBottom: "5px" }}>Waiting for votes from</h4>
             <div style={{ display: "flex", flexWrap: "wrap" }}>
               {pendingUsers.map((user, index) => (
-                <div key={index} style={{ margin: "5px", padding: "10px", backgroundColor: 'rgba(255, 0, 0, 0.7)', borderRadius: "5px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <div key={index} style={{ margin: "5px", padding: "3px", backgroundColor: 'rgba(175, 238, 238, 0.7)', borderRadius: "5px", display: "flex", flexDirection: "row", alignItems: "center", height: "40px" }}>
                   <Avatar src={user.avatar} style={{ width: 30, height: 30, marginBottom: '5px' }} />
-                  <p style={{ fontSize: '12px', color: 'white' }}>{user.username}</p>
+                  <p style={{ fontSize: '12px', color: 'white', fontFamily: "Comic Sans MS" }}>{user.username}</p>
                 </div>
               ))}
             </div>
@@ -218,7 +218,7 @@ const Vote = () => {
 
   return (
     <BaseContainer className="round-container">
-      <h1 className="page-title" style={{ fontSize: "24px", color: "white", display: "flex", justifyContent: "center" }}>Who is spy?</h1>
+      <h1 className="page-title" style={{ fontSize: "24px", color: "white", display: "flex", justifyContent: "center", margin: "1px", marginBottom:"-5px" }}>Who is spy?</h1>
       {error && <p className="error-message">{error}</p>}
       {renderVotingStatus()}
       {renderPlayers()}

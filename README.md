@@ -37,10 +37,12 @@ As the spy, your mission is to blend in and hide your true identity. Can you kee
 ### Emoji Limitation
 Due to system limitations, some flag emojis may not display correctly on Windows systems.
 
+
 ## Roadmap
 Future Features
 1. Expanded Song Library: Integrate more diverse music genres and languages to enhance gameplay variety. In the future, we aim to support users in selecting songs from their Spotify playlists.
 2. New Gameplay Mechanics: Introduce new skills and abilities for spy and detective players to add more strategic depth and excitement to the game.
+
 
 ## Authors
 - Yating Pan - [GitHub](https://github.com/YatingPan)
@@ -48,6 +50,7 @@ Future Features
 - Qingcheng Wang - [GitHub](https://github.com/QingchengWan)
 - Yuying Zhong - [GitHub](https://github.com/YuyingZhong)
 - Yi Zhang - [GitHub](https://github.com/imyizhang)
+
 
 ## License
 MIT License

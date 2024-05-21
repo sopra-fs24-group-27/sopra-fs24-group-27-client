@@ -348,3 +348,9 @@
 * Commented unused gameService methods and added the tests for gameService methods getSongs, getPlayerById [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/3533a6dcc70e90bb1eb373b03d938077b992f58d)
 * Added the tests for gameController methods deleteGame, sortTurnOrder [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/8ef7de1a619216f0ec2cc9479dc898a252a9968d), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2cadb0033f65fbb685c7436446a21706536d14db)
 
+
+**Yuying Zhong**
+- Added avatar selection function to satisfy players who want to modify their avatar. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/350ac4c6a1ecd7d139e6cf18e3c3276a8677f4e6)&[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2548b3bf2a49b6a84ac25b47e7f4a4b8a7b60197)
+- Added test for PlayerInfoDTO. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/3d1ec1f1ea6b78e68fb2050846248684c6b6ee78)
+- Added test for VotePostDTO. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c04d9528db76f616dfbef418c2d5f37fbb6f426b)
+- Fix failure tests. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/a184f95cfd2697ddcd2461b9bd2504e859a504e7)

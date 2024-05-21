@@ -14,11 +14,9 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import BaseContainer from "components/ui/BaseContainer";
+import ReactPlayer from "react-player";
 
 import { api, handleError } from 'helpers/api';
 import Player from './Player';
@@ -42,29 +40,35 @@ const GameEndPage = ({ players }) => {
   const { gameId } = useParams();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [songs, setSongs] = useState([]);
   const [gameState, setGameState] = useState(null);
   const [userIds, setUserIds] = useState([]);
-  
+
   useEffect(() => {
     if (!gameId) return;
+
+    const fetchSongs = async () => {
+      try {
+        const response = await api.get(`/games/${gameId}/songs`);
+        setSongs(response.data);
+      } catch (error) {
+        console.error("Error fetching songs:", error);
+        setError("Failed to load songs");
+      }
+    };
 
     const fetchGameState = async () => {
       try {
         const response = await api.get(`/games/${gameId}`);
-        if (response.data && response.data.players) {
-          setGameState(response.data.players);
-        } else {
-          throw new Error("Invalid response data");
-        }
+        setGameState(response.data.players);
       } catch (error) {
         console.error("Error fetching game state:", error);
         setError("Failed to load game state");
       }
     };
 
+    fetchSongs();
     fetchGameState();
-    const intervalId = setInterval(fetchGameState, 2000);
-    return () => clearInterval(intervalId);
   }, [gameId]);
 
   useEffect(() => {
@@ -117,8 +121,20 @@ const GameEndPage = ({ players }) => {
     const playerId = Number(sessionStorage.getItem('userId'));
     return userIds.includes(playerId);
   };
+  const renderSongPlayer = (song) => (
+    <div key={song.id} style={{ textAlign: 'center', marginBottom: '20px' }}> {/* Ensures all contents are centered and spaced appropriately */}
+      <p><b>{song.songTitle}</b> by <b>{song.songArtist}</b></p>
+      <img src={song.imageUrl} alt={`Cover of ${song.songTitle}`} style={{ width: '300px', display: 'block', margin: '0 auto 10px' }} />
+      <ReactPlayer
+        url={song.playUrl}
+        controls
+        style={{ display: 'block', margin: 'auto' }} // Center align the React player
+        width="300px"
+        height="50px"
+      />
+    </div>
+  );
   
-
   return (
     <BaseContainer className="game container">
       {error && <div className="error">{error}</div>}
@@ -130,26 +146,19 @@ const GameEndPage = ({ players }) => {
       </div>
       <div className="game-details">
         <div className="game-column">
-          <h3 style={{ color: '#AFEEEE', fontFamily: 'Comic Sans MS', textAlign: 'center' }}>SPY</h3>
-          {gameState && gameState.filter(player => player.spy).map((spy, index) => (
-            <div key={spy.user.id || index}>
-              <p>{spy.user.username}</p>
-              <p>{spy.songInfo.title} by {spy.songInfo.artist}</p>
-              <img src={spy.songInfo.imageUrl} alt={`Cover of ${spy.songInfo.title}`} style={{ width: '200px', display: 'block', margin: '0 auto' }} />
-              <a href={spy.songInfo.playUrl} target="_blank" rel="noopener noreferrer">Listen to Song</a>
-            </div>
-          ))}
+          <h3 style={{ color: '#AFEEEE', fontFamily: 'Comic Sans MS', textAlign: 'center' }}><b>SPY</b></h3>
+          <div>
+            <p><b>Spy user:</b> {gameState && gameState.filter(player => player.spy).map(player => player.user.username).join(', ')}</p>
+            {songs.filter(song => song.spy).map(renderSongPlayer)}
+          </div>
         </div>
         {renderScoresAndWinners()}
         <div className="game-column">
-          <h3 style={{ color: '#AFEEEE', fontFamily: 'Comic Sans MS', textAlign: 'center' }}>DETECTIVES</h3>
-          {gameState && (
-            <div>
-              <p>{gameState[0].songInfo.title} by {gameState[0].songInfo.artist}</p>
-              <img src={gameState[0].songInfo.imageUrl} alt={`Cover of ${gameState[0].songInfo.title}`} style={{ width: '200px', display: 'block', margin: '0 auto' }} />
-              <a href={gameState[0].songInfo.playUrl} target="_blank" rel="noopener noreferrer" >Listen to Song</a>
-            </div>
-          )}
+          <h3 style={{ color: '#AFEEEE', fontFamily: 'Comic Sans MS', textAlign: 'center' }}><b>DETECTIVES</b></h3>
+          <div>
+            <p><b>Detective users:</b> {gameState && gameState.filter(player => !player.spy).map(player => player.user.username).join(', ')}</p>
+            {songs.filter(song => !song.spy).slice(0, 1).map(renderSongPlayer)}
+          </div>
         </div>
       </div>
       <div className="buttons">
@@ -157,7 +166,8 @@ const GameEndPage = ({ players }) => {
       </div>
     </BaseContainer>
   );
-};
+}
+
 
 GameEndPage.propTypes = {
   players: PropTypes.array.isRequired,

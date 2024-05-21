@@ -467,7 +467,7 @@ const Game = () => {
             number of emojis. After two rounds of emoji descriptions, 
             players vote on who they think the spy is. 
             Detectives need to use the emoji clues to identify the spy, 
-            while the spy must disguise their true identity. Each player's role 
+            while the spy must disguise their true identity. Each player&apos;s role 
             is revealed only after the voting ends. 
             If the spy gets 2 or 3 votes, the detectives win! If not, the spy wins!
             </p>

@@ -455,8 +455,7 @@ const Game = () => {
             </h3>
             <p>Number of players: 4 Players</p>
             <p>
-              Material: Songs(by Spotify API) to assign identity for each
-              players
+              Material: Songs(by Spotify API)
             </p>
             <p>Audience: Ages 10+</p>
             <p>
@@ -479,7 +478,10 @@ const Game = () => {
             </h4>
             <p>
               After registering and logging in, players can create or join a
-              game room. Once the room has four players, the room owner can
+              game room. When creating a new game room, players can customize game
+               preferences, including music genre, artist, and country. 
+               After creating the room, the Game ID can be shared with other players to join. 
+              Once the room has four players, the room owner can
               hits the start button, and the fun begins! Just make sure to 
               keep your screens and device audio a secret—no peeking or eavesdropping allowed!
             </p>
@@ -529,15 +531,9 @@ const Game = () => {
               Can you keep your cover and outsmart the others to claim victory?
             </p>
             <h3>
-              <strong>Special Regulations</strong>
+              <strong>Emoji Limitation</strong>
             </h3>
             <p>
-              Using Spotify API: Ensure all players can access the Spotify API
-              to retrieve songs.
-            </p>
-            <p>
-              Emoji Limitation: Encourage players to creatively use emojis for
-              descriptions, but limit to a maximum of 5 emojis per round. 
               Due to system limitations, some flag emojis may not display 
               correctly on Windows systems.
             </p>

@@ -54,6 +54,7 @@ const Player = ({ user }: { user: User }) => {
           style={{ width: 60, height: 60, marginTop: '15px', cursor: 'pointer' }}
           onClick={navigateToProfile}
         /> */}
+        <div style={{ position: "relative", display: "flex" }}>
         <Avatar
           alt="Avatar"
           src={user.avatar}
@@ -62,10 +63,20 @@ const Player = ({ user }: { user: User }) => {
             height: 80,
             cursor: "pointer",
             marginBottom: 2,
-            marginTop: -4,
+            marginTop: -2,
+            marginLeft: "10px",
           }}
           onClick={navigateToProfile}
         />
+        <Button
+        variant="text"
+        style={{ marginTop: "-10px", left: "40%", color: "white" }}
+        onClick={navigateToProfile}
+      >
+        → Profile ←
+        </Button>
+        </div>
+        <div style={{ position: "relative", display: "flex", left: "5%" , maxWidth: "300px", maxHeight: "100px", wordBreak: "break-word"}}>
         ID: {user.id}
         <br />
         Username: {user.username}
@@ -73,14 +84,10 @@ const Player = ({ user }: { user: User }) => {
         Scores: {user.score}
         <br />
         Birthday: {user.birthDate} <br />
+        </div>
       </p>
-      <Button
-        variant="text"
-        style={{ marginTop: "20px", left: "15%", color: "white" }}
-        onClick={navigateToProfile}
-      >
-        → Profile ←
-      </Button>
+      
+      
     </div>
   );
 };

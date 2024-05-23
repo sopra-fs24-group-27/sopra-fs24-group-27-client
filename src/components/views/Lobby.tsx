@@ -236,7 +236,7 @@ const Game = () => {
 
     content = (
       <div
-        className="game"
+        className="custom-scrollbar"
         style={{ maxHeight: "50vh", overflowY: "auto", display: "flex" }}
       >
         <ul className="game user-list" style={{ marginRight: "10px" }}>

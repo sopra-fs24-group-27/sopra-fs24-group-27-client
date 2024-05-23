@@ -84,7 +84,7 @@ This project was developed by SoPra Group 27 2024:
 - Yuying Zhong - [GitHub](https://github.com/YuyingZhong)
 - Yi Zhang - [GitHub](https://github.com/imyizhang)
 
-We would like to thank our teaching assistant Sven [GitHub](https://github.com/SvenRingger）for his help throughout the semester. We also thank Spotify for providing its API, and the game of "Who Is Spy" for inspiring our idea. This semester has proven to be both challenging and intriguing, offering us valuable opportunities for growth, as we acquired extensive knowledge not only in coding but also in teamwork and project execution. We appreciate the opportunity and the experience gained from this project.
+We would like to thank our teaching assistant Sven [GitHub](https://github.com/SvenRingger) for his help throughout the semester. We also thank Spotify for providing its API, and the game of "Who Is Spy" for inspiring our idea. This semester has proven to be both challenging and intriguing, offering us valuable opportunities for growth, as we acquired extensive knowledge not only in coding but also in teamwork and project execution. We appreciate the opportunity and the experience gained from this project.
 
 ## License
 MIT License

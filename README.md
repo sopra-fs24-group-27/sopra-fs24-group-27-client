@@ -34,8 +34,9 @@ After the game ends, the system updates the scoreboard based on the results.
 
 As the spy, your mission is to blend in and hide your true identity. Can you keep your cover and outsmart the others to claim victory? 🤔
 
-### Emoji Limitation
-Due to system limitations, some flag emojis may not display correctly on Windows systems.
+### Important Notices
+1. Due to system limitations, some flag emojis may not display correctly on Windows systems.
+2. Closing the page during the game might cause issues. Please stay with the players until the game ends. If you happen to leave early, no worries! Just create a new user to jump back into the fun.
 
 
 ## Launch & Deployment

@@ -419,9 +419,9 @@ const Game = () => {
         variant="text"
         onClick={handleOpenRules}
         style={{
-          position: "absolute",
-          top: "110px",
-          right: "20%",
+          position: "relative",
+          top: "50px",
+          left: "35%",
           color: "#AFEEEE",
         }}
       >

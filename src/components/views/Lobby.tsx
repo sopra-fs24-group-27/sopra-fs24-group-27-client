@@ -150,22 +150,25 @@ const Game = () => {
         "Rihanna",
         "Taylor Swift",
         "Justin Bieber",
-        "Ed Sheeran",
+        "Ed Sheeran"
       ],
-      Rap: ["Drake", "Nicki Minaj", "Eminem", "Doja Cat", "Kanye West"],
+      Rap: [
+        "Drake", 
+        "Nicki Minaj", 
+        "Eminem",  
+        "Kanye West"
+      ],
       Rock: [
         "Linkin Park",
         "Fall Out Boy",
         "Imagine Dragons",
-        "Guns N' Roses",
-        "Coldplay",
+        "Guns N' Roses"
       ],
       Country: [
         "Jason Aldean",
-        "Taylor Swift",
         "Hunter Hayes",
         "Morgan Wallen",
-        "Brett Young",
+        "Brett Young"
       ],
     };
 

@@ -171,6 +171,9 @@ export default function Profile() {
                 }}
                 onClick={handleAvatarClick}
               />
+              <p style={{ fontSize: '12px', color: 'white', marginTop: '5px', marginBottom: '-1px' }}>
+              (Click to change your avatar)
+              </p>
               <Box
                 component="form"
                 noValidate

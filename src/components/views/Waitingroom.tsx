@@ -16,10 +16,10 @@ const Waitingroom = () => {
   const [hostUsername, setHostUsername] = useState("");
   const [hostId, setHostId] = useState(null);
   const [error, setError] = useState(null);
-  const [gameStarted, setGameStarted] = useState(false); // State to track if the game has started
+  const [gameStarted, setGameStarted] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState(""); // State for loading message
 
   useEffect(() => {
-    // const userId = localStorage.getItem("userId");
     const userId = sessionStorage.getItem("userId");
 
     const fetchGameRoomDetails = async () => {
@@ -37,11 +37,9 @@ const Waitingroom = () => {
           (p) => p.user.id === parseInt(userId, 10)
         );
         if (currentUserDetails) {
-          setCurrentUser(currentUserDetails.user); // Update to use user object
+          setCurrentUser(currentUserDetails.user);
         }
-        // Check if game has started based on some condition or flag in the response
         if (response.data.currentRound > 0) {
-          // Assuming 'currentRound' changes when the game starts
           setGameStarted(true);
         }
       } catch (error) {
@@ -50,7 +48,7 @@ const Waitingroom = () => {
       }
     };
 
-    const intervalId = setInterval(fetchGameRoomDetails, 2000); // Poll every 2 seconds
+    const intervalId = setInterval(fetchGameRoomDetails, 2000);
     fetchGameRoomDetails();
 
     return () => {
@@ -60,18 +58,23 @@ const Waitingroom = () => {
 
   useEffect(() => {
     if (gameStarted) {
-      navigate(`/games/${gameId}/listen/${currentUser.id}`); // Navigate all players when game starts
+      navigate(`/games/${gameId}/listen/${currentUser.id}`);
     }
   }, [gameStarted, gameId, currentUser.id, navigate]);
 
   const startGame = async () => {
     if (currentUser.id === hostId && roomInfo.players.length >= 4) {
+      setLoadingMessage("Connecting to Spotify, please wait...");
+
       try {
         await api.put(`/games/${gameId}`);
         await api.post(`/games/${gameId}/sortTurnOrder`);
-        setGameStarted(true); // Update game started state
+        setGameStarted(true);
       } catch (error) {
         setError(`Failed to start the game: ${handleError(error)}`);
+        setTimeout(startGame, 2000); // Retry after 2 seconds
+      } finally {
+        setLoadingMessage("");
       }
     }
   };
@@ -98,6 +101,7 @@ const Waitingroom = () => {
       </div>
       <p>Host: {hostUsername}</p>
       {error && <p className="error-message">{error}</p>}
+      {loadingMessage && <p className="loading-message">{loadingMessage}</p>} {/* Render loading message */}
       <div
         className="player-list"
         style={{
@@ -139,7 +143,7 @@ const Waitingroom = () => {
             gameStarted ||
             parseInt(currentUser.id, 10) !== roomInfo.hostId ||
             roomInfo.players.length !== 4
-          } // Disable if game has already started
+          }
         >
           Start Game
         </Button>

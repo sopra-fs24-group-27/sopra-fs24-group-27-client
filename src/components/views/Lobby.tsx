@@ -236,7 +236,7 @@ const Game = () => {
 
     content = (
       <div
-        className="game"
+        className="custom-scrollbar"
         style={{ maxHeight: "50vh", overflowY: "auto", display: "flex" }}
       >
         <ul className="game user-list" style={{ marginRight: "10px" }}>
@@ -419,9 +419,9 @@ const Game = () => {
         variant="text"
         onClick={handleOpenRules}
         style={{
-          position: "absolute",
-          top: "110px",
-          right: "20%",
+          position: "relative",
+          top: "50px",
+          left: "35%",
           color: "#AFEEEE",
         }}
       >

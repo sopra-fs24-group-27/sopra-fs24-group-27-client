@@ -34,8 +34,41 @@ After the game ends, the system updates the scoreboard based on the results.
 
 As the spy, your mission is to blend in and hide your true identity. Can you keep your cover and outsmart the others to claim victory? 🤔
 
-### Emoji Limitation
-Due to system limitations, some flag emojis may not display correctly on Windows systems.
+### Important Notices
+1. Due to system limitations, some flag emojis may not display correctly on Windows systems.
+2. Closing the page during the game might cause issues. Please stay with the players until the game ends. If you happen to leave early, no worries! Just create a new user to jump back into the fun.
+
+
+## Launch & Deployment
+### Prerequisites and Installation
+For your local development environment, you will need Node.js.\
+We recommend you install the exact version **v20.11.0** which comes with the npm package manager. You can download it [here](https://nodejs.org/download/release/v20.11.0/).\
+If you are confused about which download to choose, feel free to use these direct links:
+
+- **MacOS:** [node-v20.11.0.pkg](https://nodejs.org/download/release/v20.11.0/node-v20.11.0.pkg)
+- **Windows 32-bit:** [node-v20.11.0-x86.msi](https://nodejs.org/download/release/v20.11.0/node-v20.11.0-x86.msi)
+- **Windows 64-bit:** [node-v20.11.0-x64.msi](https://nodejs.org/download/release/v20.11.0/node-v20.11.0-x64.msi)
+- **Linux:** [node-v20.11.0.tar.xz](https://nodejs.org/dist/v20.11.0/node-v20.11.0.tar.xz) (use this [installation guide](https://medium.com/@tgmarinho/how-to-install-node-js-via-binary-archive-on-linux-ab9bbe1dd0c2) if you are new to Linux)
+
+If you happen to have a package manager the following commands can be used:
+
+- **Homebrew:** `brew install node@20.11.0`
+- **Chocolatey:** `choco install nodejs-lts --version=20.11.0`
+
+After the installation, update the npm package manager to **10.4.0** by running ```npm install -g npm@10.4.0```\
+You can ensure the correct version of node and npm by running ```node -v``` and ```npm --version```, which should give you **v20.11.0** and **10.4.0** respectively.\
+Before you start your application for the first time, run this command to install all other dependencies, including React:
+
+```npm install```
+
+Next, you can start the app with:
+
+```npm run dev```
+
+Now you can open [http://localhost:3000](http://localhost:3000) to view it in the browser.\
+Notice that the page will reload if you make any edits. You will also see any lint errors in the console (use a Chrome-based browser).\
+The client will send HTTP requests to the server which can be found [here](https://github.com/HASEL-UZH/sopra-fs24-template-server).\
+In order for these requests to work, you need to install and start the server as well.
 
 
 ## Roadmap
@@ -44,13 +77,15 @@ Future Features
 2. New Gameplay Mechanics: Introduce new skills and abilities for spy and detective players to add more strategic depth and excitement to the game.
 
 
-## Authors
+## Authors and Acknowledgment
+This project was developed by SoPra Group 27 2024:
 - Yating Pan - [GitHub](https://github.com/YatingPan)
 - Hepeng Fan - [GitHub](https://github.com/HepengFan)
 - Qingcheng Wang - [GitHub](https://github.com/QingchengWan)
 - Yuying Zhong - [GitHub](https://github.com/YuyingZhong)
 - Yi Zhang - [GitHub](https://github.com/imyizhang)
 
+We would like to thank our teaching assistant Sven [GitHub](https://github.com/SvenRingger) for his help throughout the semester. We also thank Spotify for providing its API, and the game of "Who Is Spy" for inspiring our idea. This semester has proven to be both challenging and intriguing, offering us valuable opportunities for growth, as we acquired extensive knowledge not only in coding but also in teamwork and project execution. We appreciate the opportunity and the experience gained from this project.
 
 ## License
 MIT License

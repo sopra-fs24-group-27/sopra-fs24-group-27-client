@@ -358,3 +358,11 @@
 - Added tests for createPlayerSongInfoDTO. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c6b9536c35ea7e084474999f86a3ebb7f801466b)
 
 
+**Yating Pan**
+
+- Added tests for SpotifyService [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/1e059a558950896fb887f8486cc21973fcb46654). 
+- Added tests for Vote, Listen in GameController and GameService, updated tests for PlayerRepository, UserRepository and UserServiceIntegration [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/86dab8ad8820a468ef17e9eeb7d347fc54752f1a).
+- Updated SpotifySerive to ensure all game query combinations can get at least 2 songs to start the game, saved results to sporitfy_combination.txt [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/cf62007822d1017aab1c3312968cd07f53e76193).
+- Updated game settings to ensure the game can start [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/3860c5d6dae673591bd0a0dc03e644ed226219a2).
+- Updated End page, getting songs from correct REST endpoint and playing with React player [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/31921602660f7f747eaced3e3ca346d371624f2a), completed task #2 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/issues/2).
+- Threw error message if the game cannot start [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/a100765780dae6b6214ee4ba5fb6c3b31f97bdd0).

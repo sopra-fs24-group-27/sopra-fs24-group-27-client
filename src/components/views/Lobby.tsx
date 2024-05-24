@@ -429,7 +429,7 @@ const Game = () => {
       </Button>
       <div
         className="popover-container"
-        style={{ maxHeight: "50vh", overflowY: "auto", scrollbarWidth: "thin" }}
+        style={{ maxHeight: "50vh", scrollbarWidth: "thin" }}
       >
         <Popover
           id="game-rules-popover"
@@ -437,8 +437,8 @@ const Game = () => {
           anchorEl={anchorEl}
           onClose={handleCloseRules}
           sx={{
-            width: "80%",
-            height: "80%",
+            width: "600px",
+            height: "700px",
           }}
           anchorOrigin={{
             vertical: "bottom",
@@ -452,11 +452,18 @@ const Game = () => {
             paper: {
               style: {
                 backgroundColor: "#D8BFD8",
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+                width: "100%",
+                overflow: "hidden", 
               },
             },
           }}
         >
-          <div style={{ padding: "20px" }}>
+          <div
+          className="custom-scrollbar"
+           style={{ padding: "20px", overflowY: "auto", flexDirection: "column", height: "100%", width:"100%"}}>
             <h2>
               <strong>Game Rules</strong>
             </h2>

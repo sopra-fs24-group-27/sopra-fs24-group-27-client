@@ -44,7 +44,6 @@ const Waitingroom = () => {
         }
       } catch (error) {
         console.error(`Failed to fetch game details: ${handleError(error)}`);
-        setError(`Failed to fetch game details: ${handleError(error)}`);
       }
     };
 
@@ -62,22 +61,27 @@ const Waitingroom = () => {
     }
   }, [gameStarted, gameId, currentUser.id, navigate]);
 
-  const startGame = async () => {
+  const startGame = async (retryCount = 0) => {
     if (currentUser.id === hostId && roomInfo.players.length >= 4) {
       setLoadingMessage("Connecting to Spotify, please wait...");
-
+  
       try {
         await api.put(`/games/${gameId}`);
         await api.post(`/games/${gameId}/sortTurnOrder`);
         setGameStarted(true);
       } catch (error) {
-        setError(`Failed to start the game: ${handleError(error)}`);
-        setTimeout(startGame, 2000); // Retry after 2 seconds
+        if (retryCount < 3) { // Change the retry limit as needed
+          console.error(`Failed to start game on attempt ${retryCount + 1}, retrying...`);
+          startGame(retryCount + 1); // Retry starting the game
+        } else {
+          console.error(`Failed to start game after ${retryCount + 1} attempts: ${handleError(error)}`);
+        }
       } finally {
         setLoadingMessage("");
       }
     }
   };
+  
 
   const handleCopyId = () => {
     navigator.clipboard.writeText(gameId).then(
@@ -133,7 +137,7 @@ const Waitingroom = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={startGame}
+          onClick={() => startGame()} // Call startGame with initial retryCount
           style={{
             marginTop: "20px",
             backgroundColor: "#AFEEEE",
